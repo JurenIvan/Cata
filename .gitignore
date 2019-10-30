@@ -1,7 +1,8 @@
 
 # Created by https://www.gitignore.io/api/java,angular,intellij
 # Edit at https://www.gitignore.io/?templates=java,angular,intellij
-
+.gradle/
+build/
 ### Angular ###
 ## Angular ##
 # compiled output
