@@ -17,4 +17,4 @@ pipelines:
             variables:
               HEROKU_API_KEY: $HEROKU_API_KEY
               HEROKU_APP_NAME: $HEROKU_APP_NAME
-              ZIP_FILE: "libs/cata-0.0.1-SNAPSHOT.jar"
+              ZIP_FILE: "cata-0.0.1-SNAPSHOT.jar"
