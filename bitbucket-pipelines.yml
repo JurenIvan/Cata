@@ -9,4 +9,12 @@ pipelines:
           - gradle
         script:
           - bash ./gradlew clean build
-   
+    - step:
+        name: Deploy to production
+        deployment: production
+        script:
+          - pipe: atlassian/heroku-deploy:0.1.1
+            variables:
+              HEROKU_API_KEY: $HEROKU_API_KEY
+              HEROKU_APP_NAME: $HEROKU_APP_NAME
+              ZIP_FILE: "build/libs/cata-0.0.1-SNAPSHOT.jar"
