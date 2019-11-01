@@ -9,6 +9,7 @@ pipelines:
           - gradle
         script:
           - bash ./gradlew clean build
+          - npm install
     - step:
         name: Deploy Backend to production
         deployment: production
