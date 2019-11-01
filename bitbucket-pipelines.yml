@@ -19,7 +19,7 @@ pipelines:
           - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
     - step:
         name: Deploy frontend to production
-        deployment: production-frontend
+        deployment: test
         script:
           - cd frontend
           - apt-get update -qy
