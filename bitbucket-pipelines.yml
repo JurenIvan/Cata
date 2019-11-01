@@ -11,7 +11,7 @@ pipelines:
           - bash ./gradlew clean build
     - step:
         name: Deploy Backend to production
-        deployment: production-backend
+        deployment: production
         script:
           - apt-get update -qy
           - apt-get install -y ruby-dev
