@@ -11,7 +11,7 @@ pipelines:
           - bash ./gradlew clean build
     - step:
         name: Deploy Backend to production
-        deployment: production
+        deployment: production-backend
         script:
           - apt-get update -qy
           - apt-get install -y ruby-dev
@@ -19,7 +19,7 @@ pipelines:
           - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
     - step:
         name: Deploy frontend to production
-        deployment: production
+        deployment: production-frontend
         script:
           - cd frontend
           - apt-get update -qy
