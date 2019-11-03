@@ -17,19 +17,14 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class Organizer {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private long id;
-    @Email
-    @NotNull
-    @Column(unique = true)
     private String email;
-    @Column(unique = true)
     private String username;
     private int age;
-    @NotNull
     private String passwordHash;
 
 }

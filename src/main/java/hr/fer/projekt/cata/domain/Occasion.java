@@ -18,9 +18,9 @@ public class Occasion {
 
     private String title;
     private String description;
-    @ManyToMany
-    @JoinTable(name = "occasion_user",
-            joinColumns = {@JoinColumn(name = "fk_occasion")},
-            inverseJoinColumns = {@JoinColumn(name = "fk_user")})
-    private List<User> participants;
+//    @ManyToMany
+//    @JoinTable(name = "occasion_user",
+//            joinColumns = {@JoinColumn(name = "fk_occasion")},
+//            inverseJoinColumns = {@JoinColumn(name = "fk_user")})
+//    private List<User> participants;
 }
