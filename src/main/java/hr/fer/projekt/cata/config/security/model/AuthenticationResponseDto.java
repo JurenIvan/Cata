@@ -1,4 +1,4 @@
-package hr.fer.zemris.opp.giger.config.security.model;
+package hr.fer.projekt.cata.config.security.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

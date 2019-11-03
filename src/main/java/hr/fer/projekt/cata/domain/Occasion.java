@@ -22,5 +22,5 @@ public class Occasion {
     @JoinTable(name = "occasion_user",
             joinColumns = {@JoinColumn(name = "fk_occasion")},
             inverseJoinColumns = {@JoinColumn(name = "fk_user")})
-    private List<Users> participants;
+    private List<User> participants;
 }

@@ -1,6 +1,6 @@
-package hr.fer.zemris.opp.giger.config.security;
+package hr.fer.projekt.cata.config.security;
 
-import hr.fer.zemris.opp.giger.config.filter.JwtRequestFilter;
+import hr.fer.projekt.cata.config.filter.JwtRequestFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

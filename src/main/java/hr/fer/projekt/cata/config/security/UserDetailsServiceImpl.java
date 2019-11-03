@@ -1,6 +1,6 @@
-package hr.fer.zemris.opp.giger.config.security;
+package hr.fer.projekt.cata.config.security;
 
-import hr.fer.zemris.opp.giger.repository.UserRepository;
+import hr.fer.projekt.cata.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

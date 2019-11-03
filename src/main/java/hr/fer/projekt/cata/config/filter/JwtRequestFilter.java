@@ -1,7 +1,7 @@
-package hr.fer.zemris.opp.giger.config.filter;
+package hr.fer.projekt.cata.config.filter;
 
-import hr.fer.zemris.opp.giger.config.security.UserDetailsServiceImpl;
-import hr.fer.zemris.opp.giger.config.security.util.JwtUtil;
+import hr.fer.projekt.cata.config.security.UserDetailsServiceImpl;
+import hr.fer.projekt.cata.config.security.util.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

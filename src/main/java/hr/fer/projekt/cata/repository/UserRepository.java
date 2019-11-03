@@ -1,4 +1,4 @@
-package hr.fer.projekt.cata.repository.UserRepository;
+package hr.fer.projekt.cata.repository;
 
 import hr.fer.projekt.cata.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package hr.fer.zemris.opp.giger.config.security.model;
+package hr.fer.projekt.cata.config.security.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +20,4 @@ public class RegisterRequestDto {
     @Length(min = 8, message = "Password should be at least 8 chars long!")
     @NotBlank(message = "Password must be provided!")
     private String password;
-    private String phoneNumber;
 }

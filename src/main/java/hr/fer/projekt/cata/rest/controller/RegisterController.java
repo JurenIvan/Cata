@@ -1,7 +1,7 @@
-package hr.fer.zemris.opp.giger.controller;
+package hr.fer.projekt.cata.rest.controller;
 
-import hr.fer.zemris.opp.giger.config.security.model.RegisterRequestDto;
-import hr.fer.zemris.opp.giger.service.UserService;
+import hr.fer.projekt.cata.config.security.model.RegisterRequestDto;
+import hr.fer.projekt.cata.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

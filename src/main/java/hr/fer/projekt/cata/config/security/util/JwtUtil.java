@@ -1,4 +1,4 @@
-package hr.fer.zemris.opp.giger.config.security.util;
+package hr.fer.projekt.cata.config.security.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
