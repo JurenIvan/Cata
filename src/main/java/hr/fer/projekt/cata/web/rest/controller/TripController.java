@@ -1,6 +1,7 @@
 package hr.fer.projekt.cata.web.rest.controller;
 
 import hr.fer.projekt.cata.repository.TripRepository;
+import hr.fer.projekt.cata.service.TripService;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +15,12 @@ import static java.util.stream.Collectors.*;
 @AllArgsConstructor
 public class TripController {
 
-    private TripRepository tripRepository;
+
+    private TripService tripService;
 
     @GetMapping
     private List<TripDto> getTrips(){
-        return tripRepository.findAll().stream().map(e->e.toDto()).collect(toList());
+        return tripService.getTrips();
     }
 
 }
