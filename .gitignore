@@ -15,6 +15,11 @@ local.properties
 .loadpath
 .recommenders
 
+build
+frontend/node_modules
+.gradle/
+.idea/
+
 # External tool builders
 .externalToolBuilders/
 

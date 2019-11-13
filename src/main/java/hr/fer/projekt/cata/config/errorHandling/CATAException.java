@@ -1,4 +1,5 @@
-package hr.fer.projekt.cata.service;
+package hr.fer.projekt.cata.config.errorHandling;
+
 
 public class CATAException extends RuntimeException {
 }

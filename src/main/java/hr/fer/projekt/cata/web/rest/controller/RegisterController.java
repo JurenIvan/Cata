@@ -1,4 +1,4 @@
-package hr.fer.projekt.cata.rest.controller;
+package hr.fer.projekt.cata.web.rest.controller;
 
 import hr.fer.projekt.cata.config.security.model.RegisterRequestDto;
 import hr.fer.projekt.cata.service.UserService;
