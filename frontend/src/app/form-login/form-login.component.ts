@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from "../../services/authentication.service";
-import {Router} from "@angular/router";
-import {Logger} from "tslint/lib/runner";
-import {print} from "util";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UserService} from "../../services/user.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {RegistrationRequest} from "../../models/registration-request";
+import {LoginRequest} from "../../models/login-request";
 
 @Component({
   selector: 'app-form-login',
@@ -11,24 +12,37 @@ import {print} from "util";
 })
 export class FormLoginComponent implements OnInit {
 
-  username = 'javainuse';
-  password = '';
-  invalidLogin = false;
+  public mForm: FormGroup;
+  public user: LoginRequest;
 
-  constructor(private router: Router,
-              private loginservice: AuthenticationService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService,
+              private router: Router, private route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.mForm = this.formBuilder.group(
+      {
+        'username': [null, [Validators.required]],
+        'password': [null, [Validators.required]],
+      }
+    );
+
+    this.user = new LoginRequest('', '');
+    this.updateForm(this.user)
   }
 
-  checkLogin() {
-    if (this.loginservice.authenticate(this.username, this.password)
-    ) {
-      console.log("Success");
-      this.router.navigate(['']);
-      this.invalidLogin = false
-    } else
-      this.invalidLogin = true
+  private updateForm(user: LoginRequest) {
+    this.mForm.setValue(user)
+  }
+
+  saveUser() {
+    if(this.mForm.valid) {
+      this.userService.login(this.mForm.value)
+        .subscribe(
+          _ => {
+            this.router.navigate(['/dashboard'])
+          }
+        )
+    }
   }
 
 }
