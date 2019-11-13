@@ -29,9 +29,9 @@ public class DataLoadService implements ApplicationRunner {
         List<TripPlan> tripPlansList = getTripPlansList();
         List<Trip> tripList = getTripList();
 
-        users.stream().forEach(user -> userRepository.save(user));
-        tripList.stream().forEach(user -> tripRepository.save(user));
-        tripPlansList.stream().forEach(user -> tripPlanRepository.save(user));
+        users.forEach(user -> userRepository.save(user));
+        tripList.forEach(user -> tripRepository.save(user));
+        tripPlansList.forEach(user -> tripPlanRepository.save(user));
     }
 
     private List<Trip> getTripList() {

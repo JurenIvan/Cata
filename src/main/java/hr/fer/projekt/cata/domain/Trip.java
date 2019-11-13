@@ -1,5 +1,6 @@
 package hr.fer.projekt.cata.domain;
 
+import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,5 +26,9 @@ public class Trip {
 
     @ManyToOne
     private TripPlan tripPlan;
+
+    public TripDto toDto() {
+        return new TripDto(id, startDateTime, endDateTime, price, passengerCount, tripPlan.getDescription(),tripPlan.getPictureUrl());
+    }
 
 }

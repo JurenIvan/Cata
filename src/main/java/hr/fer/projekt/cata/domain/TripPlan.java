@@ -21,8 +21,8 @@ public class TripPlan {
     @ElementCollection
     private List<Location> locationList;
     private int minNumberOfPassengers;
-
-
+    @Column(length = 4095)
+    private String pictureUrl;
 
 
 }

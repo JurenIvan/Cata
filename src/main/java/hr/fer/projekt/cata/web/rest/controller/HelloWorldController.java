@@ -1,4 +1,4 @@
-package hr.fer.projekt.cata.rest.controller;
+package hr.fer.projekt.cata.web.rest.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
