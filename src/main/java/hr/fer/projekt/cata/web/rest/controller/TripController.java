@@ -5,11 +5,13 @@ import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController("/trips")
+@RestController
+@RequestMapping(("/trips"))
 @AllArgsConstructor
 public class TripController {
 
