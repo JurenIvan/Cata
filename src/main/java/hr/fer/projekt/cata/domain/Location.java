@@ -1,5 +1,6 @@
 package hr.fer.projekt.cata.domain;
 
+import hr.fer.projekt.cata.web.rest.dto.LocationDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,4 +25,8 @@ public class Location {
 
     private String name;
     private String country;
+
+    public LocationDto toDto() {
+        return new LocationDto(x, y, name, country);
+    }
 }
