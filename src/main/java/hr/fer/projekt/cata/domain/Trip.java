@@ -28,7 +28,15 @@ public class Trip {
     private TripPlan tripPlan;
 
     public TripDto toDto() {
-        return new TripDto(id, startDateTime, endDateTime, price, passengerCount, tripPlan.getDescription(),tripPlan.getPictureUrl());
+        return new TripDto(id, startDateTime, endDateTime, price, passengerCount, tripPlan.toDto());
     }
 
+    public void edit(TripDto tripDto) {
+        if (tripDto.getEndDateTime() != null)
+            this.endDateTime = tripDto.getEndDateTime();
+        if (tripDto.getStartDateTime() != null)
+            this.startDateTime = tripDto.getStartDateTime();
+        if (tripDto.getPassengerCount() != null)
+            this.passengerCount = tripDto.getPassengerCount();
+    }
 }

@@ -18,6 +18,5 @@ public class TripDto {
 
     private Double price;
     private Integer passengerCount;
-    private String description;
-    private String pictureUrl;
+    private TripPlanDto tripPlanDto;
 }
