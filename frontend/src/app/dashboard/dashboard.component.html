@@ -1,1 +1,19 @@
-<h1>dashboard works!</h1>
+<div *ngIf="travelList.length > 0">
+  <div class="container">
+    <h1>Trips</h1>
+    <div class="row">
+      <a *ngFor="let travel of travelList" class="card-group">
+        <div class="car col-md-4">
+          <div class="card" style="width: 18rem;">
+            <img src="{{travel.pictureUrl}}" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{travel.title}}</h5>
+              <p class="card-text">{{travel.description}}</p>
+              <a href="#" class="btn btn-primary">See details</a>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
