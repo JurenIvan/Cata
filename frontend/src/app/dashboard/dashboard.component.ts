@@ -22,9 +22,6 @@ export class DashboardComponent implements OnInit {
     this.travelService.travels.subscribe(
       newTravels => {
         this.travelList = newTravels;
-        newTravels.forEach( trip => {
-          console.log(trip.tripPlanDto)
-        })
       }
     )
 

@@ -1,3 +1,5 @@
+import {Location} from "./location";
+
 export class TripPlan {
 
   constructor(
