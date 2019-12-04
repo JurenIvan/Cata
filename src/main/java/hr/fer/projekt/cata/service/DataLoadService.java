@@ -56,8 +56,8 @@ public class DataLoadService implements ApplicationRunner {
 
         int[] minPassengers = {50, 35, 20, 45};
         String[] pictureUrls = {"https://imgix.bustle.com/uploads/shutterstock/2019/9/19/a49124d9-5f62-47a5-b5ec-8dd3a3066b30-shutterstock-1420728554.jpg?w=970&h=546&fit=crop&crop=faces&auto=format&q=70",
-                "https://www.snowmagazine.com/media/reviews/photos/original/cc/f3/f1/five-reasons-to-ski-slovenia-74-1478102849.jpg"
-                , "https://www.integral-zagreb.hr/sites/default/files/styles/1920_auto_/public/uploads/products/gallery/2019-09/bali-putovanje-6.jpg?itok=--216mi9",
+                "https://www.snowmagazine.com/media/reviews/photos/original/cc/f3/f1/five-reasons-to-ski-slovenia-74-1478102849.jpg",
+                "https://i-a6eb.kxcdn.com/tours/bali-237196_202011.jpg.axd?width=665&crop=auto&scale=both&quality=100",
                 "https://s27135.pcdn.co/wp-content/uploads/2018/11/How-to-see-the-very-best-of-Milan-in-one-day-878x585.jpg.optimal.jpg"};
 
         List<TripPlan> tripPlans = new ArrayList<>();

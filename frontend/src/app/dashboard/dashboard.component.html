@@ -1,14 +1,14 @@
 <div *ngIf="travelList.length > 0">
   <div class="container">
-    <h1>Trips</h1>
+    <h1>Putovanja</h1>
     <div class="row">
       <a *ngFor="let travel of travelList" class="card-group">
         <div class="car col-md-4">
           <div class="card" style="width: 18rem;">
-            <img src="{{travel.pictureUrl}}" class="card-img-top">
+            <img src="{{travel.tripPlanDto.pictureUrl}}" class="card-img-top">
             <div class="card-body">
-              <h5 class="card-title">{{travel.title}}</h5>
-              <p class="card-text">{{travel.description}}</p>
+              <h5 class="card-title">{{travel.tripPlanDto.description}} kuna</h5>
+              <p class="card-text">{{travel.price}} kuna</p>
               <a href="#" class="btn btn-primary">See details</a>
             </div>
           </div>
