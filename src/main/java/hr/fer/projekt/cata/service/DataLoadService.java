@@ -4,14 +4,13 @@ import hr.fer.projekt.cata.domain.Location;
 import hr.fer.projekt.cata.domain.Trip;
 import hr.fer.projekt.cata.domain.TripPlan;
 import hr.fer.projekt.cata.domain.User;
+import hr.fer.projekt.cata.domain.enums.Role;
 import hr.fer.projekt.cata.repository.LocationRepository;
 import hr.fer.projekt.cata.repository.TripPlanRepository;
 import hr.fer.projekt.cata.repository.TripRepository;
 import hr.fer.projekt.cata.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -107,10 +106,13 @@ public class DataLoadService implements ApplicationRunner {
         int[] years = {1987, 1962, 1996, 1983};
         String[] passwords = {"pass12pass", "password", "12345678", "banana"};
 
-        for (int i = 0; i < 4; i++) {
-            User user = new User((long) (i + 1), names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), years[i]);
+        users.add(new User(1l, "admin@cata.com", "admin", BCrypt.hashpw("admin", BCrypt.gensalt(12)), 1950, List.of(Role.VISITOR, Role.ORGANIZER)));
+
+        for (int i = 1; i < 5; i++) {
+            User user = new User((long) (i + 1), names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), years[i], List.of(Role.VISITOR));
             users.add(user);
         }
+
         return userRepository.saveAll(users);
     }
 
