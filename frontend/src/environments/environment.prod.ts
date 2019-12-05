@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUri: 'https://vivium-backend.herokuapp.com'
+  apiUri: 'https://cata-backend.herokuapp.com/'
 };
