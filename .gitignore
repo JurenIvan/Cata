@@ -19,8 +19,8 @@ build
 frontend/node_modules
 .gradle/
 .idea/
-.frontend/dist/
-.frontend/node_modules/
+frontend/dist/
+frontend/node_modules/
 # External tool builders
 .externalToolBuilders/
 
