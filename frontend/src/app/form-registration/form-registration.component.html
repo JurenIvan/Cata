@@ -1,32 +1,37 @@
-<div class="container h-100">
-  <div class="d-flex justify-content-center">
-  <h2>Registration</h2>
+<div class="jumbotron vertical-center">
+  <div class="container h-100">
+    <div class="d-flex justify-content-center">
+      <h2>Registracija</h2>
+    </div>
+    <form [formGroup]="mForm" (ngSubmit)="saveUser()">
+      <div class="d-flex justify-content-center">
+        <div class="form-group row col-md-6">
+          <label for="email">E-mail</label>
+          <input type="email" class="form-control" id="email" [formControl]="mForm.controls['email']"
+                 placeholder="Unesi e-mail">
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="form-group row col-md-6">
+          <label for="username">Korisničko ime</label>
+          <input type="text" class="form-control" id="username" [formControl]="mForm.controls['username']"
+                 placeholder="Unesi korisničko ime">
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="form-group row col-md-6">
+          <label for="password">Lozinka</label>
+          <input type="password" class="form-control" id="password" [formControl]="mForm.controls['password']"
+                 placeholder="Unesi lozinku">
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="col-md-6">
+          <label></label>
+          <button type="submit" class="btn btn-success btn-md btn-block">Unesi</button>
+        </div>
+      </div>
+    </form>
   </div>
-  <form [formGroup]="mForm" (ngSubmit)="saveUser()">
-    <div class="d-flex justify-content-center">
-      <div class="form-group row col-md-6">
-        <label for="email">E-mail</label>
-        <input type="email" class="form-control" id="email" [formControl]="mForm.controls['email']" placeholder="Enter e-mail">
-      </div>
-    </div>
-    <div class="d-flex justify-content-center">
-      <div class="form-group row col-md-6">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" [formControl]="mForm.controls['username']" placeholder="Enter username">
-      </div>
-    </div>
-    <div class="d-flex justify-content-center">
-      <div class="form-group row col-md-6">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" [formControl]="mForm.controls['password']" placeholder="Enter password">
-      </div>
-    </div>
-    <div class="d-flex justify-content-center">
-      <div class="col-md-6">
-        <label></label>
-        <button type="submit" class="btn btn-success btn-md btn-block">Submit</button>
-      </div>
-    </div>
-  </form>
 </div>
 

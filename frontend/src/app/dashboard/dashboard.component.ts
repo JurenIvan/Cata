@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Trip} from "../../models/trip";
+import {TravelService} from "../../services/travel.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  public travelList: Trip[];
+
+  constructor(private travelService: TravelService, private route: ActivatedRoute, private router: Router) {
+  }
 
   ngOnInit() {
+
+    this.travelService.loadTravels();
+
+    this.travelService.travels.subscribe(
+      newTravels => {
+        this.travelList = newTravels;
+      }
+    )
+
   }
 
 }

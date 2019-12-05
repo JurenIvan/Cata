@@ -27,6 +27,6 @@ public class Location {
     private String country;
 
     public LocationDto toDto() {
-        return new LocationDto(x, y, name, country);
+        return new LocationDto(id, x, y, name, country);
     }
 }

@@ -15,12 +15,14 @@ public class TripPlanController {
 
     private TripPlanService tripPlanService;
 
+    @CrossOrigin
     @GetMapping
     public List<TripPlan> getTripPlans() {
         return tripPlanService.getTripPlans();
     }
 
     @GetMapping("/{tripPlanId}")
+    @CrossOrigin
     public TripPlan getTripPlans(@PathVariable Long tripPlanId) {
         return tripPlanService.getTripPlan(tripPlanId);
     }

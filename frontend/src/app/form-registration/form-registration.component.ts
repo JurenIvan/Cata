@@ -44,9 +44,9 @@ export class FormRegistrationComponent implements OnInit {
           this.userService.login(new LoginRequest(user.username, user.password))
             .subscribe(
               token => {
+                localStorage.setItem("token", JSON.stringify(token).split(":")[1].substr(1, JSON.stringify(token).split(":")[1].length-3));
                 this.router.navigate(['/dashboard'])
               }
-
             )
         }
       )

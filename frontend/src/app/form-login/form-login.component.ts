@@ -38,7 +38,8 @@ export class FormLoginComponent implements OnInit {
     if(this.mForm.valid) {
       this.userService.login(this.mForm.value)
         .subscribe(
-          _ => {
+          token => {
+            localStorage.setItem("token", JSON.stringify(token).split(":")[1].substr(1, JSON.stringify(token).split(":")[1].length-3));
             this.router.navigate(['/dashboard'])
           }
         )

@@ -1,1 +1,22 @@
-<h1>dashboard works!</h1>
+<div *ngIf="travelList.length > 0">
+  <div class="container">
+    <label></label>
+    <h1>Putovanja</h1>
+    <label></label>
+    <div class="row">
+      <a *ngFor="let travel of travelList" class="card-group">
+        <div class="car col-md-4">
+          <div class="card" style="width: 18rem;">
+            <img src="{{travel.tripPlanDto.pictureUrl}}" class="card-img-top" style="height: 200px">
+            <div class="card-body">
+              <h5 class="card-title">{{travel.tripPlanDto.description}}</h5>
+              <p class="card-text">{{travel.price}} kuna</p>
+              <a class="btn btn-primary" [routerLink]="['tripDetails/',travel.tripPlanDto.id]">Vidi detalje</a>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <label></label>
+</div>
