@@ -45,6 +45,7 @@ public class TripService {
         var loggedInUser = userDetailsService.getLoggedUser();
         if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
             throw new CATAException();
+
         var tripPlan = tripPlanRepository.findById(tripDto.getTripPlanDto().getId()).orElseThrow(CATAException::new);
         Trip trip = new Trip(null, tripDto.getStartDateTime(), tripDto.getEndDateTime(), tripDto.getPrice(), tripDto.getPassengerCount(), new ArrayList<>(), tripPlan);
         return tripRepository.save(trip).toDto();
