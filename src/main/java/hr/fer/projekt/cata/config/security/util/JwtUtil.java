@@ -17,7 +17,7 @@ public class JwtUtil {
 
     public static final int JWT_TIMEOUT = 1000 * 60 * 60;
 
-    @Value( "${spring.security.security.BCrypt.secret}" )
+    @Value("${spring.security.security.BCrypt.secret}")
     private String SECRET_KEY;
 
     public String extractUsername(String token) {
@@ -32,6 +32,7 @@ public class JwtUtil {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }

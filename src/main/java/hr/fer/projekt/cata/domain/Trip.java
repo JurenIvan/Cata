@@ -44,11 +44,11 @@ public class Trip {
             this.passengerCount = tripDto.getPassengerCount();
     }
 
-    public void addPassenger(User passenger){
+    public void addPassenger(User passenger) {
         this.passengers.add(passenger);
     }
 
-    public void removePassenger(User passenger){
+    public void removePassenger(User passenger) {
         this.passengers.remove(passenger);
     }
 }

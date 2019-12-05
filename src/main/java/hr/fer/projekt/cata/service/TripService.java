@@ -51,7 +51,7 @@ public class TripService {
     }
 
     public TripDto joinTrip(long tripId) {
-        var trip = tripRepository.findById(tripId).orElseThrow(() -> new CATAException());
+        var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
         User currUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         trip.addPassenger(currUser);
         tripRepository.save(trip);

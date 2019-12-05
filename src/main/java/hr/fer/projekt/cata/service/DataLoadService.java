@@ -108,12 +108,11 @@ public class DataLoadService implements ApplicationRunner {
 
         users.add(new User(1l, "admin@cata.com", "admin", BCrypt.hashpw("admin", BCrypt.gensalt(12)), 1950, List.of(Role.VISITOR, Role.ORGANIZER)));
 
-        for (int i = 1; i < 5; i++) {
-            User user = new User((long) (i + 1), names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), years[i], List.of(Role.VISITOR));
+        for (int i = 0; i < 4; i++) {
+            User user = new User((long) (i + 2), names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), years[i], List.of(Role.VISITOR));
             users.add(user);
         }
 
         return userRepository.saveAll(users);
     }
-
 }
