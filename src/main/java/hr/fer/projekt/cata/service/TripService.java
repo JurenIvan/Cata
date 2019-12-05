@@ -35,4 +35,10 @@ public class TripService {
         Trip trip = new Trip(null, tripDto.getStartDateTime(), tripDto.getEndDateTime(), tripDto.getPrice(), tripDto.getPassengerCount(), tripPlan);
         return tripRepository.save(trip).toDto();
     }
+
+    public TripDto joinTrip(long tripId) {
+        var trip=tripRepository.findById(tripId).orElseThrow(()->new CATAException());
+        //todo
+        return null;
+    }
 }

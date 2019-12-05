@@ -3,10 +3,7 @@ package hr.fer.projekt.cata.web.rest.controller;
 import hr.fer.projekt.cata.service.TripService;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +28,10 @@ public class TripController {
     @PostMapping("/edit")
     private TripDto editTrip(TripDto tripDto) {
         return tripService.editTrip(tripDto);
+    }
+
+    @GetMapping("/join/{id}")
+    private TripDto joinTrip(@PathVariable long tripId){
+        return  tripService.joinTrip(tripId);
     }
 }
