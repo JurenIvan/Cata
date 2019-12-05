@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,6 +25,9 @@ public class Trip {
     private Double price;
     private Integer passengerCount;
 
+    @ManyToMany
+    private List<User> passengers;
+
     @ManyToOne
     private TripPlan tripPlan;
 
@@ -38,5 +42,13 @@ public class Trip {
             this.startDateTime = tripDto.getStartDateTime();
         if (tripDto.getPassengerCount() != null)
             this.passengerCount = tripDto.getPassengerCount();
+    }
+
+    public void addPassenger(User passenger){
+        this.passengers.add(passenger);
+    }
+
+    public void removePassenger(User passenger){
+        this.passengers.remove(passenger);
     }
 }
