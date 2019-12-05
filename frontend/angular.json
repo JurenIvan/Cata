@@ -25,7 +25,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "../frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []
           },
