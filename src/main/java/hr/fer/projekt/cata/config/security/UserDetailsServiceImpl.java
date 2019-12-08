@@ -25,10 +25,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public hr.fer.projekt.cata.domain.User getLoggedUser() {
-        return userRepository.findById(getLoggedInUserId()).orElseThrow(CATAException::new);
+        return userRepository.findAllByUsername(getLoggedInUserUsername()).orElseThrow(CATAException::new);
     }
 
-    public Long getLoggedInUserId() {
-        return ((hr.fer.projekt.cata.domain.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+    public String getLoggedInUserUsername() {
+        return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
     }
 }
