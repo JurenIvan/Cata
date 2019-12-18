@@ -12,7 +12,7 @@ import {UserService} from "../../services/user.service";
 export class DashboardComponent implements OnInit {
 
   public travelList: Trip[];
-  private isAdmin: boolean
+  public isAdmin: boolean
   public startDate: string
 
 
