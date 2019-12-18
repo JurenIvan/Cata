@@ -1,6 +1,8 @@
 <div class="jumbotron vertical-center">
   <div class="container h-100">
-    <h1>Kreiraj novo putovanje</h1>
+    <div class="mx-auto" style="width: 500px;">
+      <h1>Kreiraj novo putovanje</h1>
+    </div>
     <div class="text-right">
       <div *ngIf="!isPressed">
         <button class="btn btn-success" (click)="isPressedButton()">Dodaj plan putovanja</button>
@@ -8,48 +10,43 @@
     </div>
     <form [formGroup]="rForm">
       <div class="row">
-      <div class="col-sm-3">
-        <input type="hidden" class="form-control" id="id" [formControl]="rForm.controls['id']"/>
-      </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-3 p-2">
           <label for="dateStart">Datum početka putovanja:</label>
           <input type="date" class="form-control" id="dateStart" [formControl]="rForm.controls['dateStart']"/>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-3 p-2">
           <label for="dateEnd">Datum početka putovanja:</label>
           <input type="date" class="form-control" id="dateEnd" [formControl]="rForm.controls['dateEnd']"/>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2 p-2">
           <label for="price">Cijena:</label>
           <input type="number" id="price" class='form-control' [formControl]="rForm.controls['price']"/>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2 p-2">
           <label for="minNumberPassangers">Minimalni broj posjetitelja:</label>
           <input type="number" id="minNumberPassangers" class='form-control' [formControl]="rForm.controls['minNumberPassangers']"/>
         </div>
       </div>
       <div *ngIf="isPressed">
         <div class="row">
-          <div class="col-sm-10">
+          <div class="col-sm-12 p-2">
             <label for="description">Opis puta:</label>
             <input type="text" class="form-control" id="description" [formControl]="rForm.controls['description']"/>
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-10">
+          <div class="col-sm-12 p-2">
             <label for="pictureUrl">Link slike:</label>
             <input type="text" class="form-control" id="pictureUrl" [formControl]="rForm.controls['pictureUrl']"/>
           </div>
         </div>
-        <button class="btn btn-success" (click)="saveTripPlan()">Dodaj plan putovanja</button>
+        <button class="btn btn-success mt-4 btn-block" (click)="saveTripPlan()">Dodaj putovanje</button>
       </div>
     </form>
   </div>

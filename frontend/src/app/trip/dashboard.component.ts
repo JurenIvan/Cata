@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
 
   public travelList: Trip[];
   private isAdmin: boolean
+  public startDate: string
 
 
   constructor(private travelService: TravelService, private userService: UserService, private route: ActivatedRoute, private router: Router) {

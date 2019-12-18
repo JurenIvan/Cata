@@ -15,6 +15,7 @@ export class TravelService {
 
 
   tripsURL = environment.apiUri + "/trips";
+  postTripURL = environment.apiUri + "/trips/create";
   tripDetailsURL = environment.apiUri + "/trip/";
   postTripDetailsURL = environment.apiUri + "/trip/create";
 
@@ -46,5 +47,12 @@ export class TravelService {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
     };
     return this.httpClient.post<TripPlan>(this.postTripDetailsURL, tripPlan,  httpOptions)
+  }
+
+  public addNewTrip(trip: Trip): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
+    };
+    return this.httpClient.post<Trip>(this.postTripURL, trip,  httpOptions)
   }
 }

@@ -4,8 +4,8 @@ export class Trip {
 
   constructor(
     public id: number,
-    public startDateTime: string,
-    public endDateTime: string,
+    public startDateTime: Date,
+    public endDateTime: Date,
     public price: number,
     public passengerCount: number,
     public tripPlanDto: TripPlan
