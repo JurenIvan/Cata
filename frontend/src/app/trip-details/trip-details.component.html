@@ -5,6 +5,10 @@
         <div class="container">
           <h1 class="display-4">{{tripPlan.description}}</h1>
           <p class="lead">Minimalni broj posjetitelja: {{tripPlan.minNumberOfPassengers}}</p>
+          <label></label>
+          <div *ngIf="isAdmin">
+            <a class="btn btn-outline-secondary">Ažuriraj putovanje</a>
+          </div>
         </div>
         <img src="{{tripPlan.pictureUrl}}" class="img-thumbnail" style="height: 250px">
       </div>

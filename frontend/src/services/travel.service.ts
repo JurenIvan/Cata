@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../environments/environment";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Trip} from "../models/trip";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Observer} from "rxjs";
 import {TripPlan} from "../models/trip-plan";
 
 @Injectable({
@@ -16,6 +16,8 @@ export class TravelService {
 
   tripsURL = environment.apiUri + "/trips";
   tripDetailsURL = environment.apiUri + "/trip/";
+  postTripDetailsURL = environment.apiUri + "/trip/create";
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -37,5 +39,12 @@ export class TravelService {
     };
 
     return this.httpClient.get<TripPlan>(this.tripDetailsURL + tripPlanId.toString(), httpOptions)
+  }
+
+  public addNewTripPlan(tripPlan: TripPlan): Observable<any>{
+    let httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
+    };
+    return this.httpClient.post<TripPlan>(this.postTripDetailsURL, tripPlan,  httpOptions)
   }
 }
