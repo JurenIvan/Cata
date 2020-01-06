@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Data
 public class AuthenticationRequestDto {
+
     @NotBlank(message = "Username must be provided!")
     private String username;
     @NotBlank(message = "Password must be provided!")

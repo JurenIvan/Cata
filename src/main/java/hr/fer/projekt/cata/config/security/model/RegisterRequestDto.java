@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Data
 public class RegisterRequestDto {
+
     @Email
     @NotBlank(message = "Email must be provided!")
     private String email;

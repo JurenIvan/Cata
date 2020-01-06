@@ -4,14 +4,13 @@ import hr.fer.projekt.cata.domain.Location;
 import hr.fer.projekt.cata.domain.Trip;
 import hr.fer.projekt.cata.domain.TripPlan;
 import hr.fer.projekt.cata.domain.User;
+import hr.fer.projekt.cata.domain.enums.Role;
 import hr.fer.projekt.cata.repository.LocationRepository;
 import hr.fer.projekt.cata.repository.TripPlanRepository;
 import hr.fer.projekt.cata.repository.TripRepository;
 import hr.fer.projekt.cata.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -41,10 +40,10 @@ public class DataLoadService implements ApplicationRunner {
     }
 
     private List<Trip> getTripList(List<TripPlan> tripPlans) {
-        Trip trip1 = new Trip((long) 1, LocalDateTime.of(2019, 12, 20, 10, 20), LocalDateTime.of(2019, 12, 27, 19, 0), (double) 7000, 33, tripPlans.get(0));
-        Trip trip2 = new Trip((long) 2, LocalDateTime.of(2020, 1, 3, 8, 30), LocalDateTime.of(2020, 1, 5, 20, 30), (double) 3000, 14, tripPlans.get(1));
-        Trip trip3 = new Trip((long) 3, LocalDateTime.of(2019, 12, 10, 13, 30), LocalDateTime.of(2019, 12, 20, 18, 30), (double) 10000, 11, tripPlans.get(2));
-        Trip trip4 = new Trip((long) 4, LocalDateTime.of(2020, 2, 1, 8, 30), LocalDateTime.of(2019, 2, 9, 19, 30), (double) 6700, 11, tripPlans.get(3));
+        Trip trip1 = new Trip((long) 1, LocalDateTime.of(2019, 12, 20, 10, 20), LocalDateTime.of(2019, 12, 27, 19, 0), (double) 7000, 33, new ArrayList<>(), tripPlans.get(0));
+        Trip trip2 = new Trip((long) 2, LocalDateTime.of(2020, 1, 3, 8, 30), LocalDateTime.of(2020, 1, 5, 20, 30), (double) 3000, 14, new ArrayList<>(), tripPlans.get(1));
+        Trip trip3 = new Trip((long) 3, LocalDateTime.of(2019, 12, 10, 13, 30), LocalDateTime.of(2019, 12, 20, 18, 30), (double) 10000, 11, new ArrayList<>(), tripPlans.get(2));
+        Trip trip4 = new Trip((long) 4, LocalDateTime.of(2020, 2, 1, 8, 30), LocalDateTime.of(2019, 2, 9, 19, 30), (double) 6700, 11, new ArrayList<>(), tripPlans.get(3));
 
         tripRepository.saveAll(List.of(trip1, trip2, trip3, trip4));
         return Arrays.asList(trip1, trip2, trip3, trip4);
@@ -107,11 +106,13 @@ public class DataLoadService implements ApplicationRunner {
         int[] years = {1987, 1962, 1996, 1983};
         String[] passwords = {"pass12pass", "password", "12345678", "banana"};
 
+        users.add(new User(1l, "admin@cata.com", "admin", BCrypt.hashpw("admin", BCrypt.gensalt(12)), 1950, List.of(Role.VISITOR, Role.ORGANIZER)));
+
         for (int i = 0; i < 4; i++) {
-            User user = new User((long) (i + 1), names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), years[i]);
+            User user = new User((long) (i + 2), names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), years[i], List.of(Role.VISITOR));
             users.add(user);
         }
+
         return userRepository.saveAll(users);
     }
-
 }

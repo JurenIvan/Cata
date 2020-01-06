@@ -28,11 +28,13 @@ public class TripPlanController {
     }
 
     @PostMapping("/create")
+    @CrossOrigin
     public TripPlan createTripPlan(@RequestBody TripPlanDto tripPlanDto) {
         return tripPlanService.createTripPlan(tripPlanDto);
     }
 
     @PostMapping("/edit")
+    @CrossOrigin
     public TripPlan editTripPlan(@RequestBody TripPlanDto tripPlanDto) {
         return tripPlanService.editTripPlan(tripPlanDto);
     }

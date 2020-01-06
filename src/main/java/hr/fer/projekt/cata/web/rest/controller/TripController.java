@@ -29,4 +29,9 @@ public class TripController {
     private TripDto editTrip(TripDto tripDto) {
         return tripService.editTrip(tripDto);
     }
+
+    @GetMapping("/join/{id}")
+    private TripDto joinTrip(@PathVariable Long tripId) {
+        return tripService.joinTrip(tripId);
+    }
 }

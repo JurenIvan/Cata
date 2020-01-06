@@ -4,7 +4,11 @@
       <div class="media">
         <div class="container">
           <h1 class="display-4">{{tripPlan.description}}</h1>
-          <p class="lead">Minimal number of passangers: {{tripPlan.minNumberOfPassengers}}</p>
+          <p class="lead">Minimalni broj posjetitelja: {{tripPlan.minNumberOfPassengers}}</p>
+          <label></label>
+          <div *ngIf="isAdmin">
+            <button class="btn btn-lg btn-outline-secondary" (click)="open(content)">Ažuriraj putovanje</button>
+          </div>
         </div>
         <img src="{{tripPlan.pictureUrl}}" class="img-thumbnail" style="height: 250px">
       </div>
@@ -26,6 +30,77 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ažuriranje putovanja</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="description">Opis putovanja:</label>
+            <input type="text" class="form-control" id="description" [formControl]="rForm.controls['description']"/>
+          </div>
+        </div>
+        <label></label>
+        <div class="row">
+          <div class="col-sm-5">
+            <label for="minNumberOfPassangers">Minimalni broj putnika:</label>
+            <input type="number" class="form-control" id="minNumberOfPassangers"
+                   [formControl]="rForm.controls['minNumberOfPassangers']"/>
+          </div>
+        </div>
+        <label></label>
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="pictureUrl">Link slike:</label>
+            <input type="text" class="form-control" id="pictureUrl" [formControl]="rForm.controls['pictureUrl']"/>
+          </div>
+        </div>
+        <label></label>
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="price">Cijena:</label>
+            <input type="number" class="form-control" id="price" [formControl]="rForm.controls['price']"/>
+          </div>
+        </div>
+        <label></label>
+        <div class="row">
+          <div class="col-sm-7">
+            <label for="dateStart">Datum početka putovanja:</label>
+            <input type="date" class="form-control" id="dateStart" [formControl]="rForm.controls['dateStart']"/>
+          </div>
+        </div>
+        <label></label>
+        <div class="row">
+          <div class="col-sm-7">
+            <label for="dateEnd">Datum završetka putovanja:</label>
+            <input type="date" class="form-control" id="dateEnd" [formControl]="rForm.controls['dateEnd']"/>
+          </div>
+        </div>
+      <label></label>
+      <ng-multiselect-dropdown name="multiSelect"
+                               [placeholder]="'Odaberi lokacije'"
+                               [data]="dropdownList"
+                               [settings]="dropdownSettings"
+                               (onSelect)="onItemSelect($event)"
+      >
+      </ng-multiselect-dropdown>
+  </div>
+  </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
+<hr>
+
+<pre>{{closeResult}}</pre>
 
 
 

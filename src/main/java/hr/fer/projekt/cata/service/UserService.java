@@ -2,10 +2,13 @@ package hr.fer.projekt.cata.service;
 
 import hr.fer.projekt.cata.config.security.model.RegisterRequestDto;
 import hr.fer.projekt.cata.domain.User;
+import hr.fer.projekt.cata.domain.enums.Role;
 import hr.fer.projekt.cata.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +37,7 @@ public class UserService {
         user.setUsername(registerRequestDto.getUsername());
         user.setEmail(registerRequestDto.getEmail());
         user.setPasswordHash(BCrypt.hashpw(registerRequestDto.getPassword(), BCrypt.gensalt(12)));
+        user.setRoles(List.of(Role.VISITOR));
 
         userRepository.save(user);
     }

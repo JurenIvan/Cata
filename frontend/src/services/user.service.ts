@@ -12,6 +12,7 @@ export class UserService {
 
   registrationURL = environment.apiUri + '/register';
   loginURL = environment.apiUri + '/authenticate';
+  isAdminURL = environment.apiUri + '/is-agent'
 
   constructor(private httpClient: HttpClient) { }
 
@@ -27,6 +28,13 @@ export class UserService {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
     return this.httpClient.post<any>(this.loginURL, user, httpOptions)
+  }
+
+  public isUserAdmin() : Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
+    };
+    return this.httpClient.get<any>(this.isAdminURL, httpOptions);
   }
 
 }
