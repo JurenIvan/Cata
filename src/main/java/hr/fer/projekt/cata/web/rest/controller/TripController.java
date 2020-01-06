@@ -1,5 +1,6 @@
 package hr.fer.projekt.cata.web.rest.controller;
 
+import hr.fer.projekt.cata.domain.Trip;
 import hr.fer.projekt.cata.service.TripService;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import lombok.AllArgsConstructor;
@@ -21,12 +22,14 @@ public class TripController {
     }
 
     @PostMapping("/create")
-    private TripDto createTrip(TripDto tripDto) {
+    @CrossOrigin
+    private TripDto createTrip(@RequestBody TripDto tripDto) {
         return tripService.createTrip(tripDto);
     }
 
     @PostMapping("/edit")
-    private TripDto editTrip(TripDto tripDto) {
+    @CrossOrigin
+    private Trip editTrip(@RequestBody TripDto tripDto) {
         return tripService.editTrip(tripDto);
     }
 }

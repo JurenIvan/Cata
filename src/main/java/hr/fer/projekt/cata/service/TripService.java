@@ -23,11 +23,11 @@ public class TripService {
         return tripRepository.findAll().stream().map(e -> e.toDto()).collect(toList());
     }
 
-    public TripDto editTrip(TripDto tripDto) {
+    public Trip editTrip(TripDto tripDto) {
         var trip = tripRepository.findById(tripDto.getId()).orElseThrow(() -> new CATAException());
         trip.edit(tripDto);
         tripPlanRepository.save(trip.getTripPlan());
-        return tripRepository.save(trip).toDto();
+        return tripRepository.save(trip);
     }
 
     public TripDto createTrip(TripDto tripDto) {

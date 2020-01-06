@@ -40,4 +40,10 @@ public class AuthenticateController {
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponseDto(jwt));
     }
+
+    @CrossOrigin
+    @GetMapping(value = "/is-agent")
+    public boolean isLoggedInUserAgent() {
+        return userDetailsService.getLoggedUser().getRoles().contains(Role.ORGANIZER);
+    }
 }

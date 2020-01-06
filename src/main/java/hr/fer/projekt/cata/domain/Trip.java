@@ -38,5 +38,7 @@ public class Trip {
             this.startDateTime = tripDto.getStartDateTime();
         if (tripDto.getPassengerCount() != null)
             this.passengerCount = tripDto.getPassengerCount();
+        if (tripDto.getPrice() != null)
+            this.price = tripDto.getPrice();
     }
 }
