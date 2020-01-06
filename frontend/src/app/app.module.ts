@@ -11,6 +11,8 @@ import {HomeComponent} from './home/home.component';
 import {DashboardComponent} from './trip/dashboard.component';
 import {TripDetailsComponent} from './trip-details/trip-details.component';
 import {TripDataComponent} from "./trip/new/trip-data/trip-data.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import {TripDataComponent} from "./trip/new/trip-data/trip-data.component";
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    NgbModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

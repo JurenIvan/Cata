@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, SimpleChanges} from '@angular/core';
 import {Trip} from "../../models/trip";
 import {TravelService} from "../../services/travel.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,9 +12,7 @@ import {UserService} from "../../services/user.service";
 export class DashboardComponent implements OnInit {
 
   public travelList: Trip[];
-  private isAdmin: boolean
-  public startDate: string
-
+  private isAdmin: boolean;
 
   constructor(private travelService: TravelService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
   }
@@ -32,10 +30,20 @@ export class DashboardComponent implements OnInit {
 
     this.travelService.travels.subscribe(
       newTravels => {
+        console.log(newTravels);
         this.travelList = newTravels;
       }
     )
-
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.travelService.loadTravels();
+
+    this.travelService.travels.subscribe(
+      newTravels => {
+        console.log(newTravels);
+        this.travelList = newTravels;
+      }
+    )
+  }
 }
