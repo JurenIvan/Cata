@@ -1,0 +1,11 @@
+cata-postgres:
+    image: 'postgres:11.4'
+    restart: always
+    container_name: 'cata-postgres'
+    environment:
+      - POSTGRES_ROOT_PASSWORD=example
+      - POSTGRES_DB=cata
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - 5432:5432

@@ -32,4 +32,9 @@ public class TripController {
     private Trip editTrip(@RequestBody TripDto tripDto) {
         return tripService.editTrip(tripDto);
     }
+
+    @GetMapping("/join/{id}")
+    private TripDto joinTrip(@PathVariable Long tripId) {
+        return tripService.joinTrip(tripId);
+    }
 }

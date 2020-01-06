@@ -3,16 +3,14 @@ package hr.fer.projekt.cata.config.security;
 import hr.fer.projekt.cata.config.security.model.AuthenticationRequestDto;
 import hr.fer.projekt.cata.config.security.model.AuthenticationResponseDto;
 import hr.fer.projekt.cata.config.security.util.JwtUtil;
+import hr.fer.projekt.cata.domain.enums.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
