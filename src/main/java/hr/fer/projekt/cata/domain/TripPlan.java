@@ -21,7 +21,7 @@ public class TripPlan {
     private Long id;
     private String description;
 
-    @ElementCollection
+    @OneToMany
     private List<Location> locationList;
     private Integer minNumberOfPassengers;
     @Column(length = 4095)

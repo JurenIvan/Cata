@@ -31,7 +31,7 @@ public class TripController {
     }
 
     @GetMapping("/join/{id}")
-    private TripDto joinTrip(@PathVariable Long tripId) {
-        return tripService.joinTrip(tripId);
+    private TripDto joinTrip(@PathVariable Long id) {
+        return tripService.joinTrip(id);
     }
 }

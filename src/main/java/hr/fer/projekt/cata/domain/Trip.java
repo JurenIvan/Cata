@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +25,6 @@ public class Trip {
     private LocalDateTime endDateTime;
 
     private Double price;
-    private Integer passengerCount;
 
     @ManyToMany
     private List<User> passengers;
@@ -32,7 +33,7 @@ public class Trip {
     private TripPlan tripPlan;
 
     public TripDto toDto() {
-        return new TripDto(id, startDateTime, endDateTime, price, passengerCount, tripPlan.toDto());
+        return new TripDto(id, startDateTime, endDateTime, price, passengers.stream().map(User::toDto).collect(toList()), tripPlan.toDto());
     }
 
     public void edit(TripDto tripDto) {
@@ -40,8 +41,6 @@ public class Trip {
             this.endDateTime = tripDto.getEndDateTime();
         if (tripDto.getStartDateTime() != null)
             this.startDateTime = tripDto.getStartDateTime();
-        if (tripDto.getPassengerCount() != null)
-            this.passengerCount = tripDto.getPassengerCount();
     }
 
     public void addPassenger(User passenger) {

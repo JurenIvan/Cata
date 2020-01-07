@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +18,7 @@ public class TripDto {
     private LocalDateTime endDateTime;
 
     private Double price;
-    private Integer passengerCount;
+
+    private List<UserDto> passengers;
     private TripPlanDto tripPlanDto;
 }
