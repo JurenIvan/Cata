@@ -1,6 +1,7 @@
 package hr.fer.projekt.cata.domain;
 
 import hr.fer.projekt.cata.domain.enums.Role;
+import hr.fer.projekt.cata.web.rest.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,8 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    public UserDto toDto() {
+        return new UserDto(id, username, email);
+    }
 }
