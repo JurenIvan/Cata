@@ -35,7 +35,7 @@ public class TripPlan {
     }
 
     public TripPlanDto toDto() {
-        return new TripPlanDto(id, description, locationList.stream().map(e -> e.toDto()).collect(toList()), minNumberOfPassengers, pictureUrl);
+        return new TripPlanDto(id, description, locationList.stream().map(Location::toDto).collect(toList()), minNumberOfPassengers, pictureUrl);
     }
 
     public void edit(TripPlanDto tripPlanDto, List<Location> locations) {

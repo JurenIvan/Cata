@@ -1,6 +1,7 @@
 package hr.fer.projekt.cata.domain;
 
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
+import hr.fer.projekt.cata.web.rest.dto.TripEditDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,11 +37,13 @@ public class Trip {
         return new TripDto(id, startDateTime, endDateTime, price, passengers.stream().map(User::toDto).collect(toList()), tripPlan.toDto());
     }
 
-    public void edit(TripDto tripDto) {
-        if (tripDto.getEndDateTime() != null)
-            this.endDateTime = tripDto.getEndDateTime();
-        if (tripDto.getStartDateTime() != null)
-            this.startDateTime = tripDto.getStartDateTime();
+    public void edit(TripEditDto tripEditDto) {
+        if (tripEditDto.getEndDateTime() != null)
+            this.endDateTime = tripEditDto.getEndDateTime();
+        if (tripEditDto.getStartDateTime() != null)
+            this.startDateTime = tripEditDto.getStartDateTime();
+        if (tripEditDto.getPrice() != null)
+            this.price = tripEditDto.getPrice();
     }
 
     public void addPassenger(User passenger) {
@@ -48,6 +51,6 @@ public class Trip {
     }
 
     public void removePassenger(User passenger) {
-        this.passengers.remove(passenger);
+        passengers.remove(passenger);
     }
 }
