@@ -68,26 +68,26 @@ public class DataLoadService implements ApplicationRunner {
     private List<List<Location>> getLocationLists() {
         List<List<Location>> listLocations = new ArrayList<>();
         List<Location> locations = new ArrayList<>();
-        Location l1 = new Location(null, null, null, "Pariz", "Francuska");
-        Location l2 = new Location(null, null, null, "London", "Ujedinjeno Kraljevstvo");
+        Location l1 = new Location(null,  "Pariz", "Francuska");
+        Location l2 = new Location(null,  "London", "Ujedinjeno Kraljevstvo");
         locations.add(l1);
         locations.add(l2);
         listLocations.add(locationRepository.saveAll(locations));
 
-        Location l3 = new Location(null, null, null, "Rogla", "Slovenija");
+        Location l3 = new Location(null,  "Rogla", "Slovenija");
         locations = new ArrayList<>();
         locations.add(l3);
         listLocations.add(locationRepository.saveAll(locations));
 
-        l3 = new Location(null, null, null, "Ubud", "Indonezija");
-        Location l4 = new Location(null, null, null, "Nusa Penida", "Indonezija");
+        l3 = new Location(null,  "Ubud", "Indonezija");
+        Location l4 = new Location(null,  "Nusa Penida", "Indonezija");
         locations = new ArrayList<>();
         locations.add(l3);
         locations.add(l4);
         listLocations.add(locationRepository.saveAll(locations));
 
-        l3 = new Location(null, null, null, "Milano", "Italija");
-        l4 = new Location(null, null, null, "Verona", "Italija");
+        l3 = new Location(null,  "Milano", "Italija");
+        l4 = new Location(null,  "Verona", "Italija");
         locations = new ArrayList<>();
         locations.add(l3);
         locations.add(l4);

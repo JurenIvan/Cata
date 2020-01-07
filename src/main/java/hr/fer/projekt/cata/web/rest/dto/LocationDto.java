@@ -12,13 +12,10 @@ public class LocationDto {
 
     private Long id;
 
-    private Double x;
-    private Double y;
-
     private String name;
     private String country;
 
     public Location toLocation() {
-        return new Location(null, x, y, name, country);
+        return new Location(null, name, country);
     }
 }
