@@ -18,6 +18,7 @@ export class TripDetailsComponent implements OnInit {
 
   public tripPlan: TripPlan;
   public isAdmin: boolean;
+  public joinedTrip: boolean;
   closeResult: string;
   public rForm: FormGroup;
   tripPlanId: number;
@@ -130,6 +131,16 @@ export class TripDetailsComponent implements OnInit {
           })
         }
       });
+    });
+  }
+
+  public joinTrip() {
+    this.joinedTrip = !this.joinedTrip
+    this.route.params.subscribe( params => {
+      let travelId = params['tripPlanId'];
+      this.travelService.joinTrip(travelId).subscribe( result => {
+        console.log(result)
+      })
     });
   }
 }
