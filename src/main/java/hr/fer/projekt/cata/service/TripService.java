@@ -4,12 +4,12 @@ import hr.fer.projekt.cata.config.errorHandling.CATAException;
 import hr.fer.projekt.cata.config.security.UserDetailsServiceImpl;
 import hr.fer.projekt.cata.domain.Trip;
 import hr.fer.projekt.cata.domain.enums.Role;
-import hr.fer.projekt.cata.domain.User;
 import hr.fer.projekt.cata.repository.TripPlanRepository;
 import hr.fer.projekt.cata.repository.TripRepository;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,11 +51,11 @@ public class TripService {
         return tripRepository.save(trip).toDto();
     }
 
-    public TripDto joinTrip(long tripId) {
+    public Trip joinTrip(Long tripId) {
         var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
-        User currUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        hr.fer.projekt.cata.domain.User currUser = userDetailsService.getLoggedUser();
         trip.addPassenger(currUser);
         tripRepository.save(trip);
-        return trip.toDto();
+        return trip;
     }
 }

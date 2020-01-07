@@ -18,5 +18,6 @@ public class TripDto {
 
     private Double price;
     private Integer passengerCount;
+//    private List<User> passengers;
     private TripPlanDto tripPlanDto;
 }

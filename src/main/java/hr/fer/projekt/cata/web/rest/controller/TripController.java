@@ -33,8 +33,9 @@ public class TripController {
         return tripService.editTrip(tripDto);
     }
 
-    @GetMapping("/join/{id}")
-    private TripDto joinTrip(@PathVariable Long tripId) {
-        return tripService.joinTrip(tripId);
+    @RequestMapping("/join")
+    @CrossOrigin
+    private Trip joinTrip(Long id) {
+        return tripService.joinTrip(id);
     }
 }
