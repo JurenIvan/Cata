@@ -35,6 +35,10 @@ public class TripService {
         if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
             throw new CATAException();
 
+        var loggedInUser = userDetailsService.getLoggedUser();
+        if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
+            throw new CATAException();
+
         var trip = tripRepository.findById(tripDto.getId()).orElseThrow(CATAException::new);
         trip.edit(tripDto);
         tripPlanRepository.save(trip.getTripPlan());

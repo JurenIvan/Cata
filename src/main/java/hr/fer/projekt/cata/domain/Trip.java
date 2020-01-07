@@ -53,4 +53,12 @@ public class Trip {
     public void removePassenger(User passenger) {
         this.passengers.remove(passenger);
     }
+
+    public void addPassenger(User passenger) {
+        this.passengers.add(passenger);
+    }
+
+    public void removePassenger(User passenger) {
+        this.passengers.remove(passenger);
+    }
 }
