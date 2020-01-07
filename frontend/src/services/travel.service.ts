@@ -18,6 +18,8 @@ export class TravelService {
   postTripURL = environment.apiUri + "/trips/create";
   tripDetailsURL = environment.apiUri + "/trip/";
   postTripDetailsURL = environment.apiUri + "/trip/create";
+  editTripPlanURL = environment.apiUri + "/trip/edit";
+  editTripURL = environment.apiUri + "/trips/edit";
 
 
   constructor(private httpClient: HttpClient) { }
@@ -54,5 +56,19 @@ export class TravelService {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
     };
     return this.httpClient.post<Trip>(this.postTripURL, trip,  httpOptions)
+  }
+
+  public editTripPlan(tripPlan: TripPlan): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
+    };
+    return this.httpClient.post<TripPlan>(this.editTripPlanURL, tripPlan,  httpOptions)
+  }
+
+  public editTrip(trip: Trip): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
+    };
+    return this.httpClient.post<Trip>(this.editTripURL, trip,  httpOptions)
   }
 }
