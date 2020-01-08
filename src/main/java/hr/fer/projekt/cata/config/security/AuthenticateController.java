@@ -39,6 +39,7 @@ public class AuthenticateController {
         return ResponseEntity.ok(new AuthenticationResponseDto(jwt));
     }
 
+    @CrossOrigin
     @GetMapping(value = "/is-agent")
     public boolean isLoggedInUserAgent() {
         return userDetailsService.getLoggedUser().getRoles().contains(Role.ORGANIZER);

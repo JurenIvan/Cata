@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import static java.util.stream.Collectors.toList;
 
 @Data
@@ -46,11 +45,15 @@ public class Trip {
             this.price = tripEditDto.getPrice();
     }
 
+    public void removePassenger(User passenger) {
+        passengers.remove(passenger);
+    }
+
     public void addPassenger(User passenger) {
         this.passengers.add(passenger);
     }
 
-    public void removePassenger(User passenger) {
-        passengers.remove(passenger);
-    }
+
+
+
 }

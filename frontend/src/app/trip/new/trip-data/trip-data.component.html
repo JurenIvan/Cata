@@ -30,7 +30,8 @@
       <div class="row">
         <div class="col-sm-2 p-2">
           <label for="minNumberPassangers">Minimalni broj posjetitelja:</label>
-          <input type="number" id="minNumberPassangers" class='form-control' [formControl]="rForm.controls['minNumberPassangers']"/>
+          <input type="number" id="minNumberPassangers" class='form-control'
+                 [formControl]="rForm.controls['minNumberPassangers']"/>
         </div>
       </div>
       <div *ngIf="isPressed">
@@ -46,6 +47,15 @@
             <input type="text" class="form-control" id="pictureUrl" [formControl]="rForm.controls['pictureUrl']"/>
           </div>
         </div>
+        <label></label>
+        <ng-multiselect-dropdown name="multiSelect"
+                                 [placeholder]="'Odaberi lokacije'"
+                                 [data]="dropdownList"
+                                 [settings]="dropdownSettings"
+                                 (onSelect)="onItemSelect($event)"
+                                 (onDeSelect)="onItemDeselect($event)"
+        >
+        </ng-multiselect-dropdown>
         <button class="btn btn-success mt-4 btn-block" (click)="saveTripPlan()">Dodaj putovanje</button>
       </div>
     </form>
