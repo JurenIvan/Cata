@@ -2,10 +2,12 @@ package hr.fer.projekt.cata.service;
 
 import hr.fer.projekt.cata.config.errorHandling.CATAException;
 import hr.fer.projekt.cata.config.security.UserDetailsServiceImpl;
+import hr.fer.projekt.cata.domain.Location;
 import hr.fer.projekt.cata.domain.Trip;
 import hr.fer.projekt.cata.domain.TripPlan;
 import hr.fer.projekt.cata.domain.User;
 import hr.fer.projekt.cata.domain.enums.Role;
+import hr.fer.projekt.cata.repository.LocationRepository;
 import hr.fer.projekt.cata.repository.TripPlanRepository;
 import hr.fer.projekt.cata.repository.TripRepository;
 import hr.fer.projekt.cata.web.rest.dto.TripCreateDto;
@@ -26,6 +28,7 @@ public class TripService {
     private TripRepository tripRepository;
     private TripPlanRepository tripPlanRepository;
     private UserDetailsServiceImpl userDetailsService;
+    private LocationRepository locationRepository;
 
 
     public List<TripDto> getTrips() {
@@ -49,7 +52,13 @@ public class TripService {
         if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
             throw new CATAException();
 
-        TripPlan tripPlan = tripPlanRepository.findById(tripCreateDto.getId()).orElseThrow(CATAException::new);
+        TripPlan tripPlan;
+        if (tripCreateDto.getTripPlanid() != null) {
+            tripPlan = tripPlanRepository.findById(tripCreateDto.getId()).orElseThrow(CATAException::new);
+        } else {
+            var locations=tripCreateDto.getTripPlanDto().getLocationList().stream().map(e->locationRepository.save(e.toLocation())).collect(toList());
+            tripPlan = tripPlanRepository.save(tripCreateDto.getTripPlanDto().toEntity(locations));
+        }
         Trip trip = new Trip(null, tripCreateDto.getStartDateTime(), tripCreateDto.getEndDateTime(), tripCreateDto.getPrice(), new ArrayList<>(), tripPlan);
 
         return tripRepository.save(trip).toDto();
