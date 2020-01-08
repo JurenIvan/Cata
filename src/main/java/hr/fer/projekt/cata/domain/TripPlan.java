@@ -21,7 +21,7 @@ public class TripPlan {
     private Long id;
     private String description;
 
-    @ElementCollection
+    @OneToMany
     private List<Location> locationList;
     private Integer minNumberOfPassengers;
     @Column(length = 4095)
@@ -35,7 +35,7 @@ public class TripPlan {
     }
 
     public TripPlanDto toDto() {
-        return new TripPlanDto(id, description, locationList.stream().map(e -> e.toDto()).collect(toList()), minNumberOfPassengers, pictureUrl);
+        return new TripPlanDto(id, description, locationList.stream().map(Location::toDto).collect(toList()), minNumberOfPassengers, pictureUrl);
     }
 
     public void edit(TripPlanDto tripPlanDto, List<Location> locations) {

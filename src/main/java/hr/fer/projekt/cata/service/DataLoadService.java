@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -32,21 +31,20 @@ public class DataLoadService implements ApplicationRunner {
     private LocationRepository locationRepository;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         var locations = getLocationLists();
-        var users = getUsers();
+        getUsers();
         var tripPlanLists = getTripPlansList(locations);
-        var tripList = getTripList(tripPlanLists);
+        getTripList(tripPlanLists);
     }
 
-    private List<Trip> getTripList(List<TripPlan> tripPlans) {
-        Trip trip1 = new Trip((long) 1, LocalDateTime.of(2019, 12, 20, 10, 20), LocalDateTime.of(2019, 12, 27, 19, 0), (double) 7000, 33, new ArrayList<>(), tripPlans.get(0));
-        Trip trip2 = new Trip((long) 2, LocalDateTime.of(2020, 1, 3, 8, 30), LocalDateTime.of(2020, 1, 5, 20, 30), (double) 3000, 14, new ArrayList<>(), tripPlans.get(1));
-        Trip trip3 = new Trip((long) 3, LocalDateTime.of(2019, 12, 10, 13, 30), LocalDateTime.of(2019, 12, 20, 18, 30), (double) 10000, 11, new ArrayList<>(), tripPlans.get(2));
-        Trip trip4 = new Trip((long) 4, LocalDateTime.of(2020, 2, 1, 8, 30), LocalDateTime.of(2019, 2, 9, 19, 30), (double) 6700, 11, new ArrayList<>(), tripPlans.get(3));
+    private void getTripList(List<TripPlan> tripPlans) {
+        Trip trip1 = new Trip((long) 1, LocalDateTime.of(2019, 12, 20, 10, 20), LocalDateTime.of(2019, 12, 27, 19, 0), (double) 7000, new ArrayList<>(), new ArrayList<>(), tripPlans.get(0));
+        Trip trip2 = new Trip((long) 2, LocalDateTime.of(2020, 1, 3, 8, 30), LocalDateTime.of(2020, 1, 5, 20, 30), (double) 3000, new ArrayList<>(), new ArrayList<>(), tripPlans.get(1));
+        Trip trip3 = new Trip((long) 3, LocalDateTime.of(2019, 12, 10, 13, 30), LocalDateTime.of(2019, 12, 20, 18, 30), (double) 10000, new ArrayList<>(), new ArrayList<>(), tripPlans.get(2));
+        Trip trip4 = new Trip((long) 4, LocalDateTime.of(2020, 2, 1, 8, 30), LocalDateTime.of(2019, 2, 9, 19, 30), (double) 6700, new ArrayList<>(), new ArrayList<>(), tripPlans.get(3));
 
         tripRepository.saveAll(List.of(trip1, trip2, trip3, trip4));
-        return Arrays.asList(trip1, trip2, trip3, trip4);
     }
 
     private List<TripPlan> getTripPlansList(List<List<Location>> locations) {
@@ -70,26 +68,26 @@ public class DataLoadService implements ApplicationRunner {
     private List<List<Location>> getLocationLists() {
         List<List<Location>> listLocations = new ArrayList<>();
         List<Location> locations = new ArrayList<>();
-        Location l1 = new Location(null, null, null, "Pariz", "Francuska");
-        Location l2 = new Location(null, null, null, "London", "Ujedinjeno Kraljevstvo");
+        Location l1 = new Location(null,  "Pariz", "Francuska");
+        Location l2 = new Location(null,  "London", "Ujedinjeno Kraljevstvo");
         locations.add(l1);
         locations.add(l2);
         listLocations.add(locationRepository.saveAll(locations));
 
-        Location l3 = new Location(null, null, null, "Rogla", "Slovenija");
+        Location l3 = new Location(null,  "Rogla", "Slovenija");
         locations = new ArrayList<>();
         locations.add(l3);
         listLocations.add(locationRepository.saveAll(locations));
 
-        l3 = new Location(null, null, null, "Ubud", "Indonezija");
-        Location l4 = new Location(null, null, null, "Nusa Penida", "Indonezija");
+        l3 = new Location(null,  "Ubud", "Indonezija");
+        Location l4 = new Location(null,  "Nusa Penida", "Indonezija");
         locations = new ArrayList<>();
         locations.add(l3);
         locations.add(l4);
         listLocations.add(locationRepository.saveAll(locations));
 
-        l3 = new Location(null, null, null, "Milano", "Italija");
-        l4 = new Location(null, null, null, "Verona", "Italija");
+        l3 = new Location(null,  "Milano", "Italija");
+        l4 = new Location(null,  "Verona", "Italija");
         locations = new ArrayList<>();
         locations.add(l3);
         locations.add(l4);
@@ -106,10 +104,10 @@ public class DataLoadService implements ApplicationRunner {
         int[] years = {1987, 1962, 1996, 1983};
         String[] passwords = {"pass12pass", "password", "12345678", "banana"};
 
-        users.add(new User(1l, "admin@cata.com", "admin", BCrypt.hashpw("admin", BCrypt.gensalt(12)), 1950, List.of(Role.VISITOR, Role.ORGANIZER)));
+        users.add(new User(1L, "admin@cata.com", "admin", BCrypt.hashpw("admin", BCrypt.gensalt(12)), 1950, List.of(Role.VISITOR, Role.ORGANIZER)));
 
         for (int i = 0; i < 4; i++) {
-            User user = new User((long) (i + 2), names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), years[i], List.of(Role.VISITOR));
+            User user = new User(i + 2, names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), years[i], List.of(Role.VISITOR));
             users.add(user);
         }
 

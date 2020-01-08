@@ -25,12 +25,11 @@ public class UserService {
     }
 
     public void saveUser(RegisterRequestDto registerRequestDto) throws Exception {
-        if (!isEmailAvailable(registerRequestDto.getEmail())) {
+        if (!isEmailAvailable(registerRequestDto.getEmail()))
             throw new Exception("email not available");
-        }
-        if (!isUserNameAvailable(registerRequestDto.getUsername())) {
+
+        if (!isUserNameAvailable(registerRequestDto.getUsername()))
             throw new Exception("username not available");
-        }
 
         var user = new User();
 

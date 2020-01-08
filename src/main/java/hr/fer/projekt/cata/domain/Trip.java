@@ -1,6 +1,7 @@
 package hr.fer.projekt.cata.domain;
 
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
+import hr.fer.projekt.cata.web.rest.dto.TripEditDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import static java.util.stream.Collectors.toList;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +25,6 @@ public class Trip {
     private LocalDateTime endDateTime;
 
     private Double price;
-    private Integer passengerCount;
 
     @ManyToMany
     private List<User> passengers;
@@ -32,33 +33,27 @@ public class Trip {
     private TripPlan tripPlan;
 
     public TripDto toDto() {
-        return new TripDto(id, startDateTime, endDateTime, price, passengerCount, tripPlan.toDto());
+        return new TripDto(id, startDateTime, endDateTime, price, passengers.stream().map(User::toDto).collect(toList()), tripPlan.toDto());
     }
 
-    public void edit(TripDto tripDto) {
-        if (tripDto.getEndDateTime() != null)
-            this.endDateTime = tripDto.getEndDateTime();
-        if (tripDto.getStartDateTime() != null)
-            this.startDateTime = tripDto.getStartDateTime();
-        if (tripDto.getPassengerCount() != null)
-            this.passengerCount = tripDto.getPassengerCount();
-        if (tripDto.getPrice() != null)
-            this.price = tripDto.getPrice();
+    public void edit(TripEditDto tripEditDto) {
+        if (tripEditDto.getEndDateTime() != null)
+            this.endDateTime = tripEditDto.getEndDateTime();
+        if (tripEditDto.getStartDateTime() != null)
+            this.startDateTime = tripEditDto.getStartDateTime();
+        if (tripEditDto.getPrice() != null)
+            this.price = tripEditDto.getPrice();
+    }
+
+    public void removePassenger(User passenger) {
+        passengers.remove(passenger);
     }
 
     public void addPassenger(User passenger) {
         this.passengers.add(passenger);
     }
 
-    public void removePassenger(User passenger) {
-        this.passengers.remove(passenger);
-    }
 
-    public void addPassenger(User passenger) {
-        this.passengers.add(passenger);
-    }
 
-    public void removePassenger(User passenger) {
-        this.passengers.remove(passenger);
-    }
+
 }

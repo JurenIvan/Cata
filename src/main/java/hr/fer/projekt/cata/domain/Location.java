@@ -20,13 +20,10 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double x;
-    private Double y;
-
     private String name;
     private String country;
 
     public LocationDto toDto() {
-        return new LocationDto(id, x, y, name, country);
+        return new LocationDto(id, name, country);
     }
 }
