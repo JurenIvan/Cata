@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TripDto {
+public class TripCreateDto {
 
     private Long id;
 
@@ -18,8 +18,5 @@ public class TripDto {
     private LocalDateTime endDateTime;
 
     private Double price;
-
-    private List<UserDto> passengers;
-//    private List<User> passengers;
-    private TripPlanDto tripPlanDto;
+    private Long tripPlanid;
 }
