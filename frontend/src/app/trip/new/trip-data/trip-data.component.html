@@ -27,18 +27,18 @@
           <input type="number" id="price" class='form-control' [formControl]="rForm.controls['price']"/>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-2 p-2">
-          <label for="minNumberPassangers">Minimalni broj posjetitelja:</label>
-          <input type="number" id="minNumberPassangers" class='form-control'
-                 [formControl]="rForm.controls['minNumberPassangers']"/>
-        </div>
-      </div>
       <div *ngIf="isPressed">
         <div class="row">
           <div class="col-sm-12 p-2">
             <label for="description">Opis puta:</label>
             <input type="text" class="form-control" id="description" [formControl]="rForm.controls['description']"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-2 p-2">
+            <label for="minNumberPassangers">Minimalni broj posjetitelja:</label>
+            <input type="number" id="minNumberPassangers" class='form-control'
+                   [formControl]="rForm.controls['minNumberPassangers']"/>
           </div>
         </div>
         <div class="row">

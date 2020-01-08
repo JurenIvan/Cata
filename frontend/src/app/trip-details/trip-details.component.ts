@@ -101,7 +101,7 @@ export class TripDetailsComponent implements OnInit {
 
   onItemSelect(item: any) {
     if (this.locations.has(item['item_city'])) {
-      let location = new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city']))
+      let location = new Location(item['item_id'], item['item_city'], this.locations.get(item['item_city']))
       this.selected.push(location);
       this.locationIndexes.set(location.name, this.index);
 
@@ -111,7 +111,7 @@ export class TripDetailsComponent implements OnInit {
 
   onItemDeselect(item: any) {
     if (this.locations.has(item['item_city'])) {
-      let location = new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city']));
+      let location = new Location(item['item_id'], item['item_city'], this.locations.get(item['item_city']));
       this.selected.splice(this.locationIndexes.get(location.name) , 1)
       this.index = this.index - 1;
     }
