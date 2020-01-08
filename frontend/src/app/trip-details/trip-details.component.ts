@@ -119,7 +119,7 @@ export class TripDetailsComponent implements OnInit {
                   if(travel.id == this.tripPlanId) {
                     let newTravel = new Trip(travel.id, new Date(this.rForm.get('dateStart').value),
                       new Date(this.rForm.get('dateEnd').value), this.rForm.get('price').value,
-                      tripPlan.minNumberOfPassengers, tripPlan);
+                      [], tripPlan);
                     this.travelService.editTrip(newTravel).subscribe(res => {
                       console.log("result " + res['price']);
                     })
