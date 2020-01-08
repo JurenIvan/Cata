@@ -25,7 +25,9 @@ export class TripDetailsComponent implements OnInit {
 
   dropdownList = [];
   locations: Map<string, string> = new Map<string, string>();
+  locationIndexes: Map<string, number> = new Map<string, number>();
   selected: Location[] = [];
+  index: number = 0;
 
   dropdownSettings: IDropdownSettings = {};
 
@@ -99,7 +101,19 @@ export class TripDetailsComponent implements OnInit {
 
   onItemSelect(item: any) {
     if (this.locations.has(item['item_city'])) {
-      this.selected.push(new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city'])))
+      let location = new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city']))
+      this.selected.push(location);
+      this.locationIndexes.set(location.name, this.index);
+
+      this.index = this.index + 1;
+    }
+  }
+
+  onItemDeselect(item: any) {
+    if (this.locations.has(item['item_city'])) {
+      let location = new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city']));
+      this.selected.splice(this.locationIndexes.get(location.name) , 1)
+      this.index = this.index - 1;
     }
   }
 
@@ -121,7 +135,7 @@ export class TripDetailsComponent implements OnInit {
                       new Date(this.rForm.get('dateEnd').value), this.rForm.get('price').value,
                       [], tripPlan);
                     this.travelService.editTrip(newTravel).subscribe(res => {
-                      console.log("result " + res['price']);
+                      console.log("Success")
                     })
                   }
                 })
