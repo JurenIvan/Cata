@@ -154,6 +154,7 @@ export class TripDetailsComponent implements OnInit {
       let travelId = params['tripPlanId'];
       this.travelService.joinTrip(travelId).subscribe( result => {
         console.log(result)
+        this.router.navigate(['/dashboard'])
       })
     });
   }

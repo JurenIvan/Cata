@@ -18,5 +18,5 @@ public class TripCreateDto {
     private LocalDateTime endDateTime;
 
     private Double price;
-    private Long tripPlanid;
+    private TripPlanDto tripPlan;
 }
