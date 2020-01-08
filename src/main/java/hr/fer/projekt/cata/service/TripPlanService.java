@@ -6,6 +6,7 @@ import hr.fer.projekt.cata.domain.TripPlan;
 import hr.fer.projekt.cata.domain.enums.Role;
 import hr.fer.projekt.cata.repository.LocationRepository;
 import hr.fer.projekt.cata.repository.TripPlanRepository;
+import hr.fer.projekt.cata.web.rest.dto.LocationDto;
 import hr.fer.projekt.cata.web.rest.dto.TripPlanDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class TripPlanService {
     }
 
     public TripPlan getTripPlan(long id) {
-        return tripPlanRepository.findById(id).orElseThrow(() -> new CATAException());
+        return tripPlanRepository.findById(id).orElseThrow(CATAException::new);
     }
 
     public TripPlan createTripPlan(TripPlanDto tripPlanDto) {
@@ -35,7 +36,7 @@ public class TripPlanService {
         if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
             throw new CATAException();
 
-        var locations = tripPlanDto.getLocationList().stream().map(e -> e.toLocation()).collect(toList());
+        var locations = tripPlanDto.getLocationList().stream().map(LocationDto::toLocation).collect(toList());
         locations = locationRepository.saveAll(locations);
         TripPlan tripPlan = new TripPlan(tripPlanDto, locations);
         return tripPlanRepository.save(tripPlan);
@@ -46,8 +47,8 @@ public class TripPlanService {
         if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
             throw new CATAException();
 
-        var tripPlan = tripPlanRepository.findById(tripPlanDto.getId()).orElseThrow(() -> new CATAException());
-        var locations = tripPlanDto.getLocationList().stream().map(e -> e.toLocation()).collect(toList());
+        var tripPlan = tripPlanRepository.findById(tripPlanDto.getId()).orElseThrow(CATAException::new);
+        var locations = tripPlanDto.getLocationList().stream().map(LocationDto::toLocation).collect(toList());
         locations = locationRepository.saveAll(locations);
         tripPlan.edit(tripPlanDto, locations);
 
