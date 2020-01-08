@@ -24,10 +24,12 @@ export class TripDetailsComponent implements OnInit {
   tripPlanId: number;
 
   dropdownList = [];
+  joinedTripsIds: string = "";
   locations: Map<string, string> = new Map<string, string>();
   locationIndexes: Map<string, number> = new Map<string, number>();
   selected: Location[] = [];
   index: number = 0;
+  tripIds: string[] = [];
 
   dropdownSettings: IDropdownSettings = {};
 
@@ -53,9 +55,23 @@ export class TripDetailsComponent implements OnInit {
       }
     );
 
+    if(localStorage.getItem("JOINED_TRIPS")) {
+      this.joinedTripsIds = localStorage.getItem("JOINED_TRIPS")
+      this.tripIds = this.joinedTripsIds.trim().split(":");
+    }
+
     this.route.params.subscribe(params => {
         if (params['tripPlanId']) {
           let tripPlanId = params['tripPlanId'];
+
+          if(this.tripIds.length > 0) {
+            this.tripIds.forEach(tripID => {
+              if (tripID == tripPlanId) {
+                this.joinedTrip = true;
+              }
+            });
+          }
+
           this.travelService.getTripDetails(parseInt(tripPlanId)).subscribe(
             tripPlan => {
               this.tripPlan = tripPlan;
@@ -149,11 +165,38 @@ export class TripDetailsComponent implements OnInit {
   }
 
   public joinTrip() {
-    this.joinedTrip = !this.joinedTrip
+    this.joinedTrip = true;
     this.route.params.subscribe( params => {
       let travelId = params['tripPlanId'];
       this.travelService.joinTrip(travelId).subscribe( result => {
         console.log(result)
+        this.joinedTripsIds += ":" + travelId.toString();
+        localStorage.setItem("JOINED_TRIPS", this.joinedTripsIds);
+        this.router.navigate(['/dashboard'])
+      })
+    });
+  }
+
+  public cancelTrip() {
+    this.joinedTrip = false;
+    this.route.params.subscribe( params => {
+      let travelId = params['tripPlanId'];
+      this.travelService.userCancelTrip(travelId).subscribe( result => {
+        console.log(result);
+
+        if(localStorage.getItem("JOINED_TRIPS")) {
+          this.joinedTripsIds = "";
+          this.tripIds = localStorage.getItem("JOINED_TRIPS").trim().split(":");
+        }
+            if(this.tripIds.length > 0) {
+              this.tripIds.forEach(tripID => {
+                if (tripID == travelId) {
+                  tripID = "";
+                }
+                this.joinedTripsIds += ":" + tripID.toString()
+              });
+            }
+        localStorage.setItem("JOINED_TRIPS", this.joinedTripsIds)
         this.router.navigate(['/dashboard'])
       })
     });

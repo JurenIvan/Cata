@@ -41,9 +41,9 @@ public class TripController {
         return tripService.joinTrip(id);
     }
 
-    @GetMapping("/cancel-registration/{id}")
+    @GetMapping("/cancel-registration")
     @CrossOrigin
-    private TripDto cancelRegistration(@PathVariable Long id) {
+    private TripDto cancelRegistration(Long id) {
         return tripService.cancelRegistration(id);
     }
 

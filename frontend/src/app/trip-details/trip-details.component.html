@@ -13,7 +13,7 @@
             <button class="btn btn-lg btn-outline-secondary" (click)="joinTrip()">Prijavi se</button>
           </div>
           <div *ngIf="!isAdmin && joinedTrip">
-            <button class="btn btn-lg btn-outline-secondary" (click)="joinTrip()">Odjavi se</button>
+            <button class="btn btn-lg btn-outline-secondary" (click)="cancelTrip()">Odjavi se</button>
           </div>
         </div>
         <img src="{{tripPlan.pictureUrl}}" class="img-thumbnail" style="height: 250px">
