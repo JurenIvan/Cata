@@ -9,6 +9,7 @@ export class Trip {
     public endDateTime: Date,
     public price: number,
     public passengers: User[],
+    public tripPlanid: number,
     public tripPlanDto: TripPlan
   ){}
 }

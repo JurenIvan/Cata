@@ -105,7 +105,7 @@ export class TripDataComponent implements OnInit {
     if (this.rForm.valid) {
       this.trip = new Trip(null, new Date(this.rForm.get('dateStart').value),
         new Date(this.rForm.get('dateEnd').value), this.rForm.get('price').value,
-        [], null);
+        [], null,null);
       let tripPlan = new TripPlan(null, this.rForm.get('description').value, this.selected, this.rForm.get('minNumberPassangers').value, this.rForm.get('pictureUrl').value);
       this.travelService.addNewTripPlan(tripPlan)
         .subscribe(
