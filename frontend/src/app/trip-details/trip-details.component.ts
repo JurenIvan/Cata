@@ -18,6 +18,7 @@ export class TripDetailsComponent implements OnInit {
 
   public tripPlan: TripPlan;
   public isAdmin: boolean;
+  public joinedTrip: boolean;
   closeResult: string;
   public rForm: FormGroup;
   tripPlanId: number;
@@ -100,7 +101,7 @@ export class TripDetailsComponent implements OnInit {
 
   onItemSelect(item: any) {
     if (this.locations.has(item['item_city'])) {
-      let location = new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city']))
+      let location = new Location(item['item_id'], item['item_city'], this.locations.get(item['item_city']))
       this.selected.push(location);
       this.locationIndexes.set(location.name, this.index);
 
@@ -110,7 +111,7 @@ export class TripDetailsComponent implements OnInit {
 
   onItemDeselect(item: any) {
     if (this.locations.has(item['item_city'])) {
-      let location = new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city']));
+      let location = new Location(item['item_id'], item['item_city'], this.locations.get(item['item_city']));
       this.selected.splice(this.locationIndexes.get(location.name) , 1)
       this.index = this.index - 1;
     }
@@ -132,7 +133,7 @@ export class TripDetailsComponent implements OnInit {
                   if(travel.id == this.tripPlanId) {
                     let newTravel = new Trip(travel.id, new Date(this.rForm.get('dateStart').value),
                       new Date(this.rForm.get('dateEnd').value), this.rForm.get('price').value,
-                      tripPlan.minNumberOfPassengers, tripPlan);
+                      [], tripPlan.id, tripPlan);
                     this.travelService.editTrip(newTravel).subscribe(res => {
                       console.log("Success")
                     })
@@ -144,6 +145,17 @@ export class TripDetailsComponent implements OnInit {
           })
         }
       });
+    });
+  }
+
+  public joinTrip() {
+    this.joinedTrip = !this.joinedTrip
+    this.route.params.subscribe( params => {
+      let travelId = params['tripPlanId'];
+      this.travelService.joinTrip(travelId).subscribe( result => {
+        console.log(result)
+        this.router.navigate(['/dashboard'])
+      })
     });
   }
 }

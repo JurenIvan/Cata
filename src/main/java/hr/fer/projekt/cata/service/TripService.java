@@ -64,12 +64,12 @@ public class TripService {
         return tripRepository.save(trip).toDto();
     }
 
-    public TripDto joinTrip(Long tripId) {
+    public Trip joinTrip(Long tripId) {
         var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
-        User currUser = userDetailsService.getLoggedUser();
+        hr.fer.projekt.cata.domain.User currUser = userDetailsService.getLoggedUser();
         trip.addPassenger(currUser);
         tripRepository.save(trip);
-        return trip.toDto();
+        return trip;
     }
 
     public TripDto cancelRegistration(Long tripId) {

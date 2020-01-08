@@ -50,7 +50,9 @@ public class Trip {
     }
 
     public void addPassenger(User passenger) {
-        this.passengers.add(passenger);
+        if(!this.passengers.contains(passenger)) {
+            this.passengers.add(passenger);
+        }
     }
 
 
