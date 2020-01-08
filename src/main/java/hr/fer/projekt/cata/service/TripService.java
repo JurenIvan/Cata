@@ -3,12 +3,18 @@ package hr.fer.projekt.cata.service;
 import hr.fer.projekt.cata.config.errorHandling.CATAException;
 import hr.fer.projekt.cata.config.security.UserDetailsServiceImpl;
 import hr.fer.projekt.cata.domain.Trip;
+import hr.fer.projekt.cata.domain.TripPlan;
+import hr.fer.projekt.cata.domain.User;
+import hr.fer.projekt.cata.domain.enums.Role;
 import hr.fer.projekt.cata.repository.TripPlanRepository;
 import hr.fer.projekt.cata.repository.TripRepository;
+import hr.fer.projekt.cata.web.rest.dto.TripCreateDto;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
+import hr.fer.projekt.cata.web.rest.dto.TripEditDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;

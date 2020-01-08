@@ -39,10 +39,10 @@ public class DataLoadService implements ApplicationRunner {
     }
 
     private void getTripList(List<TripPlan> tripPlans) {
-        Trip trip1 = new Trip((long) 1, LocalDateTime.of(2019, 12, 20, 10, 20), LocalDateTime.of(2019, 12, 27, 19, 0), (double) 7000, new ArrayList<>(), new ArrayList<>(), tripPlans.get(0));
-        Trip trip2 = new Trip((long) 2, LocalDateTime.of(2020, 1, 3, 8, 30), LocalDateTime.of(2020, 1, 5, 20, 30), (double) 3000, new ArrayList<>(), new ArrayList<>(), tripPlans.get(1));
-        Trip trip3 = new Trip((long) 3, LocalDateTime.of(2019, 12, 10, 13, 30), LocalDateTime.of(2019, 12, 20, 18, 30), (double) 10000, new ArrayList<>(), new ArrayList<>(), tripPlans.get(2));
-        Trip trip4 = new Trip((long) 4, LocalDateTime.of(2020, 2, 1, 8, 30), LocalDateTime.of(2019, 2, 9, 19, 30), (double) 6700, new ArrayList<>(), new ArrayList<>(), tripPlans.get(3));
+        Trip trip1 = new Trip((long) 1, LocalDateTime.of(2019, 12, 20, 10, 20), LocalDateTime.of(2019, 12, 27, 19, 0), (double) 7000, new ArrayList<>(), tripPlans.get(0));
+        Trip trip2 = new Trip((long) 2, LocalDateTime.of(2020, 1, 3, 8, 30), LocalDateTime.of(2020, 1, 5, 20, 30), (double) 3000, new ArrayList<>(), tripPlans.get(1));
+        Trip trip3 = new Trip((long) 3, LocalDateTime.of(2019, 12, 10, 13, 30), LocalDateTime.of(2019, 12, 20, 18, 30), (double) 10000, new ArrayList<>(), tripPlans.get(2));
+        Trip trip4 = new Trip((long) 4, LocalDateTime.of(2020, 2, 1, 8, 30), LocalDateTime.of(2019, 2, 9, 19, 30), (double) 6700, new ArrayList<>(), tripPlans.get(3));
 
         tripRepository.saveAll(List.of(trip1, trip2, trip3, trip4));
     }
