@@ -1,6 +1,5 @@
 package hr.fer.projekt.cata.web.rest.controller;
 
-import hr.fer.projekt.cata.domain.Trip;
 import hr.fer.projekt.cata.service.TripService;
 import hr.fer.projekt.cata.web.rest.dto.TripCreateDto;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
@@ -51,5 +50,11 @@ public class TripController {
     @CrossOrigin
     private TripDto getTrip(@PathVariable Long id) {
         return tripService.getTrip(id);
+    }
+
+    @GetMapping("/my")
+    @CrossOrigin
+    private List<TripDto> myTrips() {
+        return tripService.getMyTrips();
     }
 }

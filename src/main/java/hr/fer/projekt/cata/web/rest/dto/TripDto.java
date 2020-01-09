@@ -18,7 +18,6 @@ public class TripDto {
     private LocalDateTime endDateTime;
 
     private Double price;
-
     private List<UserDto> passengers;
     private TripPlanDto tripPlanDto;
 }

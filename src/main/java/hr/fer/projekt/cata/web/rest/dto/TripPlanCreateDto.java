@@ -12,15 +12,15 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TripPlanDto {
+public class TripPlanCreateDto {
 
-    private Long id;
     private String description;
-    private List<LocationDto> locationList;
+
+    private List<LocationCreateDto> locationList;
+    private List<Long> locationListIds;
+
     private Integer minNumberOfPassengers;
     private String pictureUrl;
-
-    private List<ReviewDto> reviewDtos;
 
     public TripPlan toEntity(List<Location> locations) {
         return new TripPlan(null, description, locations, minNumberOfPassengers, pictureUrl, new ArrayList<>());
