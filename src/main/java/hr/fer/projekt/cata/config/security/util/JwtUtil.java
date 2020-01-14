@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    public static final int JWT_TIMEOUT = 1000 * 60 * 60;
+	public static final long JWT_TIMEOUT = 1000 * 60 * 60 * 24;
 
     @Value("${spring.security.security.BCrypt.secret}")
     private String SECRET_KEY;
@@ -53,8 +53,15 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
+	public String createApiKey( String subject) {
+
+		return Jwts.builder().setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TIMEOUT * 365 * 10))
+				.signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+	}
+
+	public Boolean validateToken(String token, UserDetails userDetails) {
+		final String username = extractUsername(token);
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+	}
 }
