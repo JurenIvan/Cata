@@ -32,17 +32,9 @@ export class DashboardComponent implements OnInit {
       newTravels => {
         console.log(newTravels);
         this.travelList = newTravels;
-      }
-    )
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.travelService.loadTravels();
-
-    this.travelService.travels.subscribe(
-      newTravels => {
-        console.log(newTravels);
-        this.travelList = newTravels;
+        newTravels.forEach( travel => {
+          console.log (travel.passengers.length)
+        })
       }
     )
   }
