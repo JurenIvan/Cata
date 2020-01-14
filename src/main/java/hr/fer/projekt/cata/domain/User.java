@@ -20,11 +20,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private long id;
+    private Long id;
     private String email;
     private String username;
     private String passwordHash;
-    private int yearOfBirth;
+    private Long yearOfBirth;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;

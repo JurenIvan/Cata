@@ -1,5 +1,6 @@
 package hr.fer.projekt.cata.domain;
 
+import hr.fer.projekt.cata.domain.enums.Role;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import hr.fer.projekt.cata.web.rest.dto.TripEditDto;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static hr.fer.projekt.cata.domain.enums.Role.ORGANIZER;
+import static java.util.List.*;
 import static java.util.stream.Collectors.toList;
 
 @Data
@@ -32,8 +36,11 @@ public class Trip {
     @ManyToOne
     private TripPlan tripPlan;
 
-    public TripDto toDto() {
-        return new TripDto(id, startDateTime, endDateTime, price, passengers.stream().map(User::toDto).collect(toList()), tripPlan.toDto());
+    public TripDto toDto(List<Role> roles) {
+        if (roles.contains(ORGANIZER))
+            return new TripDto(id, startDateTime, endDateTime, price, passengers.stream().map(User::toDto).collect(toList()), tripPlan.toDto());
+        return new TripDto(id, startDateTime, endDateTime, price, of(), tripPlan.toDto());
+
     }
 
     public void edit(TripEditDto tripEditDto) {
@@ -54,8 +61,4 @@ public class Trip {
             this.passengers.add(passenger);
         }
     }
-
-
-
-
 }

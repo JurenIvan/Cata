@@ -5,7 +5,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum Role {
     VISITOR,
-    ORGANIZER;
+    ORGANIZER,
+	APIKEY_CAMUNDA;
 
     public GrantedAuthority getGrantedAuthority() {
         return new SimpleGrantedAuthority(name());
