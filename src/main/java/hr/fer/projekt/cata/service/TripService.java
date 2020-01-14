@@ -73,7 +73,7 @@ public class TripService {
         return tripRepository.save(trip).toDto(userDetailsService.getLoggedUser().getRoles());
     }
 
-    public TripDto joinTrip(Long tripId) {
+    public Trip joinTrip(Long tripId) {
         var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
         User currUser = userDetailsService.getLoggedUser();
         if (trip.getPassengers().contains(currUser))
@@ -81,7 +81,7 @@ public class TripService {
 
         trip.addPassenger(currUser);
         tripRepository.save(trip);
-        return trip.toDto(userDetailsService.getLoggedUser().getRoles());
+        return trip;
     }
 
     public TripDto cancelRegistration(Long tripId) {
