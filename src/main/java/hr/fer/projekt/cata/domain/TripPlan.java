@@ -42,7 +42,7 @@ public class TripPlan {
         return new TripPlanDto(id, description, locationList.stream().map(Location::toDto).collect(toList()), minNumberOfPassengers, pictureUrl, reviews.stream().map(Review::toDto).collect(toList()));
     }
 
-    public void edit(TripPlanEditDto tripPlanDto, List<Location> locations) {
+    public void edit(TripPlanDto tripPlanDto, List<Location> locations) {
         if (tripPlanDto.getDescription() != null)
             this.description = tripPlanDto.getDescription();
         if (locations != null && !locations.isEmpty())

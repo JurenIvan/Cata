@@ -46,14 +46,14 @@ public class TripPlanService {
         return tripPlanRepository.save(tripPlan);
     }
 
-    public TripPlan editTripPlan(TripPlanEditDto tripPlanDto) {
+    public TripPlan editTripPlan(TripPlanDto tripPlanDto) {
         var loggedInUser = userDetailsService.getLoggedUser();
         if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
             throw new CATAException();
 
         var tripPlan = tripPlanRepository.findById(tripPlanDto.getId()).orElseThrow(CATAException::new);
-        var locations = locationRepository.findByIdIn(tripPlanDto.getLocationListIds());
-
+        var locations = tripPlanDto.getLocationList().stream().map(LocationDto::toLocation).collect(toList());
+        locations = locationRepository.saveAll(locations);
         tripPlan.edit(tripPlanDto, locations);
 
         return tripPlanRepository.save(tripPlan);

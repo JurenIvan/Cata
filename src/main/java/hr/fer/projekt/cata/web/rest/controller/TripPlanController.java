@@ -38,8 +38,8 @@ public class TripPlanController {
 
     @PostMapping("/edit")
     @CrossOrigin
-    public TripPlan editTripPlan(@RequestBody TripPlanEditDto tripPlanEditDto) {
-        return tripPlanService.editTripPlan(tripPlanEditDto);
+    public TripPlan editTripPlan(@RequestBody TripPlanDto tripPlanDto) {
+        return tripPlanService.editTripPlan(tripPlanDto);
     }
 
     @GetMapping("/reviews/{id}")
