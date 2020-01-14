@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static hr.fer.projekt.cata.domain.enums.Role.ORGANIZER;
+import static java.util.List.*;
 import static java.util.stream.Collectors.toList;
 
 @Data
@@ -38,7 +39,7 @@ public class Trip {
     public TripDto toDto(List<Role> roles) {
         if (roles.contains(ORGANIZER))
             return new TripDto(id, startDateTime, endDateTime, price, passengers.stream().map(User::toDto).collect(toList()), tripPlan.toDto());
-        return new TripDto(id, startDateTime, endDateTime, price, null, tripPlan.toDto());
+        return new TripDto(id, startDateTime, endDateTime, price, of(), tripPlan.toDto());
 
     }
 

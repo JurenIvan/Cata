@@ -36,7 +36,7 @@ public class TripController {
 
     @GetMapping("/join")
     @CrossOrigin
-    private Trip joinTrip(Long id) {
+    private TripDto joinTrip(Long id) {
         return tripService.joinTrip(id);
     }
 
