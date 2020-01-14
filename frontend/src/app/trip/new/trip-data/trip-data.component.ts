@@ -6,6 +6,7 @@ import {Location} from "../../../../models/location";
 import {Trip} from "../../../../models/trip";
 import {Router} from "@angular/router";
 import {IDropdownSettings} from "ng-multiselect-dropdown";
+import {User} from "../../../../models/user";
 
 @Component({
   selector: 'app-trip-data',
@@ -78,7 +79,7 @@ export class TripDataComponent implements OnInit {
 
   onItemSelect(item: any) {
     if (this.locations.has(item['item_city'])) {
-      let location = new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city']))
+      let location = new Location(item['item_id'], item['item_city'], this.locations.get(item['item_city']))
       this.selected.push(location);
       this.locationIndexes.set(location.name, this.index);
 
@@ -88,7 +89,7 @@ export class TripDataComponent implements OnInit {
 
   onItemDeselect(item: any) {
     if (this.locations.has(item['item_city'])) {
-      let location = new Location(item['item_id'], null, null, item['item_city'], this.locations.get(item['item_city']));
+      let location = new Location(item['item_id'], item['item_city'], this.locations.get(item['item_city']));
       this.selected.splice(this.locationIndexes.get(location.name) , 1)
       this.index = this.index - 1;
     }
@@ -104,8 +105,8 @@ export class TripDataComponent implements OnInit {
     if (this.rForm.valid) {
       this.trip = new Trip(null, new Date(this.rForm.get('dateStart').value),
         new Date(this.rForm.get('dateEnd').value), this.rForm.get('price').value,
-        this.rForm.get('minNumberPassangers').value, null)
-      let tripPlan = new TripPlan(null, this.rForm.get('description').value, this.selected, this.trip.passengerCount, this.rForm.get('pictureUrl').value);
+        [], null,null);
+      let tripPlan = new TripPlan(null, this.rForm.get('description').value, this.selected, this.rForm.get('minNumberPassangers').value, this.rForm.get('pictureUrl').value);
       this.travelService.addNewTripPlan(tripPlan)
         .subscribe(
           response => {

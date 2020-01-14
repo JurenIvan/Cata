@@ -15,6 +15,7 @@
             <div class="card-body">
               <h5 class="card-title">{{travel.tripPlanDto.description}}</h5>
               <p class="card-text">{{travel.price}} kuna</p>
+              <p class="card-text">Broj prijavljenih: {{travel.passengers.length}}</p>
               <a class="btn btn-primary" [routerLink]="['tripDetails/',travel.id]">Vidi detalje</a>
             </div>
           </div>
