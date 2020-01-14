@@ -36,10 +36,10 @@ public class TripPlanController {
         return tripPlanService.createTripPlan(tripPlanDto);
     }
 
-    @PostMapping("/edit/{tripPlanId}")
+    @PostMapping("/edit")
     @CrossOrigin
-    public TripPlan editTripPlan(@RequestBody TripPlanEditDto tripPlanEditDto, @PathVariable Long tripPlanId) {
-        return tripPlanService.editTripPlan(tripPlanEditDto, tripPlanId);
+    public TripPlan editTripPlan(@RequestBody TripPlanEditDto tripPlanEditDto) {
+        return tripPlanService.editTripPlan(tripPlanEditDto);
     }
 
     @GetMapping("/reviews/{id}")

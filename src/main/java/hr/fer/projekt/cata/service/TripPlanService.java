@@ -46,12 +46,12 @@ public class TripPlanService {
         return tripPlanRepository.save(tripPlan);
     }
 
-    public TripPlan editTripPlan(TripPlanEditDto tripPlanDto, Long tripPlanId) {
+    public TripPlan editTripPlan(TripPlanEditDto tripPlanDto) {
         var loggedInUser = userDetailsService.getLoggedUser();
         if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
             throw new CATAException();
 
-        var tripPlan = tripPlanRepository.findById(tripPlanId).orElseThrow(CATAException::new);
+        var tripPlan = tripPlanRepository.findById(tripPlanDto.getId()).orElseThrow(CATAException::new);
         var locations = locationRepository.findByIdIn(tripPlanDto.getLocationListIds());
 
         tripPlan.edit(tripPlanDto, locations);
