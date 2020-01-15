@@ -24,8 +24,8 @@ public class TripPlanService {
     private TripPlanRepository tripPlanRepository;
     private LocationRepository locationRepository;
     private UserDetailsServiceImpl userDetailsService;
-    private TripRepository tripRepository;
     private ReviewRepository reviewRepository;
+    private CammundaService cammundaService;
 
     public List<TripPlan> getTripPlans() {
         return tripPlanRepository.findAll();
@@ -64,10 +64,12 @@ public class TripPlanService {
     }
 
     public TripPlanDto createReview(ReviewCreateDto reviewCreateDto, Long tripPlanId) {
+    	var loggedInUser=userDetailsService.getLoggedUser();
         TripPlan tripPlan = tripPlanRepository.findById(tripPlanId).orElseThrow(CATAException::new);
-        Review review = reviewRepository.save(reviewCreateDto.toEntity(userDetailsService.getLoggedUser()));
+        Review review = reviewRepository.save(reviewCreateDto.toEntity(loggedInUser));
 
         tripPlan.addReview(review);
+        cammundaService.reviewWritten(loggedInUser.getId(),tripPlanId);
         return tripPlanRepository.save(tripPlan).toDto();
     }
 }
