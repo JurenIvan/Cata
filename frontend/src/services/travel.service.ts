@@ -103,7 +103,7 @@ export class TravelService {
   public cancelTrip(tripId: number): Observable<any> {
     let httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
-      params: new HttpParams().set("id", tripId.toString())
+      params: new HttpParams().set("tripId", tripId.toString())
     };
     return this.httpClient.get(this.cancelTripURL, httpOptions)
   }
