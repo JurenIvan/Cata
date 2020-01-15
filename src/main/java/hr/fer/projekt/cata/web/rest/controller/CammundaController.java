@@ -34,8 +34,5 @@ public class CammundaController {
 	@CrossOrigin
 	private void notifyPassengers(@RequestBody CamundaDto camundaDto) {
 		cammundaService.notifyPassengers(camundaDto.getTripId());
-
 	}
-
-
 }

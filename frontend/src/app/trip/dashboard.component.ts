@@ -3,16 +3,17 @@ import {Trip} from "../../models/trip";
 import {TravelService} from "../../services/travel.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
+import {timepickerReducer} from "ngx-bootstrap/timepicker/reducer/timepicker.reducer";
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
-
+export class DashboardComponent implements OnInit, OnChanges {
   public travelList: Trip[];
   public isAdmin: boolean;
+  public canceled: boolean = false;
 
   constructor(private travelService: TravelService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
   }
@@ -39,9 +40,28 @@ export class DashboardComponent implements OnInit {
     )
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.canceled) {
+      this.travelService.loadTravels();
+
+      this.travelService.travels.subscribe(
+        newTravels => {
+          console.log(newTravels);
+          this.travelList = newTravels;
+          newTravels.forEach( travel => {
+            console.log (travel.passengers.length)
+          })
+        }
+      )
+
+    }
+  }
+
+
   cancelTrip(travelId: number) {
     console.log("ID" + travelId)
-    this.travelService.cancelTrip(travelId).subscribe(result => {
+    this.travelService.cancelTrip(travelId).subscribe(travels => {
+      this.canceled = true;
       this.router.navigate(['/dashboard']);
       console.log("Success")
     })
