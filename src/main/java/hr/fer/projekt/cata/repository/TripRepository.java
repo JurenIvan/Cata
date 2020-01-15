@@ -1,6 +1,7 @@
 package hr.fer.projekt.cata.repository;
 
 import hr.fer.projekt.cata.domain.Trip;
+import hr.fer.projekt.cata.domain.TripPlan;
 import hr.fer.projekt.cata.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,5 @@ import java.util.List;
 public interface TripRepository extends JpaRepository<Trip, Long> {
 
     List<Trip> findAllByPassengersContaining(User passenger);
+    List<Trip> findAllByTripPlan(TripPlan tripPlan);
 }
