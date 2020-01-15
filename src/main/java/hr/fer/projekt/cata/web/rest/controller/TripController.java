@@ -34,17 +34,17 @@ public class TripController {
         return tripService.editTrip(tripEditDto);
     }
 
-    @GetMapping("/join")
-    @CrossOrigin
-    private TripDto joinTrip(Long id) {
-        return tripService.joinTrip(id);
-    }
+	@GetMapping("/join")
+	@CrossOrigin
+	private TripDto joinTrip(@RequestParam Long id) {
+		return tripService.joinTrip(id);
+	}
 
-    @GetMapping("/cancel-registration")
-    @CrossOrigin
-    private TripDto cancelRegistration(Long id) {
-        return tripService.cancelRegistration(id);
-    }
+	@GetMapping("/cancel-registration")
+	@CrossOrigin
+	private TripDto cancelRegistration(@RequestParam Long id) {
+		return tripService.cancelRegistration(id);
+	}
 
     @GetMapping("/{id}")
     @CrossOrigin
