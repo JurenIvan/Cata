@@ -107,7 +107,7 @@ public class TripService {
 		return tripRepository.findAllByPassengersContaining(userDetailsService.getLoggedUser()).stream().map(e -> e.toDto()).collect(toList());
 	}
 
-	public void cancelTrip(Long tripId) {
+	public List<TripDto> cancelTrip(Long tripId) {
 		var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
 		var user = userDetailsService.getLoggedUser();
 
@@ -116,5 +116,6 @@ public class TripService {
 
 		cammundaService.cancelTrip(tripId);
 		tripRepository.delete(trip);
+		return tripRepository.findAll().stream().map(Trip::toDto).collect(toList());
 	}
 }
