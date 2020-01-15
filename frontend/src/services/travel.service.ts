@@ -95,7 +95,7 @@ export class TravelService {
 
   public getJoinedTrips(): Observable<any> {
     let httpOptions = {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")})
     };
     return this.httpClient.get(this.joinedTripsURL, httpOptions);
   }
@@ -103,6 +103,7 @@ export class TravelService {
   public cancelTrip(tripId: number): Observable<any> {
     let httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
+      params: new HttpParams().set("id", tripId.toString())
     };
     return this.httpClient.get(this.cancelTripURL, httpOptions)
   }

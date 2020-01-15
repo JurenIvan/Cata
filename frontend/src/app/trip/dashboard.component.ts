@@ -1,4 +1,4 @@
-import {Component, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Trip} from "../../models/trip";
 import {TravelService} from "../../services/travel.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -40,10 +40,11 @@ export class DashboardComponent implements OnInit {
   }
 
   cancelTrip(travelId: number) {
+    console.log("ID" + travelId)
     this.travelService.cancelTrip(travelId).subscribe(result => {
+      this.router.navigate(['/dashboard']);
       console.log("Success")
     })
-
   }
 
 }

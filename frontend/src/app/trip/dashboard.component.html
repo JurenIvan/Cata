@@ -20,9 +20,9 @@
                 <p>{{passanger.username}}</p>
               </a>
               <div class="btn-toolbar">
-              <a class="btn btn-primary mr-5" [routerLink]="['tripDetails/',travel.id]">Detalji</a>
+              <a class="btn btn-outline-primary mr-5" [routerLink]="['tripDetails/',travel.id]">Detalji</a>
               <div *ngIf="isAdmin">
-                <a class="btn btn-danger ml-5" (click)="cancelTrip(travel.id)">Otkaži</a>
+                <a class="btn btn-outline-danger ml-5" (click)="cancelTrip(travel.id)">Otkaži</a>
               </div>
               </div>
             </div>
