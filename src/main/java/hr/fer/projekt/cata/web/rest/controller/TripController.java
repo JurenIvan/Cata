@@ -62,7 +62,7 @@ public class TripController {
 
 	@GetMapping("/cancel")
 	@CrossOrigin
-	private void cancelTrip(Long tripId) {
-		tripService.cancelTrip(tripId);
+	private void cancelTrip(Long id) {
+		tripService.cancelTrip(id);
 	}
 }
