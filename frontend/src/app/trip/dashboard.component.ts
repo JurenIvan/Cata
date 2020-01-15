@@ -40,6 +40,9 @@ export class DashboardComponent implements OnInit {
   }
 
   cancelTrip(travelId: number) {
+    this.travelService.cancelTrip(travelId).subscribe(result => {
+      console.log("Success")
+    })
 
   }
 

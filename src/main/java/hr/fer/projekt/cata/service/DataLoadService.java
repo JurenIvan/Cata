@@ -4,7 +4,6 @@ import hr.fer.projekt.cata.config.security.util.JwtUtil;
 import hr.fer.projekt.cata.domain.*;
 import hr.fer.projekt.cata.repository.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -17,7 +16,7 @@ import java.util.List;
 import static hr.fer.projekt.cata.domain.enums.Role.*;
 import static java.util.List.of;
 
-@Data
+
 @Service
 @AllArgsConstructor
 public class DataLoadService implements ApplicationRunner {
@@ -27,8 +26,10 @@ public class DataLoadService implements ApplicationRunner {
 	private TripPlanRepository tripPlanRepository;
 	private LocationRepository locationRepository;
 	private ApikeyRepository apikeyRepository;
-
 	private JwtUtil jwtTokenUtil;
+	private EmailSender emailSender;
+
+	private CammundaService cammundaService;
 
 	@Override
 	public void run(ApplicationArguments args) {
@@ -37,6 +38,12 @@ public class DataLoadService implements ApplicationRunner {
 		var tripPlanLists = getTripPlansList(locations);
 		getTripList(tripPlanLists);
 		setApikeys();
+
+		startInstances();
+	}
+
+	private void startInstances() {
+		cammundaService.joinTrip(10L, 10L);
 	}
 
 	private void setApikeys() {
@@ -113,17 +120,14 @@ public class DataLoadService implements ApplicationRunner {
 
 	private List<User> getUsers() {
 		List<User> users = new ArrayList<>();
-		String[] names = {"ppetric", "mmarkovic", "iivanovic", "ssaric"};
-		String[] emails = {"petar.petric@email.com", "marko.markovic@email.com", "ivan.ivanovic@email.com", "sara.saric@email.com"};
-		int[] years = {1987, 1962, 1996, 1983};
-		String[] passwords = {"pass12pass", "password", "12345678", "banana"};
 
 		users.add(new User(1L, "admin@cata.com", "admin", BCrypt.hashpw("admin", BCrypt.gensalt(12)), 1950L, of(VISITOR, ORGANIZER)));
-
-		for (int i = 0; i < 4; i++) {
-			User user = new User(i + 2L, names[i], emails[i], BCrypt.hashpw(passwords[i], BCrypt.gensalt(12)), (long) years[i], of(VISITOR));
-			users.add(user);
-		}
+		users.add(new User(2L, "ppetric@cata.com", "ppetric", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1960L, of(VISITOR)));
+		users.add(new User(3L, "ivan.juren@gmail.com", "iivanovic", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1998L, of(VISITOR)));
+		users.add(new User(4L, "john.doe@cata.com", "john.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR)));
+		users.add(new User(5L, "mary.doe@cata.com", "mary.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR)));
+		users.add(new User(6L, "peter.doe@cata.com", "peter.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR)));
+		users.add(new User(7L, "mike.doe@cata.com", "mike.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR)));
 
 		return userRepository.saveAll(users);
 	}
