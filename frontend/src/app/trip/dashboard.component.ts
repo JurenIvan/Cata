@@ -38,4 +38,9 @@ export class DashboardComponent implements OnInit {
       }
     )
   }
+
+  cancelTrip(travelId: number) {
+
+  }
+
 }

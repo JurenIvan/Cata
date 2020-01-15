@@ -22,6 +22,7 @@ export class TravelService {
   editTripURL = environment.apiUri + "/trips/edit";
   joinTripURL = environment.apiUri + "/trips/join";
   userCancelTripURL = environment.apiUri + "/trips/cancel-registration";
+  joinedTripsURL = environment.apiUri + "/trips/my";
 
 
   constructor(private httpClient: HttpClient) { }
@@ -90,4 +91,12 @@ export class TravelService {
     };
     return this.httpClient.get(this.userCancelTripURL, httpOptions)
   }
+
+  public getJoinedTrips(): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': "Bearer " + localStorage.getItem("token")}),
+    };
+    return this.httpClient.get(this.joinedTripsURL, httpOptions);
+  }
+
 }

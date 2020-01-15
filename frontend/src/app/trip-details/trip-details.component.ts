@@ -22,14 +22,14 @@ export class TripDetailsComponent implements OnInit {
   closeResult: string;
   public rForm: FormGroup;
   tripPlanId: number;
+  joinedTrips = [];
+  joinedTripsIds = [];
 
   dropdownList = [];
-  joinedTripsIds: string = "";
   locations: Map<string, string> = new Map<string, string>();
   locationIndexes: Map<string, number> = new Map<string, number>();
   selected: Location[] = [];
   index: number = 0;
-  tripIds: string[] = [];
 
   dropdownSettings: IDropdownSettings = {};
 
@@ -55,22 +55,28 @@ export class TripDetailsComponent implements OnInit {
       }
     );
 
-    if(localStorage.getItem("JOINED_TRIPS")) {
-      this.joinedTripsIds = localStorage.getItem("JOINED_TRIPS")
-      this.tripIds = this.joinedTripsIds.trim().split(":");
-    }
+    this.travelService.getJoinedTrips().subscribe(
+      trips => {
+        this.joinedTrips = trips;
+        this.joinedTripsIds = this.joinedTrips.map<string>(trip => trip.id)
+        console.log("joined trips " +  this.joinedTripsIds)
+      }
+    );
 
     this.route.params.subscribe(params => {
         if (params['tripPlanId']) {
           let tripPlanId = params['tripPlanId'];
 
-          if(this.tripIds.length > 0) {
-            this.tripIds.forEach(tripID => {
-              if (tripID == tripPlanId) {
-                this.joinedTrip = true;
-              }
-            });
-          }
+          this.travelService.getJoinedTrips().subscribe(
+            trips => {
+              this.joinedTrips = trips;
+              this.joinedTripsIds = this.joinedTrips.map<string>(trip => trip.id)
+              this.joinedTripsIds.forEach( id => {
+                if(tripPlanId == id)
+                  this.joinedTrip = true;
+              });
+            }
+          );
 
           this.travelService.getTripDetails(parseInt(tripPlanId)).subscribe(
             tripPlan => {
@@ -151,7 +157,6 @@ export class TripDetailsComponent implements OnInit {
                       new Date(this.rForm.get('dateEnd').value), this.rForm.get('price').value,
                       [], tripPlan.id, tripPlan);
                     this.travelService.editTrip(newTravel).subscribe(res => {
-                      console.log("Success")
                     })
                   }
                 })
@@ -165,13 +170,9 @@ export class TripDetailsComponent implements OnInit {
   }
 
   public joinTrip() {
-    this.joinedTrip = true;
     this.route.params.subscribe( params => {
       let travelId = params['tripPlanId'];
       this.travelService.joinTrip(travelId).subscribe( result => {
-        console.log(result)
-        this.joinedTripsIds += ":" + travelId.toString();
-        localStorage.setItem("JOINED_TRIPS", this.joinedTripsIds);
         this.router.navigate(['/dashboard'])
       })
     });
@@ -182,21 +183,6 @@ export class TripDetailsComponent implements OnInit {
     this.route.params.subscribe( params => {
       let travelId = params['tripPlanId'];
       this.travelService.userCancelTrip(travelId).subscribe( result => {
-        console.log(result);
-
-        if(localStorage.getItem("JOINED_TRIPS")) {
-          this.joinedTripsIds = "";
-          this.tripIds = localStorage.getItem("JOINED_TRIPS").trim().split(":");
-        }
-            if(this.tripIds.length > 0) {
-              this.tripIds.forEach(tripID => {
-                if (tripID == travelId) {
-                  tripID = "";
-                }
-                this.joinedTripsIds += ":" + tripID.toString()
-              });
-            }
-        localStorage.setItem("JOINED_TRIPS", this.joinedTripsIds)
         this.router.navigate(['/dashboard'])
       })
     });
