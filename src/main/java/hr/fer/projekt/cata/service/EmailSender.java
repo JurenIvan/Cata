@@ -10,12 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailSender {
 
-	@Value("${server.developer.address}")
-	public String baseUrl;
-
-	@Value("${server.servlet.context-path}")
-	public String contextPath;
-
 	@Autowired
 	private JavaMailSender emailSender;
 
@@ -33,13 +27,5 @@ public class EmailSender {
 		message.setSubject(subject);
 		message.setText(text);
 		return message;
-	}
-
-	public void sendRegistrationConfirmationMessage(String to, int token, String username) {
-		sendMessage(to, "Please verify this account", "To verify your registration click the following link " + baseUrl + contextPath +
-				"/register/verification?token=" + token + "&username=" + username);
-	}
-
-	public void remindToPay(Long userId, Long tripId) {
 	}
 }

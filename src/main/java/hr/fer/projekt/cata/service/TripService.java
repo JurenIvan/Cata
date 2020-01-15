@@ -106,4 +106,15 @@ public class TripService {
 	public List<TripDto> getMyTrips() {
 		return tripRepository.findAllByPassengersContaining(userDetailsService.getLoggedUser()).stream().map(e -> e.toDto(userDetailsService.getLoggedUser().getRoles())).collect(toList());
 	}
+
+	public void cancelTrip(Long tripId) {
+		var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
+		var user = userDetailsService.getLoggedUser();
+
+		if (!user.getRoles().contains(ORGANIZER))
+			throw new CATAException();
+
+		cammundaService.cancelTrip(tripId);
+		tripRepository.delete(trip);
+	}
 }

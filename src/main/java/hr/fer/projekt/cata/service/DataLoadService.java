@@ -27,6 +27,7 @@ public class DataLoadService implements ApplicationRunner {
 	private LocationRepository locationRepository;
 	private ApikeyRepository apikeyRepository;
 	private JwtUtil jwtTokenUtil;
+	private EmailSender emailSender;
 
 	private CammundaService cammundaService;
 
@@ -42,9 +43,7 @@ public class DataLoadService implements ApplicationRunner {
 	}
 
 	private void startInstances() {
-
-		cammundaService.joinTrip(10L,10L);
-
+		cammundaService.joinTrip(10L, 10L);
 	}
 
 	private void setApikeys() {

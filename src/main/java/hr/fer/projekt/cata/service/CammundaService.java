@@ -16,6 +16,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import static hr.fer.projekt.cata.domain.enums.Role.ORGANIZER;
+import static java.lang.String.*;
 import static java.net.URI.create;
 import static java.net.http.HttpRequest.BodyPublishers.ofString;
 import static java.net.http.HttpRequest.newBuilder;
@@ -35,7 +36,6 @@ public class CammundaService {
 	private TripPlanRepository tripPlanRepository;
 	private UserDetailsServiceImpl userDetailsService;
 	private LocationRepository locationRepository;
-	private CammundaService cammundaService;
 
 	public void joinTrip(Long userID, Long TripId) {
 		try {
@@ -123,17 +123,24 @@ public class CammundaService {
 		emailSender.sendMessage(user.getEmail(), "Reminder", "Please pay for trip " + trip.getTripPlan().getDescription());
 	}
 
-	public void notifyOrganizers(Long userId, Long tripId) {
+	public void notifyOrganizers(Long userId, Long tripId, String reason) {
 		var organizers = userRepository.findAllByRolesContaining(ORGANIZER);
 		var user = userRepository.findById(userId).orElseThrow(CATAException::new);
 		var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
 
-		organizers.forEach(e -> emailSender.sendMessage(e.getEmail(), "User left trip", "User " + user.getUsername() + " has left trip " + trip.getTripPlan().getDescription() + "."));
+		organizers.forEach(e ->
+				emailSender.sendMessage(
+						e.getEmail(),
+						"Cancelation",
+						format("User %s has left trip %s due to %s.", user.getUsername(), trip.getTripPlan().getDescription(), reason))
+		);
 	}
 
 	public void notifyPassengers(Long tripId) {
 		var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
-
-		trip.getPassengers().forEach(e -> emailSender.sendMessage(e.getEmail(), "Trip cancelled", String.format("The trip %s has been canceled. Sorry for the inconvenience", trip.getTripPlan().getDescription())));
+		trip.getPassengers().forEach(e ->
+				emailSender.sendMessage(e.getEmail(),
+						"Trip cancelled",
+						format("The trip %s has been canceled. Sorry for the inconvenience", trip.getTripPlan().getDescription())));
 	}
 }
