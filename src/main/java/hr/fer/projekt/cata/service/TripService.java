@@ -32,7 +32,7 @@ public class TripService {
     private LocationRepository locationRepository;
 
     public List<TripDto> getTrips() {
-        return tripRepository.findAll().stream().map(trip -> trip.toDto(userDetailsService.getLoggedUser().getRoles())).collect(toList());
+        return tripRepository.findAll().stream().map(Trip::toDto).collect(toList());
     }
 
     public TripDto editTrip(TripEditDto tripEditDto) {
@@ -43,7 +43,7 @@ public class TripService {
 
         Trip trip = tripRepository.findById(tripEditDto.getId()).orElseThrow(CATAException::new);
         trip.edit(tripEditDto);
-        return tripRepository.save(trip).toDto(userDetailsService.getLoggedUser().getRoles());
+        return tripRepository.save(trip).toDto();
     }
 
     public TripDto createTrip(TripCreateDto tripCreateDto) {
@@ -70,7 +70,7 @@ public class TripService {
         }
         Trip trip = new Trip(null, tripCreateDto.getStartDateTime(), tripCreateDto.getEndDateTime(), tripCreateDto.getPrice(), new ArrayList<>(), tripPlan);
 
-        return tripRepository.save(trip).toDto(userDetailsService.getLoggedUser().getRoles());
+        return tripRepository.save(trip).toDto();
     }
 
     public Trip joinTrip(Long tripId) {
@@ -93,14 +93,14 @@ public class TripService {
         trip.removePassenger(currUser);
 
         tripRepository.save(trip);
-        return trip.toDto(userDetailsService.getLoggedUser().getRoles());
+        return trip.toDto();
     }
 
     public TripDto getTrip(Long tripId) {
-        return tripRepository.findById(tripId).orElseThrow(CATAException::new).toDto(userDetailsService.getLoggedUser().getRoles());
+        return tripRepository.findById(tripId).orElseThrow(CATAException::new).toDto();
     }
 
     public List<TripDto> getMyTrips() {
-        return tripRepository.findAllByPassengersContaining(userDetailsService.getLoggedUser()).stream().map(e -> e.toDto(userDetailsService.getLoggedUser().getRoles())).collect(toList());
+        return tripRepository.findAllByPassengersContaining(userDetailsService.getLoggedUser()).stream().map(e -> e.toDto()).collect(toList());
     }
 }
