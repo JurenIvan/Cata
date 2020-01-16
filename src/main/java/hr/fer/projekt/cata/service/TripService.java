@@ -116,6 +116,16 @@ public class TripService {
 
 		cammundaService.cancelTrip(tripId);
 		tripRepository.delete(trip);
-		return tripRepository.findAllByTripPlan(trip.getTripPlan()).stream().map(e->e.toDto(user.getRoles())).collect(toList());
+		return tripRepository.findAllByTripPlan(trip.getTripPlan()).stream().map(e -> e.toDto(user.getRoles())).collect(toList());
+	}
+
+	public void payTrip(Long tripId) {
+		var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
+		var user = userDetailsService.getLoggedUser();
+
+		if (!trip.getPassengers().contains(user))
+			throw new CATAException();
+
+		cammundaService.userPaid(user.getId(), tripId);
 	}
 }

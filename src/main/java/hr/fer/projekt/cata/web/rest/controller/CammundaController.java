@@ -26,7 +26,7 @@ public class CammundaController {
 
 	@PostMapping("/notify/organizer/not-paid")
 	@CrossOrigin
-	private void notPaiid(@RequestBody CamundaDto camundaDto) {
+	private void notPaid(@RequestBody CamundaDto camundaDto) {
 		cammundaService.notifyOrganizers(camundaDto.getUserId(), camundaDto.getTripId(), "Not paid");
 	}
 

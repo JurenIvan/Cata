@@ -63,4 +63,10 @@ public class TripController {
 	private List<TripDto> cancelTrip(@PathVariable Long tripId) {
 		return tripService.cancelTrip(tripId);
 	}
+
+	@GetMapping("/pay/{tripId}")
+	@CrossOrigin
+	private void payTrip(@PathVariable Long tripId) {
+		 tripService.payTrip(tripId);
+	}
 }

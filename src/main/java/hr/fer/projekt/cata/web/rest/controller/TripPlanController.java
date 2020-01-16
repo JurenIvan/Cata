@@ -48,9 +48,9 @@ public class TripPlanController {
         return tripPlanService.getReviews(id);
     }
 
-    @PostMapping("/create/review/{tripPlanId}")
+    @PostMapping("/create/review/{tripId}")
     @CrossOrigin
-    private TripPlanDto createReview(@RequestBody ReviewCreateDto reviewCreateDto, @PathVariable Long tripPlanId) {
-        return tripPlanService.createReview(reviewCreateDto, tripPlanId);
+    private TripPlanDto createReview(@RequestBody ReviewCreateDto reviewCreateDto, @PathVariable Long tripId) {
+        return tripPlanService.createReview(reviewCreateDto, tripId);
     }
 }

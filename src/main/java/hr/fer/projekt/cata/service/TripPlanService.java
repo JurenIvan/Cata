@@ -21,55 +21,58 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class TripPlanService {
 
-    private TripPlanRepository tripPlanRepository;
-    private LocationRepository locationRepository;
-    private UserDetailsServiceImpl userDetailsService;
-    private ReviewRepository reviewRepository;
-    private CammundaService cammundaService;
+	private TripPlanRepository tripPlanRepository;
+	private TripRepository tripRepository;
+	private LocationRepository locationRepository;
+	private UserDetailsServiceImpl userDetailsService;
+	private ReviewRepository reviewRepository;
+	private CammundaService cammundaService;
 
-    public List<TripPlan> getTripPlans() {
-        return tripPlanRepository.findAll();
-    }
+	public List<TripPlan> getTripPlans() {
+		return tripPlanRepository.findAll();
+	}
 
-    public TripPlan getTripPlan(long id) {
-        return tripPlanRepository.findById(id).orElseThrow(CATAException::new);
-    }
+	public TripPlan getTripPlan(long id) {
+		return tripPlanRepository.findById(id).orElseThrow(CATAException::new);
+	}
 
-    public TripPlan createTripPlan(TripPlanDto tripPlanDto) {
-        var loggedInUser = userDetailsService.getLoggedUser();
-        if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
-            throw new CATAException();
+	public TripPlan createTripPlan(TripPlanDto tripPlanDto) {
+		var loggedInUser = userDetailsService.getLoggedUser();
+		if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
+			throw new CATAException();
 
-        var locations = tripPlanDto.getLocationList().stream().map(LocationDto::toLocation).collect(toList());
-        locations = locationRepository.saveAll(locations);
-        TripPlan tripPlan = new TripPlan(tripPlanDto, locations);
-        return tripPlanRepository.save(tripPlan);
-    }
+		var locations = tripPlanDto.getLocationList().stream().map(LocationDto::toLocation).collect(toList());
+		locations = locationRepository.saveAll(locations);
+		TripPlan tripPlan = new TripPlan(tripPlanDto, locations);
+		return tripPlanRepository.save(tripPlan);
+	}
 
-    public TripPlan editTripPlan(TripPlanEditDto tripPlanDto, Long tripPlanId) {
-        var loggedInUser = userDetailsService.getLoggedUser();
-        if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
-            throw new CATAException();
+	public TripPlan editTripPlan(TripPlanEditDto tripPlanDto, Long tripPlanId) {
+		var loggedInUser = userDetailsService.getLoggedUser();
+		if (!loggedInUser.getRoles().contains(Role.ORGANIZER))
+			throw new CATAException();
 
-        var tripPlan = tripPlanRepository.findById(tripPlanId).orElseThrow(CATAException::new);
-        var locations = locationRepository.findByIdIn(tripPlanDto.getLocationListIds());
+		var tripPlan = tripPlanRepository.findById(tripPlanId).orElseThrow(CATAException::new);
+		var locations = locationRepository.findByIdIn(tripPlanDto.getLocationListIds());
 
-        tripPlan.edit(tripPlanDto, locations);
+		tripPlan.edit(tripPlanDto, locations);
 
-        return tripPlanRepository.save(tripPlan);
-    }
+		return tripPlanRepository.save(tripPlan);
+	}
 
-    public List<ReviewDto> getReviews(Long tripId) {
-        return tripPlanRepository.findById(tripId).orElseThrow(CATAException::new).getReviews().stream().map(Review::toDto).collect(toList());
-    }
+	public List<ReviewDto> getReviews(Long tripId) {
+		return tripPlanRepository.findById(tripId).orElseThrow(CATAException::new).getReviews().stream().map(Review::toDto).collect(toList());
+	}
 
-    public TripPlanDto createReview(ReviewCreateDto reviewCreateDto, Long tripPlanId) {
-    	var loggedInUser=userDetailsService.getLoggedUser();
-        TripPlan tripPlan = tripPlanRepository.findById(tripPlanId).orElseThrow(CATAException::new);
-        Review review = reviewRepository.save(reviewCreateDto.toEntity(loggedInUser));
+	public TripPlanDto createReview(ReviewCreateDto reviewCreateDto, Long tripId) {
+		var loggedInUser = userDetailsService.getLoggedUser();
+		var trip = tripRepository.findById(tripId).orElseThrow(CATAException::new);
 
-        tripPlan.addReview(review);
-        cammundaService.reviewWritten(loggedInUser.getId(),tripPlanId);
-        return tripPlanRepository.save(tripPlan).toDto();
-    }
+		Review review = reviewRepository.save(reviewCreateDto.toEntity(loggedInUser));
+		TripPlan tripPlan = trip.getTripPlan();
+		tripPlan.addReview(review);
+
+		cammundaService.reviewWritten(loggedInUser.getId(), tripId);
+		return tripPlanRepository.save(tripPlan).toDto();
+	}
 }
