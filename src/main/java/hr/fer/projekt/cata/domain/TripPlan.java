@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -23,13 +24,16 @@ public class TripPlan {
     private String description;
 
     @ManyToMany
-    private List<Location> locationList;
+    private List<Location> locationList = new ArrayList<>();
     private Integer minNumberOfPassengers;
     @Column(length = 4095)
     private String pictureUrl;
 
     @OneToMany
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tripPlan")
+    private List<Trip> trips = new ArrayList<>();
 
     public TripPlan(TripPlanDto tripPlanDto, List<Location> locations) {
         this.description = tripPlanDto.getDescription();
@@ -39,10 +43,16 @@ public class TripPlan {
     }
 
     public TripPlanDto toDto() {
-        return new TripPlanDto(id, description, locationList.stream().map(Location::toDto).collect(toList()), minNumberOfPassengers, pictureUrl, reviews.stream().map(Review::toDto).collect(toList()));
+        return new TripPlanDto(id,
+                description,
+                locationList.stream().map(Location::toDto).collect(toList()),
+                minNumberOfPassengers,
+                pictureUrl,
+                reviews.stream().map(Review::toDto).collect(toList()),
+                trips.stream().map(Trip::getId).collect(toList()));
     }
 
-    public void edit(TripPlanEditDto tripPlanDto, List<Location> locations) {
+    public void edit(TripPlanDto tripPlanDto, List<Location> locations) {
         if (tripPlanDto.getDescription() != null)
             this.description = tripPlanDto.getDescription();
         if (locations != null && !locations.isEmpty())
@@ -51,10 +61,6 @@ public class TripPlan {
             this.minNumberOfPassengers = tripPlanDto.getMinNumberOfPassengers();
         if (tripPlanDto.getPictureUrl() != null)
             this.pictureUrl = tripPlanDto.getPictureUrl();
-    }
-
-    public void removeReview(Review review) {
-        reviews.remove(review);
     }
 
     public void addReview(Review review) {

@@ -29,7 +29,16 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "author")
+    private List<Review> reviews;
+
     public UserDto toDto() {
         return new UserDto(id, username, email);
+    }
+
+    public Review addReview(Review review) {
+        reviews.add(review);
+        review.setAuthor(this);
+        return review;
     }
 }

@@ -13,12 +13,9 @@ import java.util.List;
 public class TripDto {
 
     private Long id;
-
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-
     private Double price;
     private List<UserDto> passengers;
-//    private List<User> passengers;
     private TripPlanDto tripPlanDto;
 }

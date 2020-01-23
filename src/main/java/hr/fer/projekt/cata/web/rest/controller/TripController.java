@@ -1,60 +1,91 @@
 package hr.fer.projekt.cata.web.rest.controller;
 
+import hr.fer.projekt.cata.config.security.UserDetailsServiceImpl;
+import hr.fer.projekt.cata.domain.Trip;
+import hr.fer.projekt.cata.domain.Trip;
+import hr.fer.projekt.cata.domain.Trip;
 import hr.fer.projekt.cata.service.TripService;
 import hr.fer.projekt.cata.web.rest.dto.TripCreateDto;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import hr.fer.projekt.cata.web.rest.dto.TripEditDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @RestController
 @RequestMapping(("/trips"))
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TripController {
 
-    private TripService tripService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TripController.class);
+
+    private final UserDetailsServiceImpl userDetailsService;
+    private final TripService tripService;
 
     @GetMapping
-    @CrossOrigin
-    private List<TripDto> getTrips() {
-        return tripService.getTrips();
+    public List<TripDto> getTrips() {
+        LOGGER.warn("getTrips");
+        return convertToTripDtoList(tripService.getTrips());
     }
 
     @PostMapping("/create")
-    @CrossOrigin
-    private TripDto createTrip(@RequestBody TripCreateDto tripCreateDto) {
-        return tripService.createTrip(tripCreateDto);
+    public TripDto createTrip(@RequestBody TripCreateDto tripCreateDto) {
+        LOGGER.warn("createTrip:" + tripCreateDto);
+        return convertToTripDtoList(tripService.createTrip(tripCreateDto));
     }
 
     @PostMapping("/edit")
-    @CrossOrigin
-    private TripDto editTrip(@RequestBody TripEditDto tripEditDto) {
-        return tripService.editTrip(tripEditDto);
+    public TripDto editTrip(@RequestBody TripEditDto tripEditDto) {
+        LOGGER.warn("editTrip:" + tripEditDto);
+        return convertToTripDtoList(tripService.editTrip(tripEditDto));
     }
 
-	@GetMapping("/join")
-	@CrossOrigin
-	private TripDto joinTrip(@RequestParam Long id) {
-		return tripService.joinTrip(id);
-	}
+    @GetMapping("/join")
+    public TripDto joinTrip(@RequestParam Long id) {
+        LOGGER.warn("joinTrip:" + id);
+        return convertToTripDtoList(tripService.joinTrip(id));
+    }
 
-	@GetMapping("/cancel-registration")
-	@CrossOrigin
-	private TripDto cancelRegistration(@RequestParam Long id) {
-		return tripService.cancelRegistration(id);
-	}
+    @GetMapping("/cancel-registration")
+    public TripDto cancelRegistration(@RequestParam Long id) {
+        LOGGER.warn("cancelRegistration:" + id);
+        return convertToTripDtoList(tripService.cancelRegistration(id));
+    }
 
     @GetMapping("/{id}")
-    @CrossOrigin
-    private TripDto getTrip(@PathVariable Long id) {
-        return tripService.getTrip(id);
+    public TripDto getTrip(@PathVariable Long id) {
+        LOGGER.warn("getTrip:" + id);
+        return convertToTripDtoList(tripService.getTrip(id));
     }
 
     @GetMapping("/my")
-    @CrossOrigin
-    private List<TripDto> myTrips() {
-        return tripService.getMyTrips();
+    public List<TripDto> myTrips() {
+        LOGGER.warn("myTrips");
+        return convertToTripDtoList(tripService.getMyTrips());
+    }
+
+    @GetMapping("/cancel")
+    public List<TripDto> cancelTrip(@RequestParam Long tripId) {
+        LOGGER.warn("cancelTrip:" + tripId);
+        return convertToTripDtoList(tripService.cancelTrip(tripId));
+    }
+
+    @GetMapping("/pay/{tripId}")
+    public void payTrip(@PathVariable Long tripId) {
+        LOGGER.warn("payTrip:" + tripId);
+        tripService.payTrip(tripId);
+    }
+
+    private List<TripDto> convertToTripDtoList(List<Trip> trips) {
+        return trips.stream().map(e -> e.toDto(userDetailsService.getLoggedUser().getRoles())).collect(toList());
+    }
+
+    private TripDto convertToTripDtoList(Trip trips) {
+        return trips.toDto(userDetailsService.getLoggedUser().getRoles());
     }
 }

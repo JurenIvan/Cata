@@ -6,51 +6,56 @@ import hr.fer.projekt.cata.web.rest.dto.ReviewCreateDto;
 import hr.fer.projekt.cata.web.rest.dto.ReviewDto;
 import hr.fer.projekt.cata.web.rest.dto.TripPlanDto;
 import hr.fer.projekt.cata.web.rest.dto.TripPlanEditDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @RestController
 @RequestMapping("/trip")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TripPlanController {
 
-    private TripPlanService tripPlanService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TripPlanController.class);
+    private final TripPlanService tripPlanService;
 
-    @CrossOrigin
     @GetMapping
-    public List<TripPlan> getTripPlans() {
-        return tripPlanService.getTripPlans();
+    public List<TripPlanDto> getTripPlans() {
+        LOGGER.info("getTripPlans");
+        return tripPlanService.getTripPlans().stream().map(TripPlan::toDto).collect(toList());
     }
 
     @GetMapping("/{tripPlanId}")
-    @CrossOrigin
-    public TripPlan getTripPlans(@PathVariable Long tripPlanId) {
-        return tripPlanService.getTripPlan(tripPlanId);
+    public TripPlanDto getTripPlan(@PathVariable Long tripPlanId) {
+        LOGGER.info("getTripPlan" + tripPlanId);
+        return tripPlanService.getTripPlan(tripPlanId).toDto();
     }
 
     @PostMapping("/create")
-    @CrossOrigin
-    public TripPlan createTripPlan(@RequestBody TripPlanDto tripPlanDto) {
-        return tripPlanService.createTripPlan(tripPlanDto);
+    public TripPlanDto createTripPlan(@RequestBody TripPlanDto tripPlanDto) {
+        LOGGER.info("createTripPlan");
+        return tripPlanService.createTripPlan(tripPlanDto).toDto();
     }
 
-    @PostMapping("/edit/{tripPlanId}")
-    @CrossOrigin
-    public TripPlan editTripPlan(@RequestBody TripPlanEditDto tripPlanEditDto, @PathVariable Long tripPlanId) {
-        return tripPlanService.editTripPlan(tripPlanEditDto, tripPlanId);
+    @PostMapping("/edit")
+    public TripPlanDto editTripPlan(@RequestBody TripPlanDto tripPlanDto) {
+        LOGGER.info("editTripPlan" + tripPlanDto + " tripPlanId" + tripPlanDto.getId());
+        return tripPlanService.editTripPlan(tripPlanDto, tripPlanDto.getId()).toDto();
     }
 
     @GetMapping("/reviews/{id}")
-    @CrossOrigin
-    private List<ReviewDto> getReviews(@PathVariable Long id) {
+    public List<ReviewDto> getReviews(@PathVariable Long id) {
+        LOGGER.info("getReviews" + id);
         return tripPlanService.getReviews(id);
     }
 
-    @PostMapping("/create/review/{tripPlanId}")
-    @CrossOrigin
-    private TripPlanDto createReview(@RequestBody ReviewCreateDto reviewCreateDto, @PathVariable Long tripPlanId) {
-        return tripPlanService.createReview(reviewCreateDto, tripPlanId);
+    @PostMapping("/create/review/{tripId}")
+    public TripPlanDto createReview(@RequestBody ReviewCreateDto reviewCreateDto, @PathVariable Long tripId) {
+        LOGGER.info("createReview" + reviewCreateDto + " tripId" + tripId);
+        return tripPlanService.createReview(reviewCreateDto.getContent(), reviewCreateDto.getGrade(), tripId);
     }
 }

@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewDto {
+public class CamundaDto {
 
-    private Long id;
-    private String content;
-    private Integer grade;
-    private Long userId;
+	private Long userId;
+	private Long tripId;
 }

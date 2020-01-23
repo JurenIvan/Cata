@@ -1,20 +1,19 @@
 package hr.fer.projekt.cata.service;
 
-import hr.fer.projekt.cata.config.security.model.RegisterRequestDto;
 import hr.fer.projekt.cata.domain.User;
 import hr.fer.projekt.cata.domain.enums.Role;
 import hr.fer.projekt.cata.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public boolean isUserNameAvailable(String username) {
         return userRepository.findAllByUsername(username).isEmpty();
@@ -24,18 +23,18 @@ public class UserService {
         return userRepository.findAllByEmail(email).isEmpty();
     }
 
-    public void saveUser(RegisterRequestDto registerRequestDto) throws Exception {
-        if (!isEmailAvailable(registerRequestDto.getEmail()))
+    public void saveUser(String email, String password, String username) throws Exception {
+        if (!isEmailAvailable(email))
             throw new Exception("email not available");
 
-        if (!isUserNameAvailable(registerRequestDto.getUsername()))
+        if (!isUserNameAvailable(username))
             throw new Exception("username not available");
 
         var user = new User();
 
-        user.setUsername(registerRequestDto.getUsername());
-        user.setEmail(registerRequestDto.getEmail());
-        user.setPasswordHash(BCrypt.hashpw(registerRequestDto.getPassword(), BCrypt.gensalt(12)));
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPasswordHash(BCrypt.hashpw(password, BCrypt.gensalt(12)));
         user.setRoles(List.of(Role.VISITOR));
 
         userRepository.save(user);
