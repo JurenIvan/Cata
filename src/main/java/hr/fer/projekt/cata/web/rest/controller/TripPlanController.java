@@ -48,14 +48,14 @@ public class TripPlanController {
     }
 
     @GetMapping("/reviews/{id}")
-    private List<ReviewDto> getReviews(@PathVariable Long id) {
+    public List<ReviewDto> getReviews(@PathVariable Long id) {
         LOGGER.info("getReviews" + id);
         return tripPlanService.getReviews(id);
     }
 
     @PostMapping("/create/review/{tripId}")
-    private TripPlanDto createReview(@RequestBody ReviewCreateDto reviewCreateDto, @PathVariable Long tripId) {
+    public TripPlanDto createReview(@RequestBody ReviewCreateDto reviewCreateDto, @PathVariable Long tripId) {
         LOGGER.info("createReview" + reviewCreateDto + " tripId" + tripId);
-        return tripPlanService.createReview(reviewCreateDto, tripId);
+        return tripPlanService.createReview(reviewCreateDto.getContent(), reviewCreateDto.getGrade(), tripId);
     }
 }

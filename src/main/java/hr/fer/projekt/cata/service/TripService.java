@@ -11,7 +11,6 @@ import hr.fer.projekt.cata.repository.TripPlanRepository;
 import hr.fer.projekt.cata.repository.TripRepository;
 import hr.fer.projekt.cata.web.rest.dto.LocationCreateDto;
 import hr.fer.projekt.cata.web.rest.dto.TripCreateDto;
-import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import hr.fer.projekt.cata.web.rest.dto.TripEditDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,13 +30,13 @@ public class TripService {
     private final TripPlanRepository tripPlanRepository;
     private final UserDetailsServiceImpl userDetailsService;
     private final LocationRepository locationRepository;
-    private final CammundaService cammundaService;
+    private final CamundaService camundaService;
 
-    public List<TripDto> getTrips() {
-        return tripRepository.findAll().stream().map(trip -> trip.toDto(userDetailsService.getLoggedUser().getRoles())).collect(toList());
+    public List<Trip> getTrips() {
+        return tripRepository.findAll();
     }
 
-    public TripDto editTrip(TripEditDto tripEditDto) {
+    public Trip editTrip(TripEditDto tripEditDto) {
         var loggedInUser = userDetailsService.getLoggedUser();
 
         if (!loggedInUser.getRoles().contains(ORGANIZER))
@@ -45,10 +44,10 @@ public class TripService {
 
         Trip trip = tripRepository.findById(tripEditDto.getId()).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
         trip.edit(tripEditDto);
-        return tripRepository.save(trip).toDto(userDetailsService.getLoggedUser().getRoles());
+        return tripRepository.save(trip);
     }
 
-    public TripDto createTrip(TripCreateDto tripCreateDto) {
+    public Trip createTrip(TripCreateDto tripCreateDto) {
         var loggedInUser = userDetailsService.getLoggedUser();
 
         if (!loggedInUser.getRoles().contains(ORGANIZER))
@@ -72,10 +71,10 @@ public class TripService {
         }
         Trip trip = new Trip(null, tripCreateDto.getStartDateTime(), tripCreateDto.getEndDateTime(), tripCreateDto.getPrice(), new ArrayList<>(), tripPlan);
 
-        return tripRepository.save(trip).toDto(userDetailsService.getLoggedUser().getRoles());
+        return tripRepository.save(trip);
     }
 
-    public TripDto joinTrip(Long tripId) {
+    public Trip joinTrip(Long tripId) {
         var trip = tripRepository.findById(tripId).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
         User currUser = userDetailsService.getLoggedUser();
         if (trip.getPassengers().contains(currUser))
@@ -83,11 +82,11 @@ public class TripService {
 
         trip.addPassenger(currUser);
         tripRepository.save(trip);
-        cammundaService.joinTrip(currUser.getId(), trip.getId());
-        return trip.toDto(userDetailsService.getLoggedUser().getRoles());
+        camundaService.joinTrip(currUser.getId(), trip.getId());
+        return trip;
     }
 
-    public TripDto cancelRegistration(Long tripId) {
+    public Trip cancelRegistration(Long tripId) {
         var trip = tripRepository.findById(tripId).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
         User currUser = userDetailsService.getLoggedUser();
         if (!trip.getPassengers().contains(currUser))
@@ -96,28 +95,28 @@ public class TripService {
         trip.removePassenger(currUser);
 
         tripRepository.save(trip);
-        cammundaService.cancelReservation(currUser.getId(), trip.getId());
-        return trip.toDto(userDetailsService.getLoggedUser().getRoles());
+        camundaService.cancelReservation(currUser.getId(), trip.getId());
+        return trip;
     }
 
-    public TripDto getTrip(Long tripId) {
-        return tripRepository.findById(tripId).orElseThrow(() -> new CataException(NO_SUCH_TRIP)).toDto(userDetailsService.getLoggedUser().getRoles());
+    public Trip getTrip(Long tripId) {
+        return tripRepository.findById(tripId).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
     }
 
-    public List<TripDto> getMyTrips() {
-        return tripRepository.findAllByPassengersContaining(userDetailsService.getLoggedUser()).stream().map(e -> e.toDto(userDetailsService.getLoggedUser().getRoles())).collect(toList());
+    public List<Trip> getMyTrips() {
+        return tripRepository.findAllByPassengersContaining(userDetailsService.getLoggedUser());
     }
 
-    public List<TripDto> cancelTrip(Long tripId) {
+    public List<Trip> cancelTrip(Long tripId) {
         var trip = tripRepository.findById(tripId).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
         var user = userDetailsService.getLoggedUser();
 
         if (!user.getRoles().contains(ORGANIZER))
             throw new CataException(NOT_AN_ORGANIZER);
 
-        cammundaService.cancelTrip(tripId);
+        camundaService.cancelTrip(tripId);
         tripRepository.delete(trip);
-        return tripRepository.findAllByTripPlan(trip.getTripPlan()).stream().map(e -> e.toDto(user.getRoles())).collect(toList());
+        return tripRepository.findAllByTripPlan(trip.getTripPlan());
     }
 
     public void payTrip(Long tripId) {
@@ -127,6 +126,6 @@ public class TripService {
         if (!trip.getPassengers().contains(user))
             throw new CataException(NOT_AN_PASSENGER);
 
-        cammundaService.userPaid(user.getId(), tripId);
+        camundaService.userPaid(user.getId(), tripId);
     }
 }

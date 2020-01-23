@@ -26,11 +26,11 @@ import static java.net.http.HttpRequest.newBuilder;
 @Service
 @Data
 @RequiredArgsConstructor
-public class CammundaService {
+public class CamundaService {
 
 
     @Value("${camunda.deployment.url}")
-    public static String BASE_URL;      //todo check
+    public String BASE_URL;
 
     public static final String CANCEL_TRIP = "CancelTrip";
     public static final String REVIEW_MESSAGE = "ReviewMessage";
@@ -64,48 +64,6 @@ public class CammundaService {
         }
     }
 
-    public void cancelReservation(Long userId, Long tripID) {
-        try {
-            HttpRequest request = newBuilder()
-                    .uri(create(BASE_URL + ENGINE_REST_MESSAGE))
-                    .POST(ofString(createJson(userId, tripID, CANCEL_TRIP)))
-                    .header(CONTENT_TYPE, APPLICATION_JSON)
-                    .build();
-
-            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            throw new CataException(CONNECTION_FAILED, e);
-        }
-    }
-
-    public void reviewWritten(Long userId, Long tripId) {
-        try {
-            HttpRequest request = newBuilder()
-                    .uri(create(BASE_URL + ENGINE_REST_MESSAGE))
-                    .POST(ofString(createJson(userId, tripId, REVIEW_MESSAGE)))
-                    .header(CONTENT_TYPE, APPLICATION_JSON)
-                    .build();
-
-            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            throw new CataException(CONNECTION_FAILED, e);
-        }
-    }
-
-    public void userPaid(Long userId, Long tripId) {
-        try {
-            HttpRequest request = newBuilder()
-                    .uri(create(BASE_URL + ENGINE_REST_MESSAGE))
-                    .POST(ofString(createJson(userId, tripId, PAYMENT_MESSAGE)))
-                    .header(CONTENT_TYPE, APPLICATION_JSON)
-                    .build();
-
-            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            throw new CataException(CONNECTION_FAILED, e);
-        }
-    }
-
     public void cancelTrip(Long tripId) {
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -121,6 +79,33 @@ public class CammundaService {
             throw new CataException(CONNECTION_FAILED, e);
         }
     }
+
+    public void cancelReservation(Long userId, Long tripID) {
+        executeRequest(userId, tripID, CANCEL_TRIP);
+    }
+
+    public void reviewWritten(Long userId, Long tripId) {
+        executeRequest(userId, tripId, REVIEW_MESSAGE);
+    }
+
+    public void userPaid(Long userId, Long tripId) {
+        executeRequest(userId, tripId, PAYMENT_MESSAGE);
+    }
+
+    private void executeRequest(Long userId, Long tripId, String reviewMessage) {
+        try {
+            HttpRequest request = newBuilder()
+                    .uri(create(BASE_URL + ENGINE_REST_MESSAGE))
+                    .POST(ofString(createJson(userId, tripId, reviewMessage)))
+                    .header(CONTENT_TYPE, APPLICATION_JSON)
+                    .build();
+
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new CataException(CONNECTION_FAILED, e);
+        }
+    }
+
 
     public void remindToPay(Long userId, Long tripId) {
         var user = userRepository.findById(userId).orElseThrow(() -> new CataException(NO_SUCH_USER));
@@ -144,7 +129,8 @@ public class CammundaService {
     public void notifyPassengers(Long tripId) {
         var trip = tripRepository.findById(tripId).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
         trip.getPassengers().forEach(e ->
-                emailSender.sendMessage(e.getEmail(),
+                emailSender.sendMessage(
+                        e.getEmail(),
                         "Trip cancelled",
                         format("The trip %s has been canceled. Sorry for the inconvenience", trip.getTripPlan().getDescription())));
     }

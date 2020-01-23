@@ -8,7 +8,10 @@ import hr.fer.projekt.cata.repository.LocationRepository;
 import hr.fer.projekt.cata.repository.ReviewRepository;
 import hr.fer.projekt.cata.repository.TripPlanRepository;
 import hr.fer.projekt.cata.repository.TripRepository;
-import hr.fer.projekt.cata.web.rest.dto.*;
+import hr.fer.projekt.cata.web.rest.dto.LocationDto;
+import hr.fer.projekt.cata.web.rest.dto.ReviewDto;
+import hr.fer.projekt.cata.web.rest.dto.TripPlanDto;
+import hr.fer.projekt.cata.web.rest.dto.TripPlanEditDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +30,7 @@ public class TripPlanService {
     private final LocationRepository locationRepository;
     private final UserDetailsServiceImpl userDetailsService;
     private final ReviewRepository reviewRepository;
-    private final CammundaService cammundaService;
+    private final CamundaService camundaService;
 
     public List<TripPlan> getTripPlans() {
         return tripPlanRepository.findAll();
@@ -53,7 +56,7 @@ public class TripPlanService {
         if (!loggedInUser.getRoles().contains(ORGANIZER))
             throw new CataException(NOT_AN_ORGANIZER);
 
-        var tripPlan = tripPlanRepository.findById(tripPlanId).orElseThrow(()->new CataException(NO_SUCH_TRIP));
+        var tripPlan = tripPlanRepository.findById(tripPlanId).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
         var locations = locationRepository.findByIdIn(tripPlanDto.getLocationListIds());
 
         tripPlan.edit(tripPlanDto, locations);
@@ -62,18 +65,18 @@ public class TripPlanService {
     }
 
     public List<ReviewDto> getReviews(Long tripId) {
-        return tripPlanRepository.findById(tripId).orElseThrow(()->new CataException(NO_SUCH_TRIP_PLAN)).getReviews().stream().map(Review::toDto).collect(toList());
+        return tripPlanRepository.findById(tripId).orElseThrow(() -> new CataException(NO_SUCH_TRIP_PLAN)).getReviews().stream().map(Review::toDto).collect(toList());
     }
 
-    public TripPlanDto createReview(ReviewCreateDto reviewCreateDto, Long tripId) {
+    public TripPlanDto createReview(String content, Integer grade, Long tripId) {
         var loggedInUser = userDetailsService.getLoggedUser();
-        var trip = tripRepository.findById(tripId).orElseThrow(()->new CataException(NO_SUCH_TRIP));
+        var trip = tripRepository.findById(tripId).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
 
-        Review review = reviewRepository.save(reviewCreateDto.toEntity(loggedInUser));
+        Review review = reviewRepository.save(loggedInUser.addReview(new Review(null, content, grade, loggedInUser)));
         TripPlan tripPlan = trip.getTripPlan();
         tripPlan.addReview(review);
 
-        cammundaService.reviewWritten(loggedInUser.getId(), tripId);
+        camundaService.reviewWritten(loggedInUser.getId(), tripId);
         return tripPlanRepository.save(tripPlan).toDto();
     }
 }

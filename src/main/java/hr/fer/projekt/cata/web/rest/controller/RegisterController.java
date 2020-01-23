@@ -5,8 +5,6 @@ import hr.fer.projekt.cata.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +19,8 @@ public class RegisterController {
     private final UserService userService;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequestDto registerRequestDto) throws Exception {
+    public void registerUser(@Valid @RequestBody RegisterRequestDto registerRequestDto) throws Exception {
         LOGGER.info("registerUser:" + registerRequestDto.toString());
-        userService.saveUser(registerRequestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        userService.saveUser(registerRequestDto.getEmail(), registerRequestDto.getPassword(), registerRequestDto.getUsername());
     }
 }

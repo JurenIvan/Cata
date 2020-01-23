@@ -62,10 +62,6 @@ public class TripPlan {
             this.pictureUrl = tripPlanDto.getPictureUrl();
     }
 
-    public void removeReview(Review review) {
-        reviews.remove(review);
-    }
-
     public void addReview(Review review) {
         this.reviews.add(review);
     }

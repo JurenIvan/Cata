@@ -1,6 +1,6 @@
 package hr.fer.projekt.cata.web.rest.controller;
 
-import hr.fer.projekt.cata.service.CammundaService;
+import hr.fer.projekt.cata.service.CamundaService;
 import hr.fer.projekt.cata.web.rest.dto.CamundaDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,29 +16,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class CammundaController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CammundaController.class);
-    private final CammundaService cammundaService;
+    private final CamundaService camundaService;
 
     @PostMapping("/notify/user/reminder")
-    private void remindToPay(@RequestBody CamundaDto camundaDto) {
+    public void remindToPay(@RequestBody CamundaDto camundaDto) {
         LOGGER.info("remindToPay:" + camundaDto.toString());
-        cammundaService.remindToPay(camundaDto.getUserId(), camundaDto.getTripId());
+        camundaService.remindToPay(camundaDto.getUserId(), camundaDto.getTripId());
     }
 
     @PostMapping("/notify/organizer/user-quit")
-    private void userQuit(@RequestBody CamundaDto camundaDto) {
+    public void userQuit(@RequestBody CamundaDto camundaDto) {
         LOGGER.info("userQuit:" + camundaDto.toString());
-        cammundaService.notifyOrganizers(camundaDto.getUserId(), camundaDto.getTripId(), "Change mind");
+        camundaService.notifyOrganizers(camundaDto.getUserId(), camundaDto.getTripId(), "Change mind");
     }
 
     @PostMapping("/notify/organizer/not-paid")
-    private void notPaid(@RequestBody CamundaDto camundaDto) {
+    public void notPaid(@RequestBody CamundaDto camundaDto) {
         LOGGER.info("notPaid:" + camundaDto.toString());
-        cammundaService.notifyOrganizers(camundaDto.getUserId(), camundaDto.getTripId(), "Not paid");
+        camundaService.notifyOrganizers(camundaDto.getUserId(), camundaDto.getTripId(), "Not paid");
     }
 
     @PostMapping("/notify/passengers")
-    private void notifyPassengers(@RequestBody CamundaDto camundaDto) {
+    public void notifyPassengers(@RequestBody CamundaDto camundaDto) {
         LOGGER.info("notifyPassengers:" + camundaDto.toString());
-        cammundaService.notifyPassengers(camundaDto.getTripId());
+        camundaService.notifyPassengers(camundaDto.getTripId());
     }
 }
