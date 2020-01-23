@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -23,16 +24,16 @@ public class TripPlan {
     private String description;
 
     @ManyToMany
-    private List<Location> locationList;
+    private List<Location> locationList = new ArrayList<>();
     private Integer minNumberOfPassengers;
     @Column(length = 4095)
     private String pictureUrl;
 
     @OneToMany
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "tripPlan")
-    private List<Trip> trips;
+    private List<Trip> trips = new ArrayList<>();
 
     public TripPlan(TripPlanDto tripPlanDto, List<Location> locations) {
         this.description = tripPlanDto.getDescription();

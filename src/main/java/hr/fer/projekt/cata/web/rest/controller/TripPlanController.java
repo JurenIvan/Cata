@@ -42,9 +42,9 @@ public class TripPlanController {
     }
 
     @PostMapping("/edit")
-    public TripPlanDto editTripPlan(@RequestBody TripPlanEditDto tripPlanEditDto) {
-        LOGGER.info("editTripPlan" + tripPlanEditDto + " tripPlanId" + tripPlanId);
-        return tripPlanService.editTripPlan(tripPlanEditDto, tripPlanId).toDto();
+    public TripPlanDto editTripPlan(@RequestBody TripPlanDto tripPlanDto) {
+        LOGGER.info("editTripPlan" + tripPlanDto + " tripPlanId" + tripPlanDto.getId());
+        return tripPlanService.editTripPlan(tripPlanDto, tripPlanDto.getId()).toDto();
     }
 
     @GetMapping("/reviews/{id}")

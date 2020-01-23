@@ -69,8 +69,8 @@ public class TripController {
         return convertToTripDtoList(tripService.getMyTrips());
     }
 
-    @GetMapping("/cancel/{tripId}")
-    public List<TripDto> cancelTrip(@PathVariable Long tripId) {
+    @GetMapping("/cancel")
+    public List<TripDto> cancelTrip(@RequestParam Long tripId) {
         LOGGER.warn("cancelTrip:" + tripId);
         return convertToTripDtoList(tripService.cancelTrip(tripId));
     }

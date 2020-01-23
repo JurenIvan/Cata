@@ -1,6 +1,7 @@
 package hr.fer.projekt.cata.service;
 
 import hr.fer.projekt.cata.config.security.UserDetailsServiceImpl;
+import hr.fer.projekt.cata.domain.Location;
 import hr.fer.projekt.cata.domain.Review;
 import hr.fer.projekt.cata.domain.TripPlan;
 import hr.fer.projekt.cata.domain.exception.CataException;
@@ -11,7 +12,6 @@ import hr.fer.projekt.cata.repository.TripRepository;
 import hr.fer.projekt.cata.web.rest.dto.LocationDto;
 import hr.fer.projekt.cata.web.rest.dto.ReviewDto;
 import hr.fer.projekt.cata.web.rest.dto.TripPlanDto;
-import hr.fer.projekt.cata.web.rest.dto.TripPlanEditDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,13 +51,13 @@ public class TripPlanService {
         return tripPlanRepository.save(tripPlan);
     }
 
-    public TripPlan editTripPlan(TripPlanEditDto tripPlanDto, Long tripPlanId) {
+    public TripPlan editTripPlan(TripPlanDto tripPlanDto, Long tripPlanId) {
         var loggedInUser = userDetailsService.getLoggedUser();
         if (!loggedInUser.getRoles().contains(ORGANIZER))
             throw new CataException(NOT_AN_ORGANIZER);
 
         var tripPlan = tripPlanRepository.findById(tripPlanId).orElseThrow(() -> new CataException(NO_SUCH_TRIP));
-        var locations = locationRepository.findByIdIn(tripPlanDto.getLocationListIds());
+        var locations = locationRepository.findByIdIn(tripPlanDto.getLocationList().stream().map(LocationDto::toLocation).map(Location::getId).collect(toList()));
 
         tripPlan.edit(tripPlanDto, locations);
 
