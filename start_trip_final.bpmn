@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1z019oq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
+  <bpmn:process id="StartTrip" name="Start trip no timer" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="TripId" label="Trip Id" type="long" />
+          <camunda:formField id="UserId" label="User id" type="long" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_10c57nc</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_13k3apv" name="Show data">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="UserId" type="long" />
+          <camunda:formField id="TripId" label="Trip Id" type="long" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ylqmg8</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_10c57nc" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_1xuo753" />
+    <bpmn:parallelGateway id="ExclusiveGateway_1xuo753">
+      <bpmn:incoming>SequenceFlow_10c57nc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ylqmg8</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0dbakwf</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0ylqmg8" sourceRef="ExclusiveGateway_1xuo753" targetRef="Task_13k3apv" />
+    <bpmn:sequenceFlow id="SequenceFlow_0dbakwf" sourceRef="ExclusiveGateway_1xuo753" targetRef="Task_0cpvg0t" />
+    <bpmn:subProcess id="Task_0cpvg0t">
+      <bpmn:incoming>SequenceFlow_0dbakwf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1548d3v</bpmn:outgoing>
+      <bpmn:startEvent id="StartEvent_0n5cafx">
+        <bpmn:outgoing>SequenceFlow_0tz615r</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0tz615r" sourceRef="StartEvent_0n5cafx" targetRef="Task_10jmean" />
+      <bpmn:endEvent id="EndEvent_1neyvtm">
+        <bpmn:incoming>SequenceFlow_0dzllmy</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:serviceTask id="Task_03zluzn" name="SendNotification">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:inputOutput>
+              <camunda:inputParameter name="url">http://localhost:8080/api/camunda/notify/user/reminder</camunda:inputParameter>
+              <camunda:inputParameter name="method">POST</camunda:inputParameter>
+              <camunda:inputParameter name="headers">
+                <camunda:map>
+                  <camunda:entry key="Content-Type">application/json</camunda:entry>
+                  <camunda:entry key="Authorization">Apikey eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDQU1VTkRBIiwiaWF0IjoxNTc5MTAzMDQ5LCJleHAiOjE4OTQ0NjMwNDl9.yBHnmSej7t8r9b3oLrsp49cVBK7LtvdgXRmbX-KyTg0</camunda:entry>
+                </camunda:map>
+              </camunda:inputParameter>
+              <camunda:inputParameter name="payload">
+                <camunda:script scriptFormat="JavaScript">var lv_userId = execution.getVariable("userId");
+var lv_tripId = execution.getVariable("tripId");
+
+var variables =  {
+    userId: lv_userId,
+    tripId: lv_tripId
+  }
+
+var obj = JSON.stringify(variables);
+obj;</camunda:script>
+              </camunda:inputParameter>
+              <camunda:outputParameter name="sendNotificiaton">
+                <camunda:script scriptFormat="Javascript">var response = connector.getVariable("response");</camunda:script>
+              </camunda:outputParameter>
+            </camunda:inputOutput>
+            <camunda:connectorId>http-connector</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_0imluno</bpmn:incoming>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="SequenceFlow_0dzllmy" sourceRef="Task_10jmean" targetRef="EndEvent_1neyvtm" />
+      <bpmn:sequenceFlow id="SequenceFlow_0imluno" sourceRef="BoundaryEvent_1hyh207" targetRef="Task_03zluzn" />
+      <bpmn:receiveTask id="Task_10jmean" name="ReceivePayment" messageRef="Message_0cjqkko">
+        <bpmn:incoming>SequenceFlow_0tz615r</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0dzllmy</bpmn:outgoing>
+      </bpmn:receiveTask>
+      <bpmn:boundaryEvent id="BoundaryEvent_1hyh207" cancelActivity="false" attachedToRef="Task_10jmean">
+        <bpmn:outgoing>SequenceFlow_0imluno</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_18xs8yb">
+          <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">0 * * * * ?</bpmn:timeCycle>
+        </bpmn:timerEventDefinition>
+      </bpmn:boundaryEvent>
+      <bpmn:textAnnotation id="TextAnnotation_0vzs42v">
+        <bpmn:text>Run every 5 minutes (just to test)</bpmn:text>
+      </bpmn:textAnnotation>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="SequenceFlow_1548d3v" sourceRef="Task_0cpvg0t" targetRef="Task_04vjlae" />
+    <bpmn:endEvent id="EndEvent_0fovvbr">
+      <bpmn:incoming>SequenceFlow_1hf4pqw</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1nwqhbw</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0xa9ihh</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1hf4pqw" sourceRef="Task_04vjlae" targetRef="EndEvent_0fovvbr" />
+    <bpmn:receiveTask id="Task_04vjlae" name="Write review" messageRef="Message_1y3ue4l">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="Review" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1548d3v</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hf4pqw</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:boundaryEvent id="BoundaryEvent_0rcvkjh" attachedToRef="Task_04vjlae">
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT5M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_1txkjkv" attachedToRef="Task_0cpvg0t">
+      <bpmn:outgoing>SequenceFlow_1hgjxen</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0rf2bo0</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT30M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1hgjxen" sourceRef="BoundaryEvent_1txkjkv" targetRef="ServiceTask_0zmo2d3" />
+    <bpmn:sequenceFlow id="SequenceFlow_13beemg" sourceRef="BoundaryEvent_0o03ej2" targetRef="ServiceTask_091p2nk" />
+    <bpmn:serviceTask id="ServiceTask_0zmo2d3" name="SendNotificationTimedOut">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://localhost:8080/api/camunda/notify/organizer/user-quit</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+                <camunda:entry key="Authorization">Apikey eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDQU1VTkRBIiwiaWF0IjoxNTc5MTAzMDQ5LCJleHAiOjE4OTQ0NjMwNDl9.yBHnmSej7t8r9b3oLrsp49cVBK7LtvdgXRmbX-KyTg0</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">var lv_userId = execution.getVariable("userId");
+var lv_tripId = execution.getVariable("tripId");
+
+var variables =  {
+    userId: lv_userId,
+    tripId: lv_tripId
+  }
+
+var obj = JSON.stringify(variables);
+obj;</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="sendNotificiaton">
+              <camunda:script scriptFormat="Javascript">var response = connector.getVariable("response");</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1hgjxen</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1nwqhbw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1nwqhbw" sourceRef="ServiceTask_0zmo2d3" targetRef="EndEvent_0fovvbr" />
+    <bpmn:serviceTask id="ServiceTask_091p2nk" name="SendNotificationUserQuit">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://localhost:8080/api/camunda/notify/organizer/user-quit</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+                <camunda:entry key="Authorization">Apikey eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDQU1VTkRBIiwiaWF0IjoxNTc5MTAzMDQ5LCJleHAiOjE4OTQ0NjMwNDl9.yBHnmSej7t8r9b3oLrsp49cVBK7LtvdgXRmbX-KyTg0</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">var lv_userId = execution.getVariable("userId");
+var lv_tripId = execution.getVariable("tripId");
+
+var variables =  {
+    userId: lv_userId,
+    tripId: lv_tripId
+  }
+
+var obj = JSON.stringify(variables);
+obj;</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="sendNotificiaton">
+              <camunda:script scriptFormat="Javascript">var response = connector.getVariable("response");</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_13beemg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xa9ihh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0xa9ihh" sourceRef="ServiceTask_091p2nk" targetRef="EndEvent_0fovvbr" />
+    <bpmn:boundaryEvent id="BoundaryEvent_0o03ej2" attachedToRef="Task_0cpvg0t">
+      <bpmn:outgoing>SequenceFlow_13beemg</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0byq6xf</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_1dwqyx0" />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="ServiceTask_0zoogd5" name="SendTripCanceledNotifications">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://localhost:8080/api/camunda/notify/passengers</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+                <camunda:entry key="Authorization">Apikey eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDQU1VTkRBIiwiaWF0IjoxNTc5MTAzMDQ5LCJleHAiOjE4OTQ0NjMwNDl9.yBHnmSej7t8r9b3oLrsp49cVBK7LtvdgXRmbX-KyTg0</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">var lv_tripId = execution.getVariable("tripId");
+
+var variables =  {
+    tripId: lv_tripId
+  }
+
+var obj = JSON.stringify(variables);
+obj;</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="sendNotificiaton">
+              <camunda:script scriptFormat="Javascript">var response = connector.getVariable("response");</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ox8mf2</bpmn:incoming>
+    </bpmn:serviceTask>
+    <bpmn:parallelGateway id="ParallelGateway_0mo5j6k">
+      <bpmn:incoming>SequenceFlow_1vva9b6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ox8mf2</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1h1nn9c</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:userTask id="UserTask_1vknpvb" name="Show data">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="UserId" type="long" />
+          <camunda:formField id="TripId" label="Trip Id" type="long" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1h1nn9c</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0ox8mf2" sourceRef="ParallelGateway_0mo5j6k" targetRef="ServiceTask_0zoogd5" />
+    <bpmn:sequenceFlow id="SequenceFlow_1h1nn9c" sourceRef="ParallelGateway_0mo5j6k" targetRef="UserTask_1vknpvb" />
+    <bpmn:parallelGateway id="ParallelGateway_18b08zw">
+      <bpmn:incoming>SequenceFlow_0byq6xf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hzw1fa</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:userTask id="UserTask_1jifwrc" name="Show data">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="UserId" type="long" />
+          <camunda:formField id="TripId" label="Trip Id" type="long" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1hzw1fa</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1hzw1fa" sourceRef="ParallelGateway_18b08zw" targetRef="UserTask_1jifwrc" />
+    <bpmn:sequenceFlow id="SequenceFlow_0byq6xf" sourceRef="BoundaryEvent_0o03ej2" targetRef="ParallelGateway_18b08zw" />
+    <bpmn:parallelGateway id="ParallelGateway_0zn6415">
+      <bpmn:incoming>SequenceFlow_0rf2bo0</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0qjdqgu</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:userTask id="UserTask_0biug1m" name="Show data">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="UserId" type="long" />
+          <camunda:formField id="TripId" label="Trip Id" type="long" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0qjdqgu</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0qjdqgu" sourceRef="ParallelGateway_0zn6415" targetRef="UserTask_0biug1m" />
+    <bpmn:sequenceFlow id="SequenceFlow_0rf2bo0" sourceRef="BoundaryEvent_1txkjkv" targetRef="ParallelGateway_0zn6415" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vva9b6" sourceRef="BoundaryEvent_14xg7rs" targetRef="ParallelGateway_0mo5j6k" />
+    <bpmn:boundaryEvent id="BoundaryEvent_14xg7rs" attachedToRef="Task_0cpvg0t">
+      <bpmn:outgoing>SequenceFlow_1vva9b6</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ovzaoy" messageRef="Message_16bv5nk" />
+    </bpmn:boundaryEvent>
+    <bpmn:textAnnotation id="TextAnnotation_0hywqm1">
+      <bpmn:text>Wait for a review</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1lk5gff" sourceRef="BoundaryEvent_0rcvkjh" targetRef="TextAnnotation_0hywqm1" />
+    <bpmn:textAnnotation id="TextAnnotation_112innx">
+      <bpmn:text>Not paid on time</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0dgfskm" sourceRef="BoundaryEvent_1txkjkv" targetRef="TextAnnotation_112innx" />
+    <bpmn:association id="Association_0xwpdgm" sourceRef="BoundaryEvent_0o03ej2" targetRef="TextAnnotation_0xcoc1h" />
+    <bpmn:textAnnotation id="TextAnnotation_0xcoc1h">
+      <bpmn:text>User has canceled the trip</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0av3atc">
+      <bpmn:text>EntryPoint
+
+</bpmn:text>
+    </bpmn:textAnnotation>
+  </bpmn:process>
+  <bpmn:message id="Message_0cjqkko" name="PaymentMessage" />
+  <bpmn:message id="Message_1y3ue4l" name="ReviewMessage" />
+  <bpmn:signal id="Signal_1y7fj09" name="TripCanceled" />
+  <bpmn:message id="Message_1dwqyx0" name="CancelTrip" />
+  <bpmn:message id="Message_16bv5nk" name="TripCanceled" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="StartTrip">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="222" y="372" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0lkstoh_di" bpmnElement="Task_13k3apv">
+        <dc:Bounds x="283" y="510" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_10c57nc_di" bpmnElement="SequenceFlow_10c57nc">
+        <di:waypoint x="258" y="390" />
+        <di:waypoint x="308" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_0j837up_di" bpmnElement="ExclusiveGateway_1xuo753">
+        <dc:Bounds x="308" y="365" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ylqmg8_di" bpmnElement="SequenceFlow_0ylqmg8">
+        <di:waypoint x="333" y="415" />
+        <di:waypoint x="333" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0dbakwf_di" bpmnElement="SequenceFlow_0dbakwf">
+        <di:waypoint x="358" y="390" />
+        <di:waypoint x="450" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="SubProcess_1mz1q18_di" bpmnElement="Task_0cpvg0t" isExpanded="true">
+        <dc:Bounds x="450" y="220" width="404" height="299" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1548d3v_di" bpmnElement="SequenceFlow_1548d3v">
+        <di:waypoint x="780" y="220" />
+        <di:waypoint x="780" y="180" />
+        <di:waypoint x="970" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0fovvbr_di" bpmnElement="EndEvent_0fovvbr">
+        <dc:Bounds x="1232" y="342" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hf4pqw_di" bpmnElement="SequenceFlow_1hf4pqw">
+        <di:waypoint x="1070" y="180" />
+        <di:waypoint x="1170" y="180" />
+        <di:waypoint x="1170" y="360" />
+        <di:waypoint x="1232" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_1xynv2r_di" bpmnElement="Task_04vjlae">
+        <dc:Bounds x="970" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_1diua98_di" bpmnElement="BoundaryEvent_0rcvkjh">
+        <dc:Bounds x="1002" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0hywqm1_di" bpmnElement="TextAnnotation_0hywqm1">
+        <dc:Bounds x="1050" y="80" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1lk5gff_di" bpmnElement="Association_1lk5gff">
+        <di:waypoint x="1036" y="132" />
+        <di:waypoint x="1060" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_1d8f2uu_di" bpmnElement="BoundaryEvent_1txkjkv">
+        <dc:Bounds x="836" y="342" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_112innx_di" bpmnElement="TextAnnotation_112innx">
+        <dc:Bounds x="873" y="400" width="106" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0dgfskm_di" bpmnElement="Association_0dgfskm">
+        <di:waypoint x="868" y="371" />
+        <di:waypoint x="906" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0xcoc1h_di" bpmnElement="TextAnnotation_0xcoc1h">
+        <dc:Bounds x="820" y="650" width="115" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0xwpdgm_di" bpmnElement="Association_0xwpdgm">
+        <di:waypoint x="856" y="498" />
+        <di:waypoint x="875" y="650" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hgjxen_di" bpmnElement="SequenceFlow_1hgjxen">
+        <di:waypoint x="872" y="360" />
+        <di:waypoint x="970" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_13beemg_di" bpmnElement="SequenceFlow_13beemg">
+        <di:waypoint x="872" y="480" />
+        <di:waypoint x="970" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_0n5cafx_di" bpmnElement="StartEvent_0n5cafx">
+        <dc:Bounds x="482" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tz615r_di" bpmnElement="SequenceFlow_0tz615r">
+        <di:waypoint x="518" y="450" />
+        <di:waypoint x="550" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1neyvtm_di" bpmnElement="EndEvent_1neyvtm">
+        <dc:Bounds x="732" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1kdb94e_di" bpmnElement="Task_03zluzn">
+        <dc:Bounds x="690" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0vzs42v_di" bpmnElement="TextAnnotation_0vzs42v">
+        <dc:Bounds x="520" y="263" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0dzllmy_di" bpmnElement="SequenceFlow_0dzllmy">
+        <di:waypoint x="650" y="450" />
+        <di:waypoint x="732" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0imluno_di" bpmnElement="SequenceFlow_0imluno">
+        <di:waypoint x="600" y="384" />
+        <di:waypoint x="600" y="330" />
+        <di:waypoint x="690" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_1mzx9t9_di" bpmnElement="Task_10jmean">
+        <dc:Bounds x="550" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_1hyh207_di" bpmnElement="BoundaryEvent_1hyh207">
+        <dc:Bounds x="582" y="392" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0zmo2d3_di" bpmnElement="ServiceTask_0zmo2d3">
+        <dc:Bounds x="970" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1nwqhbw_di" bpmnElement="SequenceFlow_1nwqhbw">
+        <di:waypoint x="1070" y="360" />
+        <di:waypoint x="1232" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_091p2nk_di" bpmnElement="ServiceTask_091p2nk">
+        <dc:Bounds x="970" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xa9ihh_di" bpmnElement="SequenceFlow_0xa9ihh">
+        <di:waypoint x="1070" y="480" />
+        <di:waypoint x="1170" y="480" />
+        <di:waypoint x="1170" y="360" />
+        <di:waypoint x="1232" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_036momv_di" bpmnElement="BoundaryEvent_0o03ej2">
+        <dc:Bounds x="836" y="462" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0zoogd5_di" bpmnElement="ServiceTask_0zoogd5">
+        <dc:Bounds x="510" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0av3atc_di" bpmnElement="TextAnnotation_0av3atc">
+        <dc:Bounds x="201" y="330" width="78" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_0mo5j6k_di" bpmnElement="ParallelGateway_0mo5j6k">
+        <dc:Bounds x="645" y="605" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1vknpvb_di" bpmnElement="UserTask_1vknpvb">
+        <dc:Bounds x="720" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ox8mf2_di" bpmnElement="SequenceFlow_0ox8mf2">
+        <di:waypoint x="645" y="630" />
+        <di:waypoint x="610" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1h1nn9c_di" bpmnElement="SequenceFlow_1h1nn9c">
+        <di:waypoint x="695" y="630" />
+        <di:waypoint x="720" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_18b08zw_di" bpmnElement="ParallelGateway_18b08zw">
+        <dc:Bounds x="901" y="555" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1jifwrc_di" bpmnElement="UserTask_1jifwrc">
+        <dc:Bounds x="976" y="540" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hzw1fa_di" bpmnElement="SequenceFlow_1hzw1fa">
+        <di:waypoint x="951" y="580" />
+        <di:waypoint x="976" y="580" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0byq6xf_di" bpmnElement="SequenceFlow_0byq6xf">
+        <di:waypoint x="872" y="480" />
+        <di:waypoint x="926" y="480" />
+        <di:waypoint x="926" y="555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_0zn6415_di" bpmnElement="ParallelGateway_0zn6415">
+        <dc:Bounds x="885" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0biug1m_di" bpmnElement="UserTask_0biug1m">
+        <dc:Bounds x="970" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qjdqgu_di" bpmnElement="SequenceFlow_0qjdqgu">
+        <di:waypoint x="935" y="270" />
+        <di:waypoint x="970" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0rf2bo0_di" bpmnElement="SequenceFlow_0rf2bo0">
+        <di:waypoint x="872" y="360" />
+        <di:waypoint x="910" y="360" />
+        <di:waypoint x="910" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vva9b6_di" bpmnElement="SequenceFlow_1vva9b6">
+        <di:waypoint x="670" y="537" />
+        <di:waypoint x="670" y="605" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_1lk717a_di" bpmnElement="BoundaryEvent_14xg7rs">
+        <dc:Bounds x="652" y="501" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
