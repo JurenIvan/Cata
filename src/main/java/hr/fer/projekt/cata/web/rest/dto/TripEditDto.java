@@ -15,5 +15,4 @@ public class TripEditDto {
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private Double price;
-
 }

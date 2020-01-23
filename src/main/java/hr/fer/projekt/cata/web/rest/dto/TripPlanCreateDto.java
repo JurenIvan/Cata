@@ -15,10 +15,8 @@ import java.util.List;
 public class TripPlanCreateDto {
 
     private String description;
-
     private List<LocationCreateDto> locationList;
     private List<Long> locationListIds;
-
     private Integer minNumberOfPassengers;
     private String pictureUrl;
 
