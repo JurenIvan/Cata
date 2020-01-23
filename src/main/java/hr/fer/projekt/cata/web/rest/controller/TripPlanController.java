@@ -41,8 +41,8 @@ public class TripPlanController {
         return tripPlanService.createTripPlan(tripPlanDto).toDto();
     }
 
-    @PostMapping("/edit/{tripPlanId}")
-    public TripPlanDto editTripPlan(@RequestBody TripPlanEditDto tripPlanEditDto, @PathVariable Long tripPlanId) {
+    @PostMapping("/edit")
+    public TripPlanDto editTripPlan(@RequestBody TripPlanEditDto tripPlanEditDto) {
         LOGGER.info("editTripPlan" + tripPlanEditDto + " tripPlanId" + tripPlanId);
         return tripPlanService.editTripPlan(tripPlanEditDto, tripPlanId).toDto();
     }

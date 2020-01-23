@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TripPlanEditDto {
 
+    private Long id;
     private String description;
     private List<Long> locationListIds;
     private Integer minNumberOfPassengers;

@@ -51,7 +51,7 @@ public class TripPlan {
                 trips.stream().map(Trip::getId).collect(toList()));
     }
 
-    public void edit(TripPlanEditDto tripPlanDto, List<Location> locations) {
+    public void edit(TripPlanDto tripPlanDto, List<Location> locations) {
         if (tripPlanDto.getDescription() != null)
             this.description = tripPlanDto.getDescription();
         if (locations != null && !locations.isEmpty())

@@ -16,7 +16,15 @@
               <h5 class="card-title">{{travel.tripPlanDto.description}}</h5>
               <p class="card-text">{{travel.price}} kuna</p>
               <p class="card-text">Broj prijavljenih: {{travel.passengers.length}}</p>
-              <a class="btn btn-primary" [routerLink]="['tripDetails/',travel.id]">Vidi detalje</a>
+              <a *ngFor="let passanger of travel.passengers">
+                <p>{{passanger.username}}</p>
+              </a>
+              <div class="btn-toolbar">
+              <a class="btn btn-outline-primary mr-5" [routerLink]="['tripDetails/',travel.id]">Detalji</a>
+              <div *ngIf="isAdmin">
+                <a class="btn btn-outline-danger ml-5" (click)="cancelTrip(travel.id)">Otkaži</a>
+              </div>
+              </div>
             </div>
           </div>
         </div>

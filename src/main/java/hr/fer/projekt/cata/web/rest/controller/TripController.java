@@ -2,6 +2,8 @@ package hr.fer.projekt.cata.web.rest.controller;
 
 import hr.fer.projekt.cata.config.security.UserDetailsServiceImpl;
 import hr.fer.projekt.cata.domain.Trip;
+import hr.fer.projekt.cata.domain.Trip;
+import hr.fer.projekt.cata.domain.Trip;
 import hr.fer.projekt.cata.service.TripService;
 import hr.fer.projekt.cata.web.rest.dto.TripCreateDto;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;

@@ -36,11 +36,8 @@ public class Trip {
     @ManyToOne
     private TripPlan tripPlan;
 
-    public TripDto toDto(List<Role> roles) {
-        if (roles.contains(ORGANIZER))
-            return new TripDto(id, startDateTime, endDateTime, price, passengers.stream().map(User::toDto).collect(toList()), tripPlan.toDto());
-        return new TripDto(id, startDateTime, endDateTime, price, of(), tripPlan.toDto());
-
+    public TripDto toDto() {
+        return new TripDto(id, startDateTime, endDateTime, price, passengers.stream().map(User::toDto).collect(toList()), tripPlan.toDto());
     }
 
     public void edit(TripEditDto tripEditDto) {
