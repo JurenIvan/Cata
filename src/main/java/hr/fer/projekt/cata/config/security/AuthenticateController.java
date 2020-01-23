@@ -4,27 +4,30 @@ import hr.fer.projekt.cata.config.security.model.AuthenticationRequestDto;
 import hr.fer.projekt.cata.config.security.model.AuthenticationResponseDto;
 import hr.fer.projekt.cata.config.security.util.JwtUtil;
 import hr.fer.projekt.cata.domain.enums.Role;
-import lombok.AllArgsConstructor;
+import hr.fer.projekt.cata.web.rest.controller.ValidationHandlingController;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@AllArgsConstructor
-public class AuthenticateController {
+@RequiredArgsConstructor
+public class AuthenticateController extends ValidationHandlingController {
 
-    private AuthenticationManager authenticationManager;
-    private JwtUtil jwtTokenUtil;
-    private UserDetailsServiceImpl userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtTokenUtil;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @CrossOrigin
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody AuthenticationRequestDto authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody AuthenticationRequestDto authenticationRequest, BindingResult bindingResult) throws Exception {
+        handleValidation(bindingResult);
         try {
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(

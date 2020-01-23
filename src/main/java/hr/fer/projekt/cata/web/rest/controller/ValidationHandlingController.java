@@ -9,7 +9,7 @@ public class ValidationHandlingController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidationHandlingController.class);
 
-    private void handleValidation(BindingResult bindingResult) {
+    protected void handleValidation(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             LOGGER.warn("Validation Exception: " + bindingResult.getAllErrors());
             throw new CataValidationException(bindingResult);

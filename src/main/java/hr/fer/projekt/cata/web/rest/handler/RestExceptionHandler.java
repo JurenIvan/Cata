@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class RestExceptionHandler {
 
     @ExceptionHandler(CataException.class)
-    protected ResponseEntity<Object> handleGigerException(CataException ex) {
+    protected ResponseEntity<Object> handleCataException(CataException ex) {
         return new ResponseEntity<>(
                 new ApiError(EXCEPTION.getCode(), EXCEPTION.getMessage(), of(new ViolationError(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage()))),
                 new HttpHeaders(),
@@ -28,11 +28,10 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(CataValidationException.class)
-    protected ResponseEntity<Object> handleGigerValidationException(CataValidationException ex) {
+    protected ResponseEntity<Object> handleCataValidationException(CataValidationException ex) {
         return new ResponseEntity<>(
                 new ApiError(VALIDATION_EXCEPTION.getCode(), EXCEPTION.getMessage(), ex.getBindingResult().getAllErrors().stream().map(e -> new ViolationError((FieldError) e)).collect(toList())),
                 new HttpHeaders(),
                 BAD_REQUEST);
     }
-
 }

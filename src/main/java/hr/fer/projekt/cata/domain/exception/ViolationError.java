@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.validation.FieldError;
 
 import static hr.fer.projekt.cata.domain.exception.ErrorCode.EXCEPTION;
+import static hr.fer.projekt.cata.domain.exception.ErrorCode.VALIDATION_EXCEPTION;
 
 
 @AllArgsConstructor
@@ -18,14 +19,14 @@ public class ViolationError {
     private String message;
 
     public ViolationError(int code, String message) {
-        this.path = "";
+        this.path = null;
         this.code = code;
         this.message = message;
     }
 
     public ViolationError(FieldError fieldError) {
         this.path = fieldError.getField();
-        this.code = EXCEPTION.getCode();
+        this.code = VALIDATION_EXCEPTION.getCode();
         this.message = fieldError.getDefaultMessage();
     }
 }

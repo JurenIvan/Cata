@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.validation.BindingResult;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class CataValidationException extends RuntimeException {
 
 	private BindingResult bindingResult;
