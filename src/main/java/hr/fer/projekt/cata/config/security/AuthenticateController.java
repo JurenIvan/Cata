@@ -24,7 +24,6 @@ public class AuthenticateController extends ValidationHandlingController {
     private final JwtUtil jwtTokenUtil;
     private final UserDetailsServiceImpl userDetailsService;
 
-    @CrossOrigin
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody AuthenticationRequestDto authenticationRequest, BindingResult bindingResult) throws Exception {
         handleValidation(bindingResult);
@@ -42,7 +41,6 @@ public class AuthenticateController extends ValidationHandlingController {
         return ResponseEntity.ok(new AuthenticationResponseDto(jwt));
     }
 
-    @CrossOrigin
     @GetMapping(value = "/is-agent")
     public boolean isLoggedInUserAgent() {
         return userDetailsService.getLoggedUser().getRoles().contains(Role.ORGANIZER);
