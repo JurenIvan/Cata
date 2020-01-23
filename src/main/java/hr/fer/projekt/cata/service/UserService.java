@@ -4,17 +4,17 @@ import hr.fer.projekt.cata.config.security.model.RegisterRequestDto;
 import hr.fer.projekt.cata.domain.User;
 import hr.fer.projekt.cata.domain.enums.Role;
 import hr.fer.projekt.cata.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public boolean isUserNameAvailable(String username) {
         return userRepository.findAllByUsername(username).isEmpty();

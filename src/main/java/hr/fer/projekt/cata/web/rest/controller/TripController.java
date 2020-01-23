@@ -4,69 +4,72 @@ import hr.fer.projekt.cata.service.TripService;
 import hr.fer.projekt.cata.web.rest.dto.TripCreateDto;
 import hr.fer.projekt.cata.web.rest.dto.TripDto;
 import hr.fer.projekt.cata.web.rest.dto.TripEditDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(("/trips"))
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TripController {
 
-	private TripService tripService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TripController.class);
+    private final TripService tripService;
 
-	@GetMapping
-	@CrossOrigin
-	private List<TripDto> getTrips() {
-		return tripService.getTrips();
-	}
+    @GetMapping
+    private List<TripDto> getTrips() {
+        LOGGER.warn("getTrips");
+        return tripService.getTrips();
+    }
 
-	@PostMapping("/create")
-	@CrossOrigin
-	private TripDto createTrip(@RequestBody TripCreateDto tripCreateDto) {
-		return tripService.createTrip(tripCreateDto);
-	}
+    @PostMapping("/create")
+    private TripDto createTrip(@RequestBody TripCreateDto tripCreateDto) {
+        LOGGER.warn("createTrip:" + tripCreateDto);
+        return tripService.createTrip(tripCreateDto);
+    }
 
-	@PostMapping("/edit")
-	@CrossOrigin
-	private TripDto editTrip(@RequestBody TripEditDto tripEditDto) {
-		return tripService.editTrip(tripEditDto);
-	}
+    @PostMapping("/edit")
+    private TripDto editTrip(@RequestBody TripEditDto tripEditDto) {
+        LOGGER.warn("editTrip:" + tripEditDto);
+        return tripService.editTrip(tripEditDto);
+    }
 
-	@GetMapping("/join")
-	@CrossOrigin
-	private TripDto joinTrip(@RequestParam Long id) {
-		return tripService.joinTrip(id);
-	}
+    @GetMapping("/join")
+    private TripDto joinTrip(@RequestParam Long id) {
+        LOGGER.warn("joinTrip:" + id);
+        return tripService.joinTrip(id);
+    }
 
-	@GetMapping("/cancel-registration")
-	@CrossOrigin
-	private TripDto cancelRegistration(@RequestParam Long id) {
-		return tripService.cancelRegistration(id);
-	}
+    @GetMapping("/cancel-registration")
+    private TripDto cancelRegistration(@RequestParam Long id) {
+        LOGGER.warn("cancelRegistration:" + id);
+        return tripService.cancelRegistration(id);
+    }
 
-	@GetMapping("/{id}")
-	@CrossOrigin
-	private TripDto getTrip(@PathVariable Long id) {
-		return tripService.getTrip(id);
-	}
+    @GetMapping("/{id}")
+    private TripDto getTrip(@PathVariable Long id) {
+        LOGGER.warn("getTrip:" + id);
+        return tripService.getTrip(id);
+    }
 
-	@GetMapping("/my")
-	@CrossOrigin
-	private List<TripDto> myTrips() {
-		return tripService.getMyTrips();
-	}
+    @GetMapping("/my")
+    private List<TripDto> myTrips() {
+        LOGGER.warn("myTrips");
+        return tripService.getMyTrips();
+    }
 
-	@GetMapping("/cancel/{tripId}")
-	@CrossOrigin
-	private List<TripDto> cancelTrip(@PathVariable Long tripId) {
-		return tripService.cancelTrip(tripId);
-	}
+    @GetMapping("/cancel/{tripId}")
+    private List<TripDto> cancelTrip(@PathVariable Long tripId) {
+        LOGGER.warn("cancelTrip:" + tripId);
+        return tripService.cancelTrip(tripId);
+    }
 
-	@GetMapping("/pay/{tripId}")
-	@CrossOrigin
-	private void payTrip(@PathVariable Long tripId) {
-		 tripService.payTrip(tripId);
-	}
+    @GetMapping("/pay/{tripId}")
+    private void payTrip(@PathVariable Long tripId) {
+        LOGGER.warn("payTrip:" + tripId);
+        tripService.payTrip(tripId);
+    }
 }

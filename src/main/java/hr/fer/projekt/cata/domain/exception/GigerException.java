@@ -1,4 +1,4 @@
-package hr.fer.zemris.opp.giger.domain.exception;
+package hr.fer.projekt.cata.domain.exception;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

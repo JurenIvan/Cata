@@ -1,4 +1,4 @@
-package hr.fer.zemris.opp.giger.config;
+package hr.fer.projekt.cata.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +17,7 @@ public class CorsConfig {
 	public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.setAllowedOrigins(of("http://localhost:3000", "http://localhost:8080", "https://giger-fer.herokuapp.com", "https://giger-fer-dev.herokuapp.com", "https://giger-fer.herokuapp.com/", "https://giger-fer-dev.herokuapp.com/", 
-		"http://giger-fer-dev.herokuapp.com", "http://giger-fer-dev.herokuapp.com/"));
+		config.setAllowedOrigins(of("http://localhost:3000", "http://localhost:8080"));
 		config.setAllowedMethods(of("*"));
 		config.setAllowedHeaders(of("*"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

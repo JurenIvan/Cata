@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 
 @AllArgsConstructor
 @Getter
-public class GigerValidationException extends RuntimeException {
+public class CataValidationException extends RuntimeException {
 
 	private BindingResult bindingResult;
 }
