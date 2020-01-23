@@ -2,6 +2,7 @@ package hr.fer.projekt.cata.web.rest.handler;
 
 import hr.fer.projekt.cata.domain.exception.ApiError;
 import hr.fer.projekt.cata.domain.exception.CataException;
+import hr.fer.projekt.cata.domain.exception.CataValidationException;
 import hr.fer.projekt.cata.domain.exception.ViolationError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class RestExceptionHandler {
                 ex.getErrorCode().getStatus());
     }
 
-    @ExceptionHandler(CataException.class)
-    protected ResponseEntity<Object> handleGigerValidationException(CataException ex) {
+    @ExceptionHandler(CataValidationException.class)
+    protected ResponseEntity<Object> handleGigerValidationException(CataValidationException ex) {
         return new ResponseEntity<>(
                 new ApiError(VALIDATION_EXCEPTION.getCode(), EXCEPTION.getMessage(), ex.getBindingResult().getAllErrors().stream().map(e -> new ViolationError((FieldError) e)).collect(toList())),
                 new HttpHeaders(),
