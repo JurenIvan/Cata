@@ -19,6 +19,5 @@ public class TripDto {
 
     private Double price;
     private List<UserDto> passengers;
-//    private List<User> passengers;
     private TripPlanDto tripPlanDto;
 }
