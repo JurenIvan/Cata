@@ -1,11 +1,27 @@
-cata-postgres:
+version: '3'
+
+services:
+  cata-postgres:
     image: 'postgres:11.4'
     restart: always
     container_name: 'cata-postgres'
     environment:
-      - POSTGRES_ROOT_PASSWORD=example
-      - POSTGRES_DB=cata
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=root
+      POSTGRES_ROOT_PASSWORD: example
+      POSTGRES_DB: cata
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
     ports:
-      - 5432:5432
+      - '5432:5432'
+  camunda:
+    image : 'camunda/camunda-bpm-platform:7.12.0'
+    container_name: 'camunda_bpm'
+    ports:
+      - '8082:8080'
+    environment:
+      DB_DRIVER: org.postgresql.Driver
+      DB_URL: jdbc:postgresql://cata-postgres:5432/cata?autoReconnect=true
+      DB_USERNAME: postgres
+      DB_PASSWORD: root
+    depends_on:
+      - 'cata-postgres'
+
