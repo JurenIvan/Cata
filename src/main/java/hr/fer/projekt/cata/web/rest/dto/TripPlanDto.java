@@ -21,8 +21,9 @@ public class TripPlanDto {
     private String pictureUrl;
 
     private List<ReviewDto> reviewDtos;
+    private List<Long> tripIds;
 
     public TripPlan toEntity(List<Location> locations) {
-        return new TripPlan(null, description, locations, minNumberOfPassengers, pictureUrl, new ArrayList<>());
+        return new TripPlan(null, description, locations, minNumberOfPassengers, pictureUrl, new ArrayList<>(), new ArrayList<>());
     }
 }

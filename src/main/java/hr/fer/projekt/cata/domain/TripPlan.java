@@ -31,6 +31,9 @@ public class TripPlan {
     @OneToMany
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "tripPlan")
+    private List<Trip> trips;
+
     public TripPlan(TripPlanDto tripPlanDto, List<Location> locations) {
         this.description = tripPlanDto.getDescription();
         this.locationList = locations;
@@ -39,7 +42,13 @@ public class TripPlan {
     }
 
     public TripPlanDto toDto() {
-        return new TripPlanDto(id, description, locationList.stream().map(Location::toDto).collect(toList()), minNumberOfPassengers, pictureUrl, reviews.stream().map(Review::toDto).collect(toList()));
+        return new TripPlanDto(id,
+                description,
+                locationList.stream().map(Location::toDto).collect(toList()),
+                minNumberOfPassengers,
+                pictureUrl,
+                reviews.stream().map(Review::toDto).collect(toList()),
+                trips.stream().map(Trip::getId).collect(toList()));
     }
 
     public void edit(TripPlanEditDto tripPlanDto, List<Location> locations) {

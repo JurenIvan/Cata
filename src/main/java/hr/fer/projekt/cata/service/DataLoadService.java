@@ -55,7 +55,9 @@ public class DataLoadService implements ApplicationRunner {
                 new Location(null, "Ubud", "Indonezija"),
                 new Location(null, "Nusa Penida", "Indonezija"),
                 new Location(null, "Milano", "Italija"),
-                new Location(null, "Verona", "Italija")));
+                new Location(null, "Verona", "Italija"),
+                new Location(null, "Varaždin", "Hrvatska"),
+                new Location(null, "Lepoglava", "Hrvatska")));
     }
 
     private void insertDefaultApikeys() {
@@ -85,22 +87,21 @@ public class DataLoadService implements ApplicationRunner {
                 "https://www.visitmanchester.com/imageresizer/?image=%2Fdmsimgs%2Fchristmas-markets-at-albert-square_1__441639496.jpg&action=ProductDetailFullWidth2"};
 
         tripPlans = tripPlanRepository.saveAll(of(
-                new TripPlan(null, "8 dana London i Pariz", of(locations.get(0), locations.get(1)), 10, pictureUrls[0], of()),
-                new TripPlan(null, "3 dana skijanja u Sloveniji", of(locations.get(2), locations.get(3)), 15, pictureUrls[1], of()),
-                new TripPlan(null, "10 dana na Baliju i Indoneziji", of(locations.get(4), locations.get(5)), 20, pictureUrls[2], of()),
-                new TripPlan(null, "6 dana u sjevernoj Italiji", of(locations.get(6), locations.get(7)), 25, pictureUrls[3], of()),
-                new TripPlan(null, "Najljesi vikend ikad", of(locations.get(8), locations.get(9)), 30, pictureUrls[4], of())));
+                new TripPlan(null, "8 dana London i Pariz", of(locations.get(0), locations.get(1)), 10, pictureUrls[0], of(), of()),
+                new TripPlan(null, "3 dana skijanja u Sloveniji", of(locations.get(2), locations.get(3)), 15, pictureUrls[1], of(), of()),
+                new TripPlan(null, "10 dana na Baliju i Indoneziji", of(locations.get(4), locations.get(5)), 20, pictureUrls[2], of(), of()),
+                new TripPlan(null, "6 dana u sjevernoj Italiji", of(locations.get(6), locations.get(7)), 25, pictureUrls[3], of(), of())));
     }
 
     private void insertDefaultUsers() {
         users = userRepository.saveAll(of(
-                new User(1L, "admin@cata.com", "admin", BCrypt.hashpw("admin", BCrypt.gensalt(12)), 1950L, of(VISITOR, ORGANIZER)),
-                new User(2L, "ppetric@cata.com", "ppetric", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1960L, of(VISITOR)),
-                new User(3L, "ivan.juren@gmail.com", "iivanovic", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1998L, of(VISITOR)),
-                new User(4L, "john.doe@cata.com", "john.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR)),
-                new User(5L, "mary.doe@cata.com", "mary.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR)),
-                new User(6L, "peter.doe@cata.com", "peter.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR)),
-                new User(7L, "mike.doe@cata.com", "mike.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR))));
+                new User(1L, "admin@cata.com", "admin", BCrypt.hashpw("admin", BCrypt.gensalt(12)), 1950L, of(VISITOR, ORGANIZER), of()),
+                new User(2L, "ppetric@cata.com", "ppetric", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1960L, of(VISITOR), of()),
+                new User(3L, "ivan.juren@gmail.com", "iivanovic", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1998L, of(VISITOR), of()),
+                new User(4L, "john.doe@cata.com", "john.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR), of()),
+                new User(5L, "mary.doe@cata.com", "mary.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR), of()),
+                new User(6L, "peter.doe@cata.com", "peter.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR), of()),
+                new User(7L, "mike.doe@cata.com", "mike.doe", BCrypt.hashpw("12345678", BCrypt.gensalt(12)), 1990L, of(VISITOR), of())));
     }
 
     private void startInstances() {

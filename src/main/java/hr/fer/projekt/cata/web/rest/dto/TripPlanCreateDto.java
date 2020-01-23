@@ -23,6 +23,6 @@ public class TripPlanCreateDto {
     private String pictureUrl;
 
     public TripPlan toEntity(List<Location> locations) {
-        return new TripPlan(null, description, locations, minNumberOfPassengers, pictureUrl, new ArrayList<>());
+        return new TripPlan(null, description, locations, minNumberOfPassengers, pictureUrl, new ArrayList<>(), new ArrayList<>());
     }
 }

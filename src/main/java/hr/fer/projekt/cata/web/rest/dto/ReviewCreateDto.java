@@ -15,6 +15,6 @@ public class ReviewCreateDto {
     private Integer grade;
 
     public Review toEntity(User user) {
-        return new Review(null, content, grade, user);
+        return user.addReview(new Review(null, content, grade, null));
     }
 }
